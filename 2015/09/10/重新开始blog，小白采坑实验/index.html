@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://yoursite.com/2015/09/10/重新开始blog，小白采坑实验/index.html">
 <meta property="og:site_name" content="Rocky's blog">
 <meta property="og:description" content="有一段时间没有管理博客，导致以前的站点源文件没有了，所以以前的博客也就没有了，这两天寻思这重新搭一个再，基本的搭建还是没有忘记，但可惜的是以前写的文章都没有了，据其原因就是因为没有备份站点。自己也不是一个前端，也不知道如何管理维护站点什么的，但是这次重新进行hexo博客的搭建，还是重新复习了一下搭建过程。">
-<meta property="og:updated_time" content="2015-09-09T17:14:05.000Z">
+<meta property="og:updated_time" content="2015-09-09T17:17:35.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="重新开始blog，小白采坑实验">
 <meta name="twitter:description" content="有一段时间没有管理博客，导致以前的站点源文件没有了，所以以前的博客也就没有了，这两天寻思这重新搭一个再，基本的搭建还是没有忘记，但可惜的是以前写的文章都没有了，据其原因就是因为没有备份站点。自己也不是一个前端，也不知道如何管理维护站点什么的，但是这次重新进行hexo博客的搭建，还是重新复习了一下搭建过程。">
@@ -205,7 +205,7 @@
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm <span class="keyword">install</span> <span class="number">0.10</span></span><br></pre></td></tr></table></figure>
 <p>6.安装<code>hexo</code>（通过npm安装）</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="operator"><span class="keyword">install</span> -<span class="keyword">g</span> hexo</span></span><br></pre></td></tr></table></figure>
-<p>7.将nvm的bin穆库添加到环境变量中</p>
+<p>7.将nvm的bin目录添加到环境变量中</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">以zsh举例：</span><br><span class="line"><span class="number">1.</span> 用vi打开zsh的配置文件</span><br><span class="line">	vi ~/.zshrc</span><br><span class="line"><span class="number">2.</span> 在.zshrc文件中添加下列内容</span><br><span class="line">	<span class="keyword">export</span> PATH=$PATH:/Users/`users`/.nvm/v0<span class="number">.10</span><span class="number">.28</span>/bin</span><br><span class="line">(说明：<span class="number">1.</span> v0<span class="number">.10</span><span class="number">.28</span>为nvm的版本号，依使用版本而定</span><br><span class="line">	  <span class="number">2.</span> `users`会展开成具体的用户名)</span><br></pre></td></tr></table></figure>
 <p>8.创建hexo文件夹，并安装hexo的相关组件</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo init hexo <span class="comment">#这样就拥有了一个站点</span></span><br><span class="line"><span class="built_in">cd</span> hexo</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
