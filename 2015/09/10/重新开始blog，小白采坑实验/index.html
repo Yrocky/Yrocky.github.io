@@ -3,17 +3,17 @@
 <head>
   <meta charset="utf-8">
   
-  <title>重新开始blog | Rocky&#39;s blog</title>
+  <title>重新开始Blog | Rocky&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="有一段时间没有管理博客，导致以前的站点源文件没有了，所以以前的博客也就没有了，这两天寻思着再重新搭一个，基本的搭建还是没有忘记，但可惜的是以前写的文章都没有了，据其原因就是因为没有备份站点。自己也不是一个前端，也不知道如何管理维护站点什么的，但是这次重新进行hexo博客的搭建，还是重新复习了一下搭建过程。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="重新开始blog">
+<meta property="og:title" content="重新开始Blog">
 <meta property="og:url" content="http://yoursite.com/2015/09/10/重新开始blog，小白采坑实验/index.html">
 <meta property="og:site_name" content="Rocky's blog">
 <meta property="og:description" content="有一段时间没有管理博客，导致以前的站点源文件没有了，所以以前的博客也就没有了，这两天寻思着再重新搭一个，基本的搭建还是没有忘记，但可惜的是以前写的文章都没有了，据其原因就是因为没有备份站点。自己也不是一个前端，也不知道如何管理维护站点什么的，但是这次重新进行hexo博客的搭建，还是重新复习了一下搭建过程。">
-<meta property="og:updated_time" content="2015-09-09T17:31:44.000Z">
+<meta property="og:updated_time" content="2015-09-12T16:13:30.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="重新开始blog">
+<meta name="twitter:title" content="重新开始Blog">
 <meta name="twitter:description" content="有一段时间没有管理博客，导致以前的站点源文件没有了，所以以前的博客也就没有了，这两天寻思着再重新搭一个，基本的搭建还是没有忘记，但可惜的是以前写的文章都没有了，据其原因就是因为没有备份站点。自己也不是一个前端，也不知道如何管理维护站点什么的，但是这次重新进行hexo博客的搭建，还是重新复习了一下搭建过程。">
   
     <link rel="alternative" href="/atom.xml" title="Rocky&#39;s blog" type="application/atom+xml">
@@ -99,7 +99,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/hexo/" style="font-size: 10px;">hexo</a>
+						<a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/runtime/" style="font-size: 10px;">runtime</a>
 					</div>
 				</section>
 				
@@ -170,7 +170,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      重新开始blog
+      重新开始Blog
     </h1>
   
 
@@ -198,13 +198,13 @@
 <p>2.安装<a href="http://www.cnblogs.com/analyzer/archive/2010/05/04/1727438.html" target="_blank" rel="external">wget</a></p>
 <figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">brew </span>install wget</span><br></pre></td></tr></table></figure>
 <p>3.安装nvm（node.js的版本管理工具）</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -qO- http<span class="variable">s:</span>//raw.github.<span class="keyword">com</span>/creationix/nvm/master/install.<span class="keyword">sh</span> | <span class="keyword">sh</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget -qO- http<span class="variable">s:</span>//raw.github.<span class="keyword">com</span>/creationix/nvm/master/install.<span class="keyword">sh</span> | <span class="keyword">sh</span> #或者</span><br><span class="line">wget -qO- http<span class="variable">s:</span>//raw.githubusercontent.<span class="keyword">com</span>/creationix/nvm/v0.<span class="number">20.0</span>/install.<span class="keyword">sh</span> | bash</span><br></pre></td></tr></table></figure>
 <p>4.添加下列配置到<strong>.zshrc</strong>配置文件</p>
 <figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ -s <span class="string">"/Users/<span class="escape">`u</span>sers<span class="escape">`/</span>.nvm/nvm.sh"</span> ] &amp;&amp; . <span class="string">"/Users/<span class="escape">`u</span>sers<span class="escape">`/</span>.nvm/nvm.sh"</span> # This loads nvm</span><br></pre></td></tr></table></figure>
 <p>5.安装node.js（通过nvm安装）</p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm <span class="keyword">install</span> <span class="number">0.10</span></span><br></pre></td></tr></table></figure>
-<p>6.安装<code>hexo</code>（通过npm安装）</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="operator"><span class="keyword">install</span> -<span class="keyword">g</span> hexo</span></span><br></pre></td></tr></table></figure>
+<p>6.安装<code>hexo</code>（<a href="https://www.npmjs.com/package/hexo" target="_blank" rel="external">通过npm安装</a>）</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="operator"><span class="keyword">install</span> hexo-cli -<span class="keyword">g</span></span><br><span class="line">~~npm <span class="keyword">install</span> -<span class="keyword">g</span> hexo~~</span></span><br></pre></td></tr></table></figure>
 <p>7.将nvm的bin目录添加到环境变量中</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">以zsh举例：</span><br><span class="line"><span class="number">1.</span> 用vi打开zsh的配置文件</span><br><span class="line">	vi ~/.zshrc</span><br><span class="line"><span class="number">2.</span> 在.zshrc文件中添加下列内容</span><br><span class="line">	<span class="keyword">export</span> PATH=$PATH:/Users/`users`/.nvm/v0<span class="number">.10</span><span class="number">.28</span>/bin</span><br><span class="line">(说明：<span class="number">1.</span> v0<span class="number">.10</span><span class="number">.28</span>为nvm的版本号，依使用版本而定</span><br><span class="line">	  <span class="number">2.</span> `users`会展开成具体的用户名)</span><br></pre></td></tr></table></figure>
 <p>8.创建hexo文件夹，并安装hexo的相关组件</p>
@@ -242,6 +242,20 @@
   </div>
   
     
+<nav id="article-nav">
+  
+    <a href="/2015/09/11/Runtime之黑魔法/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Runtime之黑魔法
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
   
 </article>
 
@@ -265,7 +279,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="重新开始blog，小白采坑实验" data-title="重新开始blog" data-url="http://yoursite.com/2015/09/10/重新开始blog，小白采坑实验/"></div>
+	<div class="ds-thread" data-thread-key="重新开始blog，小白采坑实验" data-title="重新开始Blog" data-url="http://yoursite.com/2015/09/10/重新开始blog，小白采坑实验/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
