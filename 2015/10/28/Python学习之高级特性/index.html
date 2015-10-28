@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Python学习之高级特性 | Rocky&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="学习Python的时候，有一些简洁的写法可以将很长的代码段缩减到最短，这样的写法也算是让Python比较优雅了。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python学习之高级特性">
+<meta property="og:url" content="http://yoursite.com/2015/10/28/Python学习之高级特性/index.html">
+<meta property="og:site_name" content="Rocky's blog">
+<meta property="og:description" content="学习Python的时候，有一些简洁的写法可以将很长的代码段缩减到最短，这样的写法也算是让Python比较优雅了。">
+<meta property="og:updated_time" content="2015-10-28T07:23:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python学习之高级特性">
+<meta name="twitter:description" content="学习Python的时候，有一些简洁的写法可以将很长的代码段缩减到最短，这样的写法也算是让Python比较优雅了。">
+  
+    <link rel="alternative" href="/atom.xml" title="Rocky&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://tp4.sinaimg.cn/2055300355/180/5701319722/1" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Rocky</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">至永远热爱学习的这一代人</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/resume">简历</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/Yrocky" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/Yeungrocky" title="weibo">weibo</a>
+					        
+								<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/yang-heng-49" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/MVVM/" style="font-size: 10px;">MVVM</a> <a href="/tags/Python/" style="font-size: 15px;">Python</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS9/" style="font-size: 10px;">iOS9</a> <a href="/tags/runtime/" style="font-size: 20px;">runtime</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Rocky</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://tp4.sinaimg.cn/2055300355/180/5701319722/1" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Rocky</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">至永远热爱学习的这一代人</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/resume">简历</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/Yrocky" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/Yeungrocky" title="weibo">weibo</a>
+			        
+						<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/yang-heng-49" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-Python学习之高级特性" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/10/28/Python学习之高级特性/" class="article-date">
+  	<time datetime="2015-10-28T07:23:03.000Z" itemprop="datePublished">2015-10-28</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Python学习之高级特性
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+学习Python的时候，有一些简洁的写法可以将很长的代码段缩减到最短，这样的写法也算是让Python比较优雅了。
+
+<a id="more"></a>
+
+<div><br></div>
+
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.1.1 (452253)"><meta name="keywords" content="切片, python"><meta name="author" content="Rocky"><meta name="created" content="2015-10-27 07:56:38 +0000"><meta name="source" content="desktop.mac"><meta name="updated" content="2015-10-27 08:06:37 +0000"><title>Python高级特性</title></head><body>
+<div><span style="color: rgb(0, 109, 55);"><span style="font-size: 16px;"><b>切片操作</b></span></span></div>
+<div>在读取list或者tuple部分元素的时候，一般的做法是通过下标进行读取，</div>
+<div>
+<div style="padding: 10px; background-color: rgb(250, 250, 250); font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; font-family: Consolas, monospace, serif; color: rgb(68, 68, 68); tab-size: 4; overflow: auto; border: 1px solid rgb(221, 221, 221); border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-position: initial initial; background-repeat: initial initial;">
+<div><span style="color: rgb(68, 68, 68);">L = [</span><span style="color: rgb(221, 17, 68);">'Michael'</span><span style="color: rgb(68, 68, 68);">, </span><span style="color: rgb(221, 17, 68);">'Sarah'</span><span style="color: rgb(68, 68, 68);">, </span><span style="color: rgb(221, 17, 68);">'Tracy'</span><span style="color: rgb(68, 68, 68);">, </span><span style="color: rgb(221, 17, 68);">'Bob'</span><span style="color: rgb(68, 68, 68);">, </span><span style="color: rgb(221, 17, 68);">'Jack'</span><span style="color: rgb(68, 68, 68);">]</span></div>
+<div><br></div>
+<div>L[0],L[1],L[2]</div>
+</div>
+</div>
+<div><br></div>
+<div>还有一种是通过for-in循环获得，也很累。针对需要制定索引范围内的操作，Python提供了切片操作符，</div>
+<div>
+<div style="padding: 10px; background-color: rgb(250, 250, 250); font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; font-family: Consolas, monospace, serif; color: rgb(68, 68, 68); tab-size: 4; overflow: auto; border: 1px solid rgb(221, 221, 221); border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-position: initial initial; background-repeat: initial initial;">
+<div>L[0:3]</div>
+<div># 取前三个元素</div>
+<div># 如果是0可以省略，</div>
+<div>L[:3]</div>
+</div>
+</div>
+<div><br></div>
+<div>正序切片操作是以0开始的，同时，Python还支持倒序切片操作，倒序切片操作是以-1开始的，</div>
+<div>
+<div style="padding: 10px; background-color: rgb(250, 250, 250); font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; font-family: Consolas, monospace, serif; color: rgb(68, 68, 68); tab-size: 4; overflow: auto; border: 1px solid rgb(221, 221, 221); border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-position: initial initial; background-repeat: initial initial;">
+<div>L[-2:]</div>
+<div># 取倒数两位元素</div>
+<div>L[-2:-1]</div>
+<div># 取倒数第二个元素</div>
+</div>
+</div>
+<div><br></div>
+<div>切片操作最多可以支持三个参数</div>
+<div>
+<div style="padding: 10px; background-color: rgb(250, 250, 250); font-style: normal; font-variant: normal; font-weight: normal; font-size: 12px; font-family: Consolas, monospace, serif; color: rgb(68, 68, 68); tab-size: 4; overflow: auto; border: 1px solid rgb(221, 221, 221); border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-position: initial initial; background-repeat: initial initial;">
+<div>L[0:4:2]</div>
+<div># 前四个元素，每隔2位取一个</div>
+</div>
+</div>
+<div><br></div>
+<div>可以使用切片的有list、tuple、string。</div>
+<div><br></div>
+<div><span style="font-size: 16px;"><span style="color: rgb(0, 109, 55);"><b>遍历方法</b></span></span></div>
+<div># 普通的遍历是使用for-in方法进行遍历，但是这样的做法只能在for判断中取出来index</div>
+<div># 而使用enumerate可以在for判断中同时取得index和obj</div>
+<div>
+<div style="padding: 5px 10px; border: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238); border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+<div>
+<div>array = [1,2,3,4,5]</div>
+<div><br></div>
+<div>for aInt in xrange(len(array)):</div>
+<div>    print aInt,array[aInt]</div>
+<div><br></div>
+<div>for index,obj in enumerate(array):</div>
+</div>
+<div>    print index,obj</div>
+</div>
+</div>
+<div><br></div>
+<div><br></div>
+<div><b><span style="font-size: 16px;"><span style="color: rgb(0, 109, 55);">for-in的简洁写法</span></span></b></div>
+<div># 老的for-in循环</div>
+<div>
+<div style="padding: 5px 10px; border: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238); border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+<div>
+<div>L = []</div>
+<div>for x in 'ABC':</div>
+<div>    L.append(x)</div>
+</div>
+<div>print L</div>
+</div>
+</div>
+<div><br></div>
+<div># 新的for-in循环</div>
+<div>
+<div style="padding: 5px 10px; border: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238); border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+<div>
+<div>L = [x for x in xrange(1,10)]</div>
+</div>
+<div>print L</div>
+</div>
+</div>
+<div><br></div>
+<div># 双层for循环</div>
+<div># 把‘AB’和‘XYZ’分别取出来一个字母组合成新的字符串</div>
+<div>
+<div style="padding: 5px 10px; border: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238); border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+<div>
+<div>L = [m + n for m in 'AB' for n in 'XYZ']</div>
+</div>
+<div>print L</div>
+</div>
+</div>
+<div><br></div>
+<div><br></div>
+<div><span style="font-size: 16px;"><span style="color: rgb(0, 109, 55);"><b>寻找三元运算符的替代品</b></span></span></div>
+<div># 在C中有三元运算符(A?B:C)用来替换简单的if-else语句，但是在Python中是没有这样的运算符的，</div>
+<div># 所以最好的方法是找一个可以正确替换的，避免写这样的语句</div>
+<div>
+<div style="padding: 5px 10px; border: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238); border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+<div>
+<div>a = 3</div>
+<div><br></div>
+<div>if int(a) &gt; 2:</div>
+<div>    b = 2</div>
+<div>else:</div>
+<div>    b = 1</div>
+</div>
+<div>print b</div>
+</div>
+</div>
+<div><br></div>
+<div># 所以正确的写法是这样的，<span style="color: rgb(0, 109, 55);"><b>b = False if a &gt; 2 else True</b></span></div>
+<div>
+<div style="padding: 5px 10px; border: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238); border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+<div>
+<div>b = 2 if a &gt; 2 else 1</div>
+</div>
+<div>print 'b:',b</div>
+</div>
+</div>
+<div><br></div>
+<div><br></div>
+<div><span style="font-size: 16px;"><span style="color: rgb(0, 109, 55);"><b>创建字典</b></span></span></div>
+<div># 根据键值对数组创建字典的时候</div>
+<div>
+<div style="padding: 5px 10px; border: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238); border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+<div>
+<div>keys = ['Name','Sex','Age']</div>
+</div>
+<div>values = ['Tim','Male',23]</div>
+<div>dic = {}</div>
+</div>
+</div>
+<div><br></div>
+<div># 一般的做法是这样，还是比较麻烦的</div>
+<div>
+<div style="padding: 5px 10px; border: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238); border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+<div>for index,key in enumerate(keys):</div>
+<div>
+<div>    dic[key] = values[index]</div>
+</div>
+<div>print dic</div>
+<div>dic = {}</div>
+</div>
+</div>
+<div><br></div>
+<div># 而比较python的是使用zip，使用zip创建键值对，zip的方法是返回一个元组，</div>
+<div>
+<div style="padding: 5px 10px; border: 1px solid rgb(204, 204, 204); background-color: rgb(238, 238, 238); border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+<div>
+<div>dic = dict(zip(keys,values))</div>
+</div>
+<div>print dic</div>
+</div>
+</div>
+<div><br></div>
+<div><br></div>
+<a href="http://toutiao.io/posts/pulxj2" target="_blank" rel="external">让你的Python更加Pythonic</a>
+<div><br></div>
+</body></html>
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/10/28/Python学习之初接触/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Python学习之初接触</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Python学习之高级特性" data-title="Python学习之高级特性" data-url="http://yoursite.com/2015/10/28/Python学习之高级特性/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 Rocky
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

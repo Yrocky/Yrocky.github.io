@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Python学习之函数 | Rocky&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="和其他的一些编程语言一样，Python是一个拥有丰富函数的语言。函数在Python中是内建支持的一种封装，我们通过把大段代码拆成函数，函数就是面向过程的程序设计的基本单元。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python学习之函数">
+<meta property="og:url" content="http://yoursite.com/2015/10/28/Python学习之函数/index.html">
+<meta property="og:site_name" content="Rocky's blog">
+<meta property="og:description" content="和其他的一些编程语言一样，Python是一个拥有丰富函数的语言。函数在Python中是内建支持的一种封装，我们通过把大段代码拆成函数，函数就是面向过程的程序设计的基本单元。">
+<meta property="og:updated_time" content="2015-10-28T07:23:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python学习之函数">
+<meta name="twitter:description" content="和其他的一些编程语言一样，Python是一个拥有丰富函数的语言。函数在Python中是内建支持的一种封装，我们通过把大段代码拆成函数，函数就是面向过程的程序设计的基本单元。">
+  
+    <link rel="alternative" href="/atom.xml" title="Rocky&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://tp4.sinaimg.cn/2055300355/180/5701319722/1" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Rocky</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">至永远热爱学习的这一代人</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/resume">简历</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/Yrocky" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/Yeungrocky" title="weibo">weibo</a>
+					        
+								<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/yang-heng-49" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/MVVM/" style="font-size: 10px;">MVVM</a> <a href="/tags/Python/" style="font-size: 15px;">Python</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS9/" style="font-size: 10px;">iOS9</a> <a href="/tags/runtime/" style="font-size: 20px;">runtime</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Rocky</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://tp4.sinaimg.cn/2055300355/180/5701319722/1" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Rocky</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">至永远热爱学习的这一代人</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/resume">简历</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/Yrocky" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/Yeungrocky" title="weibo">weibo</a>
+			        
+						<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/yang-heng-49" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-Python学习之函数" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/10/28/Python学习之函数/" class="article-date">
+  	<time datetime="2015-10-28T07:23:00.000Z" itemprop="datePublished">2015-10-28</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Python学习之函数
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+和其他的一些编程语言一样，Python是一个拥有丰富函数的语言。函数在Python中是内建支持的一种封装，我们通过把大段代码拆成函数，函数就是面向过程的程序设计的基本单元。
+
+<a id="more"></a>
+
+<style type="text/css">
+.code{
+	padding: 5px 10px; 
+	border: 1px solid rgb(204, 204, 204); 
+	background-color: rgb(238, 238, 238); 
+	font-family: Monaco, Menlo, 'Ubuntu Mono', Consolas, source-code-pro, monospace; 
+	border-top-left-radius: 2px; 
+	border-top-right-radius: 2px; 
+	border-bottom-right-radius: 2px; 
+	border-bottom-left-radius: 2px; 
+	font-size: 13px; 
+	color: rgb(20, 25, 30); 
+	font-style: normal; 
+	font-variant: normal; 
+	font-weight: normal; 
+	letter-spacing: normal; 
+	orphans: auto; 
+	text-align: start; 
+	text-indent: 0px; 
+	text-transform: none; 
+	widows: auto; 
+	word-spacing: 0px; 
+	-webkit-text-stroke-width: 0px; 
+	background-position: initial initial; 
+	background-repeat: initial initial;
+}
+.myTitle{
+	font-size: 17px;
+	color: rgb(0, 109, 55);
+	font-family: 'Microsoft Yahei', 'Hiragino Sans GB', Helvetica, 'Helvetica Neue', 微软雅黑, Tahoma, Arial, sans-serif;
+}
+</style>
+<div><br></div>
+
+而函数式编程（请注意多了一个“式”字）——Functional Programming，虽然也可以归结到面向过程的程序设计，但其思想更接近数学计算。计算则指数学意义上的计算，越是抽象的计算，离计算机硬件越远。
+<div><br></div>
+对应到编程语言，就是越低级的语言，越贴近计算机，抽象程度低，执行效率高，比如C语言；越高级的语言，越贴近计算，抽象程度高，执行效率低，比如Lisp语言。
+<div><br></div>
+
+<div>
+	<div class="code">
+		函数式编程就是一种抽象程度很高的编程范式，纯粹的函数式编程语言编写的函数没有变量，因此，任意一个函数，只要输入是确定的，输出就是确定的，这种纯函数我们称之为没有副作用。而允许使用变量的程序设计语言，由于函数内部的变量状态不确定，同样的输入，可能得到不同的输出，因此，这种函数是有副作用的。
+		<div>
+			<br>
+		</div>
+		函数式编程的一个特点就是，允许把函数本身作为参数传入另一个函数，还允许返回一个函数！
+		<div>
+			<br>
+		</div>
+		Python对函数式编程提供部分支持。由于Python允许使用变量，因此，Python不是纯函数式编程语言。
+	</div>
+</div>
+
+
+<div><br></div>
+
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="exporter-version" content="Evernote Mac 6.1.1 (452253)"><meta name="keywords" content="python"><meta name="author" content="Rocky"><meta name="created" content="2015-10-11 02:50:33 +0000"><meta name="source" content="desktop.mac"><meta name="updated" content="2015-10-27 07:37:11 +0000"><title>Python学习笔记</title></head><body>
+<div><b><span class="myTitle">自定义高阶函数</span></b></div>
+<div><br></div>
+<div>高阶函数的概念就是一个函数可以接受普通的数据类型为参数也可以接受函数为参数，</div>
+<div><br></div>
+<div>那么定义一个函数，作用是出入两个参数，通过第三个函数参数进行一些运算，并返回</div>
+<div>
+<div class="code">
+	def add(x, y, f):<br>
+    return f(x) + f(y)</div>
+</div>
+<div><br></div>
+<div>如果f分别为取绝对值，求平方根</div>
+<div class="code">
+<div>add(-5, 9, abs)</div>
+<div>add(25, 9 ,math.sqrt)</div>
+</div>
+<div><br></div>
+<div>返回的结果为</div>
+<div class="code">
+<div>14</div>
+<div>8</div>
+</div>
+<div><br></div>
+<div>这里需要注意的是由于使用了运算函数，因此要导入运算相关的库</div>
+<div class="code">
+<div>import math</div>
+</div>
+<div><br></div>
+<div><br></div>
+<div><span class="myTitle"><b>map()函数</b></span></div>
+<div><br></div>
+<div>map()函数是Python内置的高阶函数：map(fun,list) -&gt;list</div>
+<div><br></div>
+<div>接受一个函数func和一个数组list，而func的作用就是依次作用在list的每个元素上，得到一个新的list并返回。</div>
+<div>
+<div class="code">
+	def f(x):<br>
+        return x*x<br>
+print map(f, [1, 2, 3, 4, 5, 6, 7, 8, 9])</div>
+</div>
+<p><span style="font-size: 13px;"><span style="color: rgb(31, 36, 38);"><span style="font-family: 'Microsoft Yahei';">输出结果：</span></span></span></p>
+<div class="code">[1, 4, 9, 10, 25, 36, 49, 64, 81]<br></div>
+
+<div><br></div>
+<div>如果list是一个字符串数组，那么可以通过list[0]获得到字符串的第一个字符，list[1:]获得到字符串第二个以及之后的所有字符。举个例子，将一个list中的名字按照首字符大写以后小写进行输出。</div>
+<div><br></div>
+<div class="code">
+<div>def reName(name):</div>
+<div>    return name[0].upper() + name[1:].lower()</div>
+<div><br></div>
+<div>print map(reName, [‘adam’,’LISA’,’RoCky’,’tIm'])</div>
+</div>
+<div style="padding: 5px 0px; orphans: auto; text-align: start; text-indent: 0px; widows: auto;">
+<div style="font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span style="font-size: 12px;"><span style="font-family: 'Microsoft Yahei';"><span style="color: rgb(31, 36, 38);"><br></span></span></span></div>
+<div style="font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+<div><span style="font-size: 13px;"><span style="color: rgb(31, 36, 38);"><span style="font-family: 'Microsoft Yahei';">输出结果为：</span></span></span></div>
+</div>
+<div class="code">
+<div><font face="Microsoft Yahei" color="#1F2426" size="2">[‘Adam’,’Lisa’,’Rocky’,’Tim’]</font></div>
+</div>
+
+<div><br></div>
+<div><br></div>
+<div><span class="myTitle">reduce()函数</span></div>
+
+<div><span style="font-family: 'Microsoft Yahei', 'Hiragino Sans GB', Helvetica, 'Helvetica Neue', 微软雅黑, Tahoma, Arial, sans-serif;"><span style="color: rgb(31, 36, 38);">reduce()函数是Python内置的高阶函数：reduce(func,list) -&gt;id</span></span></div>
+<div><br></div>
+<div><span style="font-family: 'Microsoft Yahei', 'Hiragino Sans GB', Helvetica, 'Helvetica Neue', 微软雅黑, Tahoma, Arial, sans-serif;"><span style="color: rgb(31, 36, 38);">reduce()函数中的<span style="color: rgb(0, 109, 55);">func必须接受两个参数</span>，redure()对list中的每个元素反复调用func，并返回结果。</span></span></div>
+<div><span style="font-family: 'Microsoft Yahei', 'Hiragino Sans GB', Helvetica, 'Helvetica Neue', 微软雅黑, Tahoma, Arial, sans-serif;"><span style="color: rgb(31, 36, 38);"><br></span></span></div>
+<div><font face="Microsoft Yahei, Hiragino Sans GB, Helvetica, Helvetica Neue, 微软雅黑, Tahoma, Arial, sans-serif" color="#1F2426">例如编写一个函数：</font></div>
+<div>
+<div class="code">def func(x, y):<br>
+    return x + y</div>
+</div>
+<div><span style="font-family: 'Microsoft Yahei', 'Hiragino Sans GB', Helvetica, 'Helvetica Neue', 微软雅黑, Tahoma, Arial, sans-serif;"><span style="color: rgb(31, 36, 38);"><br></span></span></div>
+<div><span style="font-family: 'Microsoft Yahei', 'Hiragino Sans GB', Helvetica, 'Helvetica Neue', 微软雅黑, Tahoma, Arial, sans-serif;"><span style="color: rgb(31, 36, 38);">在调用reduce(func,[1,3,5,7,9])的时候，其实内部做的是这样的计算：</span></span></div>
+<div>
+<div class="code">先计算头两个元素：f(1, 3)，结果为4；<br>
+再把结果和第3个元素计算：f(4, 5)，结果为9；<br>
+再把结果和第4个元素计算：f(9, 7)，结果为16；<br>
+再把结果和第5个元素计算：f(16, 9)，结果为25；<br>
+由于没有更多的元素了，计算结束，返回结果25。</div>
+</div>
+<div><span style="font-family: 'Microsoft Yahei', 'Hiragino Sans GB', Helvetica, 'Helvetica Neue', 微软雅黑, Tahoma, Arial, sans-serif;"><span style="color: rgb(31, 36, 38);"><br></span></span></div>
+<div><span style="font-family: 'Microsoft Yahei', 'Hiragino Sans GB', Helvetica, 'Helvetica Neue', 微软雅黑, Tahoma, Arial, sans-serif;"><span style="color: rgb(31, 36, 38);">reduce()函数还可以接受三个参数，第三个参数是可选的，作为计算的初始值，如果改为</span></span></div>
+<div class="code">
+<div>reduce(f, [1, 3, 5, 7, 9], 100)</div>
+</div>
+</div>
+
+<div>返回的结果就会是125，因为开始的时候进行的是func(100,1)</div>
+<div><br></div>
+<div>虽然Python内置的有求和的sum()函数，但是没有求积的函数，那么自己写个。函数体func如下：</div>
+<div class="code">
+<div>def prod(x,y):</div>
+<div>     return x * y</div>
+<div><br></div>
+<div>print reduce(prod,[2,4,5,7,12])</div>
+</div>
+<div><br></div>
+<div>输出结果为</div>
+<div class="code">
+<div>3360</div>
+</div>
+<div><br></div>
+<div><br></div>
+<div><span class="myTitle"><b>filter()函数</b></span></div>
+<div><br></div>
+<div>filter()函数也是Python内置的一个高阶函数：filter(func,list) -&gt;list</div>
+<div><br></div>
+<div>filter()函数中的func函数的作用是对每个元素进行判断并返回Ture或者False，然后filter()函数会根据返回结果过滤掉不符合条件的元素，并返回一个新的符合条件的list。</div>
+<div><br></div>
+<div>例如使用filter()函数进行list的奇偶过滤：</div>
+<div class="code">
+<div>def is_odd(x):</div>
+<div>     return x % 2 == 1</div>
+<div><br></div>
+<div>filter(is_odd,[1,4,6,7,9,12,17])</div>
+</div>
+<div><br></div>
+<div>然后返回结果为</div>
+<div class="code">
+<div>[1, 7, 9，17]</div>
+</div>
+<div><br></div>
+<div><br></div>
+<div>还比如删除list中的None或者🈳字符串</div>
+<div class="code">
+<div>def is_not_empty(s):</div>
+<div>     return s and len(s.strip()) &gt; 0</div>
+<div><br></div>
+<div>filter(is_not_empty,[’test’,None,’’,’str’,’  ‘,’END'])</div>
+</div>
+<div><br></div>
+<div>返回结果为</div>
+<div class="code">
+<div>[’test’,’str’,’END']</div>
+</div>
+<div><br></div>
+<div>s.strip(rm)的意思是删除s字符串开头、结尾处为rm序列的字符，当rn为空的时候，默认删除空白符(‘\n’,’\r’,’\t’,'')</div>
+<div><br></div>
+<div><span class="myTitle"><b>sorted()函数</b></span></div>
+<div><br></div>
+<div>sorted()函数是一个Python内置的高阶函数：sorted(list) -&gt;list</div>
+<div><br></div>
+<div>storted()函数可以自定义排序规则，不单单是升序排序。他可以接受一个比较函数实现自定义排序，<span style="color: rgb(0, 109, 55);">比较函数的定义是，传入两个待比较元素x和y，如果x应该排在y前面，返回-1（降序），如果x应该排在y后面，返回1（升序），如果x和y相等，返回0。</span></div>
+<div><br></div>
+<div>一个倒序函数如下</div>
+<div>
+<div class="code">def reversed_cmp(x, y):<br>
+    if x &gt; y:<br>
+        return -1<br>
+    if x &lt; y:<br>
+        return 1<br>
+    return 0</div>
+</div>
+<div><br></div>
+<div>同时sorted()函数还可以对字符串进行排序，字符串默认按照ASCII大小来比较，大写字母的ASCII比小写字母的ASCII小，排在前面。</div>
+<div><br></div>
+<div><b><span style="font-size: 16px;"><span style="color: rgb(0, 109, 55);"><br></span></span></b></div>
+<div><span class="myTitle"><b>类型检验--isinstance()</b></span></div>
+<div><b><span style="font-size: 16px;"><span style="color: rgb(0, 109, 55);"><br></span></span></b></div>
+<div>其实在进行初期的Python学习的时候，对输入的判断一直没有进行类型判断，作为一个软件开发人员来说，这是不严谨的编程方法，现在就来介绍一个类型检验的函数：<span style="color: rgb(0, 109, 55);">isinstance()</span></div>
+<div><br></div>
+<div>先举个栗子，求绝对值</div>
+<div>
+<div class="code">
+<div>def my_abs(x):</div>
+<div>     if x &gt;= 0:</div>
+<div>          return x</div>
+<div>     else:</div>
+<div>          return -x</div>
+</div>
+</div>
+<div><br></div>
+<div>这里的x如果是字符类型或者非int、float类型就会报错，使用isinstance()函数可以这样做</div>
+<div>
+<div class="code">
+<div>def my_abs(x):</div>
+<div>     if not is instance(x,(int,float)):</div>
+<div>          raise TypeError(‘您输入的不是int、float类型')</div>
+<div>     if x &gt;= 0:</div>
+<div>          return x</div>
+<div>     else:</div>
+<div>          return -x</div>
+</div>
+</div>
+<div><br></div>
+<div><br></div>
+<div><br></div>
+<div><span class="myTitle"><b>可变参数的函数写法</b></span></div>
+<div><b><span style="font-size: 16px;"><span style="color: rgb(0, 109, 55);"><br></span></span></b></div>
+<div># *符号允许传入的参数为可变的个数</div>
+<div>
+<div class="code">
+<div>
+<div>def calc(*numbers):</div>
+<div>    sum = 0</div>
+<div>    for n in numbers:</div>
+<div>        sum = sum + n</div>
+</div>
+<div>    return sum</div>
+</div>
+</div>
+<div><br></div>
+<div>打印如下，</div>
+<div>
+<div class="code">
+<div>print 'sum:',calc(1,2,3)</div>
+<div>sum:6</div>
+</div>
+</div>
+<div><br></div>
+<div># 同时如果你有一个list，也可以使用这样的方法进行list内数据的作为可变参数</div>
+<div>
+<div class="code">
+<div>
+<div>numberList = [1,3,4]</div>
+</div>
+<div>print "sum:",calc(*numberList)</div>
+<div>sum:8</div>
+</div>
+</div>
+<div><br></div>
+<div><br></div>
+<div><span class="myTitle"><b>关键字参数**kw</b></span></div>
+<div><b><span style="font-size: 15px;"><span style="color: rgb(0, 109, 55);"><br></span></span></b></div>
+<div>可变参数允许0或者任意个参数，这些参数会组装成一个元组（Tuple），而<span style="color: rgb(0, 109, 55);">关键字参数</span>则允许传入0个或者任意个含参数名的参数，这些参数在函数内部组装成一个字典（Dict），使用关键字<span style="color: rgb(0, 109, 55);"><b>kw</b></span></div>
+<div>
+<div class="code">
+<div>
+<div>def person(name,age,**kw):</div>
+</div>
+<div>    print ('name:',name,'age:',age,'other',kw)</div>
+</div>
+</div>
+<div><br></div>
+<div>调用，</div>
+<div>
+<div class="code">
+<div>
+<div>person('Rocky',24)</div>
+<div>person('Rocky',24,city = 'beijing')</div>
+</div>
+<div>person('Rocky',24,city = 'beijing',job = 'Coder')</div>
+</div>
+</div>
+<div><br></div>
+<div>输出如下，</div>
+<div>
+<div class="code">
+<div>
+<div>('name:', 'Rocky', 'age:', 24, 'other', {})</div>
+<div>('name:', 'Rocky', 'age:', 24, 'other', {'city': 'beijing'})</div>
+</div>
+<div>('name:', 'Rocky', 'age:', 24, 'other', {'city': 'beijing', 'job': 'Coder'})</div>
+</div>
+</div>
+<div><br></div>
+<div># 当然，如果正好有一个字典，可以这样传递参数</div>
+<div>
+<div class="code">
+<div>
+<div>extra = {'city':'beijing','job':'coder'}</div>
+</div>
+<div>person('Rocky',24,**extra)</div>
+<div>('name:', 'Rocky', 'age:', 24, 'other', {'city': 'beijing', 'job': 'coder'})</div>
+</div>
+</div>
+<div><br></div>
+<div><br></div>
+<div><span class="myTitle"><b>命名关键字参数*</b></span></div>
+<div><b><span style="font-size: 15px;"><span style="color: rgb(0, 109, 55);"><br></span></span></b></div>
+<div>如果要限制关键字参数的名字，可以使用<span style="font-size: 15px;"><span style="color: rgb(0, 109, 55);"><b>命名关键字</b></span></span>参数，定义方法为：</div>
+<div>
+<div class="code">
+<div>
+<div>def person(name,age,*,city,job):</div>
+</div>
+<div>     print(name,age,city,job)</div>
+</div>
+</div>
+<div><br></div>
+<div>和关键字参数**kw不同的是，命名关键字参数需要一个特殊分隔符<span style="color: rgb(0, 109, 55);"><b>*</b></span>，它之后的参数就是命名关键字参数。</div>
+<div>更不便捷的一点是，明明关键字在使用的时候，必须把参数名带上，不能省略。但是如果命名关键字有默认值的时候，可以在调用函数的时候省略，</div>
+<div>
+<div>
+<div class="code">person(‘Rocky’,24,city = ‘beijing’,job = ‘coder')</div>
+<div># 正确</div>
+<div><br></div>
+<div class="code">person(‘Rocky’,24,‘beijing’,‘coder')</div>
+<div># 错误</div>
+<div><br></div>
+<div>如果改变person函数的定义</div>
+<div class="code">def person(name,age,*,city = ‘beijing’,job):<div>
+     print(name,age,city,job)</div></div>
+<div><br></div>
+<div>现在调用函数的时候可以这样</div>
+<div class="code">person(‘Rocky’,24,job = ‘coder')</div>
+</div>
+</div>
+<div><br></div>
+<div><br></div>
+<a href="http://www.imooc.com/learn/317" target="_blank" rel="external">imooc廖雪峰Python学习</a>
+<div><br></div>
+</body></html>
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/10/28/Python学习之初接触/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Python学习之初接触
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/10/26/iOS9新特性之通讯录/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS9新特性之Contacts Framework</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Python学习之函数" data-title="Python学习之函数" data-url="http://yoursite.com/2015/10/28/Python学习之函数/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 Rocky
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
