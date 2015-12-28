@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>自定义导航栏 | Rocky&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近项目中用要使用一些与系统UI不一样的界面，简单粗暴的就是这个导航栏要不一样，我们要元素多一点，高度也多一点。既然这样设计了，那就来自定义导航栏吧。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自定义导航栏">
+<meta property="og:url" content="http://yoursite.com/2015/12/28/customNavigatioinBar/index.html">
+<meta property="og:site_name" content="Rocky's blog">
+<meta property="og:description" content="最近项目中用要使用一些与系统UI不一样的界面，简单粗暴的就是这个导航栏要不一样，我们要元素多一点，高度也多一点。既然这样设计了，那就来自定义导航栏吧。">
+<meta property="og:image" content="http://yoursite.com/../source/image/more_bar.png">
+<meta property="og:image" content="http://yoursite.com/../source/image/default_bar.png">
+<meta property="og:image" content="http://yoursite.com/../source/image/detail_bar.png">
+<meta property="og:image" content="http://yoursite.com/../source/image/view_bar01.png">
+<meta property="og:image" content="http://yoursite.com/../source/image/view_bar02.png">
+<meta property="og:image" content="http://yoursite.com/../source/image/more_bar.png">
+<meta property="og:updated_time" content="2015-12-28T15:26:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自定义导航栏">
+<meta name="twitter:description" content="最近项目中用要使用一些与系统UI不一样的界面，简单粗暴的就是这个导航栏要不一样，我们要元素多一点，高度也多一点。既然这样设计了，那就来自定义导航栏吧。">
+  
+    <link rel="alternative" href="/atom.xml" title="Rocky&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.pngfavicon.ico" type="image/x-ico">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://tp4.sinaimg.cn/2055300355/180/5701319722/1" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Rocky</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">至永远热爱学习的这一代人</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/Yrocky" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/Yeungrocky" title="weibo">weibo</a>
+					        
+								<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/yang-heng-49" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/HTML5/" style="font-size: 10px;">HTML5</a> <a href="/tags/MVVM/" style="font-size: 10px;">MVVM</a> <a href="/tags/Python/" style="font-size: 16.67px;">Python</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS9/" style="font-size: 10px;">iOS9</a> <a href="/tags/runtime/" style="font-size: 20px;">runtime</a> <a href="/tags/学习/" style="font-size: 13.33px;">学习</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">在做iOS移动端开发相关的工作，但是web前端也能做一些，对Python有些了解。平常不喜言谈，单凡大笑，肯定是没吃药。</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Rocky</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://tp4.sinaimg.cn/2055300355/180/5701319722/1" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Rocky</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">至永远热爱学习的这一代人</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/Yrocky" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/Yeungrocky" title="weibo">weibo</a>
+			        
+						<a class="zhihu" target="_blank" href="http://www.zhihu.com/people/yang-heng-49" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-customNavigatioinBar" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/12/28/customNavigatioinBar/" class="article-date">
+  	<time datetime="2015-12-28T07:02:31.000Z" itemprop="datePublished">2015-12-28</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      自定义导航栏
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习/">学习</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="../source/image/more_bar.png" alt="image"></p>
+<p>最近项目中用要使用一些与系统UI不一样的界面，简单粗暴的就是这个导航栏要不一样，我们要元素多一点，高度也多一点。既然这样设计了，那就来自定义导航栏吧。</p>
+<a id="more"></a>
+<p>先了解一下需求：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">导航栏类型</th>
+<th style="text-align:center">titleLabel</th>
+<th style="text-align:center">navigationBar高度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><img src="../source/image/default_bar.png" alt="image"></td>
+<td style="text-align:center">titleLabel的位置是上下居中</td>
+<td style="text-align:center">原始高度 66</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="../source/image/detail_bar.png" alt="image"></td>
+<td style="text-align:center">titleLabel的位置有向上移动</td>
+<td style="text-align:center">原始高度 66</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="../source/image/view_bar01.png" alt="image"></td>
+<td style="text-align:center">titleLabel的位置是上下居中</td>
+<td style="text-align:center">加一个Segment的高度  大概是66+29+10</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="../source/image/view_bar02.png" alt="image"></td>
+<td style="text-align:center">titleLabel的位置有向上移动</td>
+<td style="text-align:center">加一个Segment的高度  大概是66+29+10</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="../source/image/more_bar.png" alt="image"></td>
+<td style="text-align:center">titleLabel的位置有向上移动费</td>
+<td style="text-align:center">加一个Segment的高度  大概是66+29+10</td>
+</tr>
+</tbody>
+</table>
+<p>(图片不显示了。。。。看前面的吧)</p>
+<p>既然现在了解了需求，那就开始考虑如何进行定制导航栏。一般而言，自定义导航栏有两种思路：<code>自定义UIView代替/加到navigationBar</code>、<code>使用UINavigationBar的子类</code>，这样之后就可以在导航栏上胡作非为了。当然了，如果比较简单的导航栏，比如只是在titleLabel上加一个label，并且返回按钮也在比较靠下的位置，没错，就是在为导航栏的<code>prompt</code>之后样子，这时候就可以使用这个不经常使用的属性了，也不用那么麻烦的去自定义导航栏了，偷懒。。</p>
+<h3 id="1-自定义UIView替代navigationBar">1.自定义UIView替代navigationBar</h3><h4 id="1-1把他干掉">1.1把他干掉</h4><p>先说第一种，最容易想到的，也是比较低级的，使用一个UIView的子类放在原来navigationBar的位置上，为他添加返回按钮、titleLabel、背景图片、rightBarButtonItem。。。。并要把navigationBar给隐藏了，然后就可以为这个”导航栏”设置一些自己的东西了，当然也包括高度什么的。</p>
+<p>第一，这种做法会被别人所不齿，第二，这种做法完全是本末倒置。首先我们知道<code>UINavigationBar</code>是继承至<code>UIView</code>的，UIKIt提供了一个UIView的子类<code>UINavigationBar</code>让你来展示为<code>UINavigationController</code>的<code>navigationBar</code>，然后你又用一个UIView类去写一个类似于navigationBar的“navigationBar”，并将原来<code>UINavigationController</code>的navigationBar给隐藏了，这种本末倒置的做法是会被别人所不齿的，四不四洒。</p>
+<h4 id="1-2干不掉就融入他">1.2干不掉就融入他</h4><p>第二种使用UIView的做法相对来说就比较好了，但也仅限于比较好，基本上算是取巧而已。</p>
+<p>这种做法是将一个UIView的子类<code>viewBar</code>放在navigationBar的下面，然后进行一些设置。我们需要设置navigationBar的一些属性，比如这个，不让navigationBar进行<code>transluceny</code>，用来将他和添加的UIView进行一个无缝连接：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">[self.navigationController.navigationBar setTranslucent:NO]</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>然后设置一下navigationBar的<code>shadowImage</code>，</p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="collection">[self.navigationController.navigationBar setShadowImage:<span class="collection">[UIImage imageNamed:@<span class="string">"TransparentPixel"</span>]</span>]</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>需要指出的一点是在为navigationBar设置了<code>shadowImage</code>之后，导航栏下面的<code>hairline</code>将会被移除，而自己写的那个viewBar加在navigationBar的下面并且这个viewBar还要在<code>drawRect:</code>方法中自己绘制一个<code>hairline</code>来<code>以假乱真</code>。但是这样对于导航栏要显示的是一个title加一个detail类型的还是不行的，有一点需要注意的是，这个后加的viewBar不属于navigationBar的一部分，他仅仅是像他的一部分而已，所以导航栏的高度还是没有改变的，而在导航栏下面添加的视图起始y坐标要有所改变了，改变高度就是新添加的viewBar的高度。</p>
+<p>如果可以的话，再为navigationBar设置一个<code>backgroundImage</code>：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr_selector">[self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"Pixel"]</span> <span class="rule"><span class="attribute">forBarMetrics</span>:<span class="value">UIBarMetricsDefault]</span></span>;</span><br></pre></td></tr></table></figure>
+<h3 id="2-使用UINavigationBar子类">2.使用UINavigationBar子类</h3><p>自定义UINavigtionBar的子类<code>customBar</code>，然后将该视图控制器的navigationBar<code>类</code>设置成<code>customBar</code>的类。</p>
+<p>使用这个方法的子类必须重写<code>-sizeThatFits:</code>这个方法，这个方法返回customBar的size，正是需要的。需要的工作就是在这个方法里面将自己添加的views的高度都加起来返回出去就可以将bavigatioinBar的高度增加了，这里仅仅是增加了navigationBar的高度，而添加的views还没有规定怎么排列呢，要排列views就需要使用<code>-layoutSubviews</code>。</p>
+<p><code>-sizeThatFits:</code>方法的重写是通过增加一些空间为子类添加的元素提供一个很好的排布区域，而且<code>UINavigationController</code>在要对navigationBar进行布局的时候会调用这个方法来从新设置navigationBar的高度，已达到真正的改变navigationBar高度的目的。</p>
+<p><code>-layoutSubviews</code>方法顾名思义，为subView进行布局，一般来讲，UINavigationBar会把添加的subView放在他的下边缘部分，在这个方法里面我们可以为subView进行一些想要的布局，而所需要的空间就是从<code>-sizeThatFits:</code>方法中获得的，而且也不需要操心整个navigationBar的高度，在这个方法里对button进行重新布局。</p>
+<p>现在假设只为navigationBar的上半部分添加一个button。</p>
+<p><strong>customBar.h</strong></p>
+<p>添加一个customButton属性即可</p>
+<p><strong>customBar.m</strong></p>
+<p>-sizeThatFits:方法</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">CGSize</span>)sizeThatFits:(<span class="built_in">CGSize</span>)size</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">CGSize</span> navigationBarSize = [<span class="keyword">super</span> sizeThatFits:size];</span><br><span class="line"></span><br><span class="line">    <span class="built_in">CGSize</span> buttonSize = [<span class="keyword">self</span><span class="variable">.customButton</span> sizeThatFits:<span class="built_in">CGSizeMake</span>(size<span class="variable">.width</span>, <span class="number">0</span>)];</span><br><span class="line">    navigationBarSize<span class="variable">.height</span> += buttonSize<span class="variable">.height</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> navigationBarSize;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>-layoutSubviews方法</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)layoutSubviews</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    [<span class="keyword">super</span> layoutSubviews];</span><br><span class="line"></span><br><span class="line">    <span class="built_in">CGSize</span> buttonSize = [<span class="keyword">self</span><span class="variable">.customButton</span> sizeThatFits:<span class="built_in">CGSizeMake</span>(<span class="keyword">self</span><span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>, <span class="number">0</span>)];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">self</span><span class="variable">.customButton</span><span class="variable">.frame</span> = <span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="keyword">self</span><span class="variable">.bounds</span><span class="variable">.size</span><span class="variable">.width</span>, buttonSize<span class="variable">.height</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后还需要做的就是重写customButton的<code>setter方法</code>：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)setCustomButton:(<span class="built_in">UIButton</span> *)customButton</span><br><span class="line">&#123;</span><br><span class="line">    [_customButton removeFromSuperview];</span><br><span class="line"></span><br><span class="line">    _customButton = customButton;</span><br><span class="line"></span><br><span class="line">    [<span class="keyword">self</span> addSubview:customButton];</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 调用 -sizeThatFits: 方法，来为navigationBar增加一些空间来容纳customButton</span></span><br><span class="line">    [<span class="keyword">self</span> invalidateIntrinsicContentSize];</span><br><span class="line">    </span><br><span class="line">    [<span class="keyword">self</span> setNeedsLayout];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在控制器中要做的就是将一个button添加给<code>customBar</code></p>
+<p><strong>ViewController.m</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">UIButton *<span class="built_in">return</span>ToMenuButton = [UIButton buttonWithType:UIButtonTypeSystem];</span><br><span class="line"></span><br><span class="line">[<span class="built_in">return</span>ToMenuButton <span class="built_in">set</span>Title:@<span class="string">"Return to Menu"</span> <span class="keyword">for</span>State:UIControlStateNormal];</span><br><span class="line"></span><br><span class="line">[[<span class="built_in">return</span>ToMenuButton titleLabel] <span class="built_in">set</span>Font:[<span class="built_in">return</span>ToMenuButton.titleLabel.font fontWithSize:<span class="number">12</span>.f]];</span><br><span class="line"></span><br><span class="line">[<span class="built_in">return</span>ToMenuButton addTarget:self action:@selector(<span class="built_in">return</span>ToMenuAction:) <span class="keyword">for</span>ControlEvents:UIControlEventTouchUpInside];</span><br><span class="line"></span><br><span class="line">[(CustomNavigationBar*)self.navigationController.navigationBar <span class="built_in">set</span>CustomButton:<span class="built_in">return</span>ToMenuButton];</span><br></pre></td></tr></table></figure>
+<p>这样下来，就将一个button添加到了navigationBar上面，并且navigationBar的高度也改变了，如果使用自动布局，导航栏下面添加的view就不需要考虑y坐标的位移了，如果手写布局，注意别忘了修改y的偏移。使用同样的方法就可以进行高度自定义导航栏了，不仅限于修改个颜色、透明度那样的自定义。</p>
+<h3 id="3-自定义返回按钮">3.自定义返回按钮</h3><p>说到自定义导航栏，就不能绕过返回按钮的自定义。返回按钮是为了提供一个来源信息以及返回动作的控件，进行自定义返回按钮之前，要明白一点：返回按钮是有两部分组成的，一个是返回的箭头，一个是前一个界面的title。所以，我们如果要是自定义返回按钮，第一，需要使用一个自定义的图片替换箭头，并且保证不拉伸图片；第二，将上一个界面的title隐藏或替换掉。</p>
+<p>所以接下来的工作就很明了了。</p>
+<ul>
+<li><p>创建一个UIImage实例：</p>
+  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">UIImage *backButtonBackgroundImage = [UIImage imageNamed:@<span class="string">"Menu"</span>];</span><br><span class="line"></span><br><span class="line">   backButtonBackgroundImage = [backButtonBackgroundImage resizableImageWithCapInsets:UIEdgeInsetsMake(<span class="number">0</span>, backButtonBackgroundImage.size.width - <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>)];</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>这里的实际上宽度是箭头加默认“返回”文字的宽度，所以，如果不进行操作让image不拉伸就会出现图片被拉伸的现象。</p>
+<ul>
+<li><p>然后取到<code>UIBarButtonItem</code>的<code>UIAppearance</code>，进行设置返回图片，</p>
+  <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">id</span> appearance = [<span class="built_in">UIBarButtonItem</span> appearanceWhenContainedIn:[<span class="built_in">UINavigationController</span> class] insted:<span class="literal">nil</span>];</span><br><span class="line"></span><br><span class="line">   [appearance setBackButtonBackgroundImage:backButtonBackgroundImage forState:<span class="built_in">UIControlStateNormal</span> barMetrics:<span class="built_in">UIBarMetricsDefault</span>];</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>这里有坑，如果你是要进行所有的界面的返回按钮都是自定义的，那就直接在这里使用<code>UINavigationController</code>。如果仅仅是在一些相关界面使用的话，那就自己<code>定义一个导航控制器</code>，将该VC的导航控制器设置成自定义的导航控制器，并且把<br><code>+appearanceWhenContainedInInstancesOfClasses: instead</code>方法里面的class换成自定义的导航控制器类，不然所有的导航控制器返回箭头都是自己写的那个图片。。。</p>
+<ul>
+<li><p>这仅仅是修改了返回的箭头图片，别忘了还有一个<code>前界面的title</code>，这个需要设置backBarButtonItem：</p>
+  <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UIBarButtonItem</span> *backBarButton = [[<span class="built_in">UIBarButtonItem</span> alloc] initWithTitle:<span class="string">@" "</span> style:<span class="built_in">UIBarButtonItemStylePlain</span> target:<span class="literal">nil</span> action:<span class="literal">NULL</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">self</span><span class="variable">.navigationItem</span><span class="variable">.backBarButtonItem</span> = backBarButton;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>不需要实现barButtonItem的target-action方法，导航控制器会为他添加的，另一点，如果不设置这个<code>backBarButtonItem</code>，就会出现上一个界面的title，这个很好理解吧，所以这里使用了一个<code>空格字符串</code>进行title设置。</p>
+<p><a href="https://developer.apple.com/library/ios/samplecode/NavBar/Introduction/Intro.html" target="_blank" rel="external">参考项目</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/12/28/Realm数据库/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Realm数据库</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="customNavigatioinBar" data-title="自定义导航栏" data-url="http://yoursite.com/2015/12/28/customNavigatioinBar/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 Rocky
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
