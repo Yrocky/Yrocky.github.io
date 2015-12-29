@@ -17,7 +17,7 @@
 <meta property="og:image" content="http://yoursite.com/2015/12/28/CustomBar/view_bar01.png">
 <meta property="og:image" content="http://yoursite.com/2015/12/28/CustomBar/view_bar02.png">
 <meta property="og:image" content="http://yoursite.com/2015/12/28/CustomBar/more_bar.png">
-<meta property="og:updated_time" content="2015-12-28T16:25:47.000Z">
+<meta property="og:updated_time" content="2015-12-29T14:00:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="自定义导航栏">
 <meta name="twitter:description" content="最近项目中用要使用一些与系统UI不一样的界面，简单粗暴的就是这个导航栏要不一样，我们要元素多一点，高度也多一点。既然这样设计了，那就来自定义导航栏吧。">
@@ -218,42 +218,42 @@
 <thead>
 <tr>
 <th style="text-align:center">导航栏类型</th>
-<th style="text-align:center">titleLabel</th>
+<th style="text-align:center">titleView的位置变化</th>
 <th style="text-align:center">navigationBar高度</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align:center"><img src="/2015/12/28/CustomBar/default_bar.png" alt="customNavigationBar" title="customNavigationBar"></td>
-<td style="text-align:center">titleLabel的位置是上下居中</td>
+<td style="text-align:center">titleView的位置是上下居中</td>
 <td style="text-align:center">原始高度 66</td>
 </tr>
 <tr>
 <td style="text-align:center"><img src="/2015/12/28/CustomBar/detail_bar.png" alt="customNavigationBar" title="customNavigationBar"></td>
-<td style="text-align:center">titleLabel的位置有向上移动</td>
+<td style="text-align:center">titleView的位置有向上移动</td>
 <td style="text-align:center">原始高度 66</td>
 </tr>
 <tr>
 <td style="text-align:center"><img src="/2015/12/28/CustomBar/view_bar01.png" alt="customNavigationBar" title="customNavigationBar"></td>
-<td style="text-align:center">titleLabel的位置是上下居中</td>
+<td style="text-align:center">titleView的位置是上下居中</td>
 <td style="text-align:center">加一个Segment的高度  大概是66+29+10</td>
 </tr>
 <tr>
 <td style="text-align:center"><img src="/2015/12/28/CustomBar/view_bar02.png" alt="customNavigationBar" title="customNavigationBar"></td>
-<td style="text-align:center">titleLabel的位置有向上移动</td>
+<td style="text-align:center">titleView的位置是上下居中</td>
 <td style="text-align:center">加一个Segment的高度  大概是66+29+10</td>
 </tr>
 <tr>
 <td style="text-align:center"><img src="/2015/12/28/CustomBar/more_bar.png" alt="customNavigationBar" title="customNavigationBar"></td>
-<td style="text-align:center">titleLabel的位置有向上移动费</td>
+<td style="text-align:center">titleView的位置有向上移动费</td>
 <td style="text-align:center">加一个Segment的高度  大概是66+29+10</td>
 </tr>
 </tbody>
 </table>
 <p>既然现在了解了需求，那就开始考虑如何进行定制导航栏。一般而言，自定义导航栏有两种思路：<code>自定义UIView代替/加到navigationBar</code>、<code>使用UINavigationBar的子类</code>，这样之后就可以在导航栏上胡作非为了。当然了，如果比较简单的导航栏，比如只是在titleLabel上加一个label，并且返回按钮也在比较靠下的位置，没错，就是在为导航栏的<code>prompt</code>之后样子，这时候就可以使用这个不经常使用的属性了，也不用那么麻烦的去自定义导航栏了，偷懒。。</p>
-<h3 id="1-自定义UIView替代navigationBar">1.自定义UIView替代navigationBar</h3><h4 id="1-1把他干掉">1.1把他干掉</h4><p>先说第一种，最容易想到的，也是比较低级的，使用一个UIView的子类放在原来navigationBar的位置上，为他添加返回按钮、titleLabel、背景图片、rightBarButtonItem。。。。并要把navigationBar给隐藏了，然后就可以为这个”导航栏”设置一些自己的东西了，当然也包括高度什么的。</p>
+<h2 id="1-自定义UIView替代navigationBar">1.自定义UIView替代navigationBar</h2><h3 id="1-1把他干掉">1.1把他干掉</h3><p>先说第一种，最容易想到的，也是比较低级的，使用一个UIView的子类放在原来navigationBar的位置上，为他添加返回按钮、titleLabel、背景图片、rightBarButtonItem。。。。并要把navigationBar给隐藏了，然后就可以为这个”导航栏”设置一些自己的东西了，当然也包括高度什么的。</p>
 <p>第一，这种做法会被别人所不齿，第二，这种做法完全是本末倒置。首先我们知道<code>UINavigationBar</code>是继承至<code>UIView</code>的，UIKIt提供了一个UIView的子类<code>UINavigationBar</code>让你来展示为<code>UINavigationController</code>的<code>navigationBar</code>，然后你又用一个UIView类去写一个类似于navigationBar的“navigationBar”，并将原来<code>UINavigationController</code>的navigationBar给隐藏了，这种本末倒置的做法是会被别人所不齿的，四不四洒。</p>
-<h4 id="1-2干不掉就融入他">1.2干不掉就融入他</h4><p>第二种使用UIView的做法相对来说就比较好了，但也仅限于比较好，基本上算是取巧而已。</p>
+<h3 id="1-2干不掉就融入他">1.2干不掉就融入他</h3><p>第二种使用UIView的做法相对来说就比较好了，但也仅限于比较好，基本上算是取巧而已。</p>
 <p>这种做法是将一个UIView的子类<code>viewBar</code>放在navigationBar的下面，然后进行一些设置。我们需要设置navigationBar的一些属性，比如这个，不让navigationBar进行<code>transluceny</code>，用来将他和添加的UIView进行一个无缝连接：</p>
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">[self.navigationController.navigationBar setTranslucent:NO]</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
 <p>然后设置一下navigationBar的<code>shadowImage</code>，</p>
@@ -261,7 +261,7 @@
 <p>需要指出的一点是在为navigationBar设置了<code>shadowImage</code>之后，导航栏下面的<code>hairline</code>将会被移除，而自己写的那个viewBar加在navigationBar的下面并且这个viewBar还要在<code>drawRect:</code>方法中自己绘制一个<code>hairline</code>来<code>以假乱真</code>。但是这样对于导航栏要显示的是一个title加一个detail类型的还是不行的，有一点需要注意的是，这个后加的viewBar不属于navigationBar的一部分，他仅仅是像他的一部分而已，所以导航栏的高度还是没有改变的，而在导航栏下面添加的视图起始y坐标要有所改变了，改变高度就是新添加的viewBar的高度。</p>
 <p>如果可以的话，再为navigationBar设置一个<code>backgroundImage</code>：</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr_selector">[self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"Pixel"]</span> <span class="rule"><span class="attribute">forBarMetrics</span>:<span class="value">UIBarMetricsDefault]</span></span>;</span><br></pre></td></tr></table></figure>
-<h3 id="2-使用UINavigationBar子类">2.使用UINavigationBar子类</h3><p>自定义UINavigtionBar的子类<code>customBar</code>，然后将该视图控制器的navigationBar<code>类</code>设置成<code>customBar</code>的类。</p>
+<h2 id="2-使用UINavigationBar子类">2.使用UINavigationBar子类</h2><p>自定义UINavigtionBar的子类<code>customBar</code>，然后将该视图控制器的navigationBar<code>类</code>设置成<code>customBar</code>的类。</p>
 <p>使用这个方法的子类必须重写<code>-sizeThatFits:</code>这个方法，这个方法返回customBar的size，正是需要的。需要的工作就是在这个方法里面将自己添加的views的高度都加起来返回出去就可以将bavigatioinBar的高度增加了，这里仅仅是增加了navigationBar的高度，而添加的views还没有规定怎么排列呢，要排列views就需要使用<code>-layoutSubviews</code>。</p>
 <p><code>-sizeThatFits:</code>方法的重写是通过增加一些空间为子类添加的元素提供一个很好的排布区域，而且<code>UINavigationController</code>在要对navigationBar进行布局的时候会调用这个方法来从新设置navigationBar的高度，已达到真正的改变navigationBar高度的目的。</p>
 <p><code>-layoutSubviews</code>方法顾名思义，为subView进行布局，一般来讲，UINavigationBar会把添加的subView放在他的下边缘部分，在这个方法里面我们可以为subView进行一些想要的布局，而所需要的空间就是从<code>-sizeThatFits:</code>方法中获得的，而且也不需要操心整个navigationBar的高度，在这个方法里对button进行重新布局。</p>
@@ -279,7 +279,7 @@
 <p><strong>ViewController.m</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">UIButton *<span class="built_in">return</span>ToMenuButton = [UIButton buttonWithType:UIButtonTypeSystem];</span><br><span class="line"></span><br><span class="line">[<span class="built_in">return</span>ToMenuButton <span class="built_in">set</span>Title:@<span class="string">"Return to Menu"</span> <span class="keyword">for</span>State:UIControlStateNormal];</span><br><span class="line"></span><br><span class="line">[[<span class="built_in">return</span>ToMenuButton titleLabel] <span class="built_in">set</span>Font:[<span class="built_in">return</span>ToMenuButton.titleLabel.font fontWithSize:<span class="number">12</span>.f]];</span><br><span class="line"></span><br><span class="line">[<span class="built_in">return</span>ToMenuButton addTarget:self action:@selector(<span class="built_in">return</span>ToMenuAction:) <span class="keyword">for</span>ControlEvents:UIControlEventTouchUpInside];</span><br><span class="line"></span><br><span class="line">[(CustomNavigationBar*)self.navigationController.navigationBar <span class="built_in">set</span>CustomButton:<span class="built_in">return</span>ToMenuButton];</span><br></pre></td></tr></table></figure>
 <p>这样下来，就将一个button添加到了navigationBar上面，并且navigationBar的高度也改变了，如果使用自动布局，导航栏下面添加的view就不需要考虑y坐标的位移了，如果手写布局，注意别忘了修改y的偏移。使用同样的方法就可以进行高度自定义导航栏了，不仅限于修改个颜色、透明度那样的自定义。</p>
-<h3 id="3-自定义返回按钮">3.自定义返回按钮</h3><p>说到自定义导航栏，就不能绕过返回按钮的自定义。返回按钮是为了提供一个来源信息以及返回动作的控件，进行自定义返回按钮之前，要明白一点：返回按钮是有两部分组成的，一个是返回的箭头，一个是前一个界面的title。所以，我们如果要是自定义返回按钮，第一，需要使用一个自定义的图片替换箭头，并且保证不拉伸图片；第二，将上一个界面的title隐藏或替换掉。</p>
+<h2 id="3-自定义返回按钮">3.自定义返回按钮</h2><p>说到自定义导航栏，就不能绕过返回按钮的自定义。返回按钮是为了提供一个来源信息以及返回动作的控件，进行自定义返回按钮之前，要明白一点：返回按钮是有两部分组成的，一个是返回的箭头，一个是前一个界面的title。所以，我们如果要是自定义返回按钮，第一，需要使用一个自定义的图片替换箭头，并且保证不拉伸图片；第二，将上一个界面的title隐藏或替换掉。</p>
 <p>所以接下来的工作就很明了了。</p>
 <ul>
 <li><p>创建一个UIImage实例：</p>
@@ -300,6 +300,19 @@
 </ul>
 <p>不需要实现barButtonItem的target-action方法，导航控制器会为他添加的，另一点，如果不设置这个<code>backBarButtonItem</code>，就会出现上一个界面的title，这个很好理解吧，所以这里使用了一个<code>空格字符串</code>进行title设置。</p>
 <p><a href="https://developer.apple.com/library/ios/samplecode/NavBar/Introduction/Intro.html" target="_blank" rel="external">参考项目</a></p>
+<h2 id="4-实践出bug">4.实践出bug</h2><p>在知道了上面一些内容之后，来着手按照设计稿使用<code>第三种方法</code>进行自定义导航栏吧。</p>
+<p>在实际的编码过程中，问题才会逐渐显现出来。</p>
+<p>比如，<code>UINavigationBar</code>在导航控制器中只有一个，改变一个其他的所有<code>viewControllers</code>的都要改变，<code>导航栏</code>就像一个演播厅，而他上面放的<code>UIBarButtonItem</code>、<code>titleView</code>等等都是每个界面所独有的，就好像在这个演播厅里面进行歌唱会的艺人团队，他们负责一些周边工作来保证这个<code>试图控制器</code>（比作艺人）的演出顺利进行。</p>
+<p>最后一种方法从这次的目的来说是不合适的解决方法，每个界面的导航栏上的附属产品都是不一样的，包括titleView的内容和位置、是否显示segmentControl、rightButtonItem自就不必多说了，有很大一部分内容是viewController独有的，他们共有的只是那个导航栏，一处改变导航栏，所有试图控制器界面的都要改变。下面是使用这个方法出现的bug描述。</p>
+<h3 id="4-1第一个bug：返回按钮的位置">4.1第一个bug：返回按钮的位置</h3><p>当为<code>customNavigationBar</code>设置了<code>segmentControl</code>之后，导航栏上的返回按钮<code>backButton</code>的显示位置还是处于整个导航栏的左下部分，这不仅和设计稿不一样，而且就美观程度来说也是不美观的，既然返回按钮不会向上走（是没有方法让他往上移动），同样的<code>rightButtonItem</code>也是不会往上走的，还处在导航栏的右下角位置处。但是有方法可以让<code>titleView</code>进行移动，用这个API：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* For adjusting the position of a title (if any) within a bordered bar button</span><br><span class="line"> */</span></span><br><span class="line">- (<span class="keyword">void</span>)setTitlePositionAdjustment:(<span class="built_in">UIOffset</span>)adjustment forBarMetrics:(<span class="built_in">UIBarMetrics</span>)barMetrics <span class="built_in">NS_AVAILABLE_IOS</span>(<span class="number">5</span>_0) <span class="built_in">UI_APPEARANCE_SELECTOR</span>;</span><br></pre></td></tr></table></figure>
+<p>这个API可以移动控制器的title位置进行一个移动，我所理解的是移动titleView，但是API很明显说的是移动<code>title</code>。</p>
+<p>既然不能够使返回按钮和rightButtonItem进行移动（可能是真的有，但是我没有找到），那这个方案就算是失败的。</p>
+<h3 id="4-1第二个bug：自添加的视图会共用">4.1第二个bug：自添加的视图会共用</h3><p>还是使用<code>customNavigationBar</code>，在同时添加<code>segmentControl</code>和<code>detailTitleView</code>之后，所有使用这个导航栏的视图控制器都拥有了这两个东西，这就违背了每个导航控制器拥有各自独特的导航栏控件的原则，这个比第一个bug还要严重，每一个视图控制器所拥有的东西是要有自己决定的。</p>
+<p>所以这个方案彻底的不行。</p>
+<h2 id="5-最终解决方案，也许并不完美">5.最终解决方案，也许并不完美</h2><p>回到第二种自定义导航栏的方法，使用一个<code>UIView的子类</code>添加到视图控制器视图的导航栏下面，并通过对导航栏进行的一些设置将这个<code>viewBar</code>当做是导航栏的一部分，这个方案其实还是可以解决问题的，但是由于没有真正的<code>自定义导航栏</code>，所以一开始我是拒绝的，在第三种方法失败后，反过头来思考这个方法的可行性，发现他是可以的。</p>
+<h3 id="5-1第三个bug：侧滑pop暴漏viewBar不是导航栏的一部分">5.1第三个bug：侧滑pop暴漏viewBar不是导航栏的一部分</h3><p>不是说他可以就什么问题都解决了，即使通过<code>drawRect：</code>画出来一个类似导航栏的下划线、通过自定义<code>titleView</code>显示一个<code>detailView</code>、将导航栏背景颜色设置成和这个<code>viewBar</code>一样，在侧滑返回的时候还是会暴漏问题，由于系统的导航控制器在使用侧滑手势pop的时候导航栏会有一个透明度的改变、要消失的试图控制器左边界部分有一个明暗变化，但是自己添加的<code>viewBar</code>是没有这样的效果的，所以，只要一侧滑，就会发现这个看着<code>viewBar</code>不是<code>导航栏</code>的一部分。</p>
+<p>针对这一部分，我的想法是了解导航控制器在进行手势pop的时候都有哪些API，都做了些什么，然后将这些加载到<code>viewBar</code>上，让他真正的看起来像是导航栏的一部分。</p>
 
       
     </div>
