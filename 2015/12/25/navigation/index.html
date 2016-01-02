@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://yoursite.com/2015/12/25/navigation/index.html">
 <meta property="og:site_name" content="Rocky's blog">
 <meta property="og:description" content="使用HTML5中的video标签和audio标签可以很简单的实现一个媒体播放器，相比于以前的实现方法，比如Flash来说，浏览器加载的更快，而且基本上主流的浏览器都支持这两个标签。">
-<meta property="og:updated_time" content="2016-01-02T17:42:36.000Z">
+<meta property="og:updated_time" content="2016-01-02T17:46:36.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTML5的视频音频">
 <meta name="twitter:description" content="使用HTML5中的video标签和audio标签可以很简单的实现一个媒体播放器，相比于以前的实现方法，比如Flash来说，浏览器加载的更快，而且基本上主流的浏览器都支持这两个标签。">
@@ -403,7 +403,10 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;video controls=<span class="string">"提供暂停、播放等控件"</span>&gt;</span><br><span class="line">	&lt;<span class="built_in">source</span> src=<span class="string">"movie.ogg"</span> <span class="built_in">type</span>=<span class="string">"video/ogg"</span>&gt;</span><br><span class="line">	&lt;<span class="built_in">source</span> src=<span class="string">"movie.mp4"</span> <span class="built_in">type</span>=<span class="string">"video/mp4"</span>&gt;</span><br><span class="line">	<span class="string">"您的浏览器不支持播放该视频。"</span></span><br><span class="line">&lt;/video&gt;</span><br></pre></td></tr></table></figure>
 
 		<p class="preTitle">要添加媒体片段，只需向媒体网址添加 #t=[start_time][,end_time] 即可。例如，要播放第 5 秒和第 10 秒之间的视频，请指定以下代码：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="built_in">source</span> src=<span class="string">"movie.ogg#t=5,10"</span> <span class="built_in">type</span>=<span class="string">"video/webm"</span>&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="built_in">source</span> src=<span class="string">"movie.ogg#t=5,10"</span> <span class="built_in">type</span>=<span class="string">"video/ogg"</span>&gt;</span><br></pre></td></tr></table></figure>
+
+		<p class="preTitle">为视频元素添加 poster 属性，以便用户可以在视频加载后立即了解其内容，而无需下载视频或开始播放。如果视频 src 损坏或提供的视频格式均不受支持，那么海报也可用作后备资源。海报图片唯一的缺陷是它需要一个额外的带宽。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">video</span> <span class="attribute">poster</span>=<span class="value">"poster.jpg"</span> <span class="attribute">...</span>&gt;</span></span><br><span class="line">  ...</span><br><span class="line"><span class="tag">&lt;/<span class="title">video</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 		<!-- 视频end -->
 
