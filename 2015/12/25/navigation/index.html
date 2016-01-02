@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://yoursite.com/2015/12/25/navigation/index.html">
 <meta property="og:site_name" content="Rocky's blog">
 <meta property="og:description" content="使用HTML5中的video标签和audio标签可以很简单的实现一个媒体播放器，相比于以前的实现方法，比如Flash来说，浏览器加载的更快，而且基本上主流的浏览器都支持这两个标签。">
-<meta property="og:updated_time" content="2015-12-28T15:16:38.000Z">
+<meta property="og:updated_time" content="2016-01-02T17:42:36.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTML5的视频音频">
 <meta name="twitter:description" content="使用HTML5中的video标签和audio标签可以很简单的实现一个媒体播放器，相比于以前的实现方法，比如Flash来说，浏览器加载的更快，而且基本上主流的浏览器都支持这两个标签。">
@@ -397,10 +397,13 @@
 		</div>
 		<p class="preTitle">使用video标签就可以进行视频的播放</p>
 
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">video</span> <span class="attribute">src</span>=<span class="value">"视频源"</span> <span class="attribute">autoplay</span>=<span class="value">"autoplay"</span> <span class="attribute">controls</span>=<span class="value">"提供暂停、播放等控件"</span>&gt;</span>;</span><br><span class="line">	"用于视频播放不成功的时候显示的文字"</span><br><span class="line">	autoplay,顾名思义，自动播放</span><br><span class="line"><span class="tag">&lt;/<span class="title">video</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="tag">video</span> src=<span class="string">"视频源"</span> autoplay=<span class="string">"autoplay"</span> controls=<span class="string">"提供暂停、播放等控件"</span>&gt;</span><br><span class="line">	<span class="string">"用于视频播放不成功的时候显示的文字"</span></span><br><span class="line">	autoplay,顾名思义，自动播放</span><br><span class="line">&lt;/video&gt;</span><br></pre></td></tr></table></figure>
 
 		<p class="preTitle">同时video标签还支持多src</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;video controls=<span class="string">"提供暂停、播放等控件"</span>&gt;;</span><br><span class="line">	&lt;<span class="built_in">source</span> src=<span class="string">"movie.ogg"</span> <span class="built_in">type</span>=<span class="string">"video/ogg"</span>&gt;;</span><br><span class="line">	&lt;<span class="built_in">source</span> src=<span class="string">"movie.mp4"</span> <span class="built_in">type</span>=<span class="string">"video/mp4"</span>&gt;;</span><br><span class="line">	<span class="string">"您的浏览器不支持播放该视频。"</span></span><br><span class="line">&lt;/video&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;video controls=<span class="string">"提供暂停、播放等控件"</span>&gt;</span><br><span class="line">	&lt;<span class="built_in">source</span> src=<span class="string">"movie.ogg"</span> <span class="built_in">type</span>=<span class="string">"video/ogg"</span>&gt;</span><br><span class="line">	&lt;<span class="built_in">source</span> src=<span class="string">"movie.mp4"</span> <span class="built_in">type</span>=<span class="string">"video/mp4"</span>&gt;</span><br><span class="line">	<span class="string">"您的浏览器不支持播放该视频。"</span></span><br><span class="line">&lt;/video&gt;</span><br></pre></td></tr></table></figure>
+
+		<p class="preTitle">要添加媒体片段，只需向媒体网址添加 #t=[start_time][,end_time] 即可。例如，要播放第 5 秒和第 10 秒之间的视频，请指定以下代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="built_in">source</span> src=<span class="string">"movie.ogg#t=5,10"</span> <span class="built_in">type</span>=<span class="string">"video/webm"</span>&gt;</span><br></pre></td></tr></table></figure>
 
 		<!-- 视频end -->
 
@@ -420,7 +423,7 @@
 			
 		</div>
 		<p class="preTitle">audio标签也提供了一些属性来控制音频的播放</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;audio controls=<span class="string">"提供暂停、播放等控件"</span>&gt;;</span><br><span class="line">	&lt;<span class="built_in">source</span> src=<span class="string">"movie.mp3"</span> <span class="built_in">type</span>=<span class="string">"audio/mp3"</span>&gt;;</span><br><span class="line">	&lt;<span class="built_in">source</span> src=<span class="string">"movie.wav"</span> <span class="built_in">type</span>=<span class="string">"audio/wav"</span>&gt;;</span><br><span class="line">	<span class="string">"您的浏览器不支持播放该音频。"</span></span><br><span class="line">	audio标签也还提供了自动播放属性autoplay</span><br><span class="line">	同时还有一个preload用来设置在页面加载的时候是不是加载音频，预备播放，</span><br><span class="line">	如果设置了自动播放的话这个属性的设置就会忽略。</span><br><span class="line">	以及提供了loop，每当音频结束时重新开始播放。</span><br><span class="line">&lt;/audio&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;audio controls=<span class="string">"提供暂停、播放等控件"</span>&gt;</span><br><span class="line">	&lt;<span class="built_in">source</span> src=<span class="string">"movie.mp3"</span> <span class="built_in">type</span>=<span class="string">"audio/mp3"</span>&gt;</span><br><span class="line">	&lt;<span class="built_in">source</span> src=<span class="string">"movie.wav"</span> <span class="built_in">type</span>=<span class="string">"audio/wav"</span>&gt;</span><br><span class="line">	<span class="string">"您的浏览器不支持播放该音频。"</span></span><br><span class="line">	audio标签也还提供了自动播放属性autoplay</span><br><span class="line">	同时还有一个preload用来设置在页面加载的时候是不是加载音频，预备播放，</span><br><span class="line">	如果设置了自动播放的话这个属性的设置就会忽略。</span><br><span class="line">	以及提供了loop，每当音频结束时重新开始播放。</span><br><span class="line">&lt;/audio&gt;</span><br></pre></td></tr></table></figure>
 
 		<!-- 音频end -->
 
@@ -680,7 +683,7 @@ function playOrPause(){
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2015 Rocky
+    		&copy; 2016 Rocky
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
