@@ -128,9 +128,9 @@ body {
   -webkit-text-size-adjust: 100%;
 }
 .outer {
-  max-width: 1520px;
+  max-width: 4400px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 200px;
 }
 .outer:before,
 .outer:after {
@@ -143,8 +143,8 @@ body {
 .inner {
   display: inline;
   float: left;
-  width: 98.66666666666667%;
-  margin: 0 0.666666666666667%;
+  width: 95.23809523809523%;
+  margin: 0 2.380952380952381%;
 }
 .left,
 .alignleft {
@@ -183,8 +183,8 @@ body {
   #main {
     display: inline;
     float: left;
-    width: 78.66666666666666%;
-    margin: 0 0.666666666666667%;
+    width: 75.23809523809524%;
+    margin: 0 2.380952380952381%;
   }
 }
 .article-date,
@@ -577,7 +577,7 @@ a.article-title:hover {
 }
 .article-entry {
   color: #555;
-  padding: 0 10px;
+  padding: 0 20px;
 }
 .article-entry:before,
 .article-entry:after {
@@ -722,7 +722,7 @@ a.article-title:hover {
   line-height: 1.6em;
   border-top: 1px solid #ddd;
   padding-top: 1.6em;
-  margin: 0 10px 10px;
+  margin: 0 20px 20px;
 }
 .article-footer:before,
 .article-footer:after {
@@ -975,7 +975,7 @@ a.article-title:hover {
   background: #fff;
   -webkit-box-shadow: 1px 2px 3px #ddd;
   box-shadow: 1px 2px 3px #ddd;
-  padding: 10px;
+  padding: 20px;
   border: 1px solid #ddd;
   -webkit-border-radius: 3px;
   border-radius: 3px;
@@ -1126,8 +1126,8 @@ a.article-title:hover {
 .article-entry pre,
 .article-entry .highlight {
   background: #2d2d2d;
-  margin: 0 -10px;
-  padding: 15px 10px;
+  margin: 0 -20px;
+  padding: 15px 20px;
   border-style: solid;
   border-color: #ddd;
   border-width: 1px 0;
@@ -1192,12 +1192,12 @@ a.article-title:hover {
   height: 22.400000000000002px;
 }
 .article-entry .gist {
-  margin: 0 -10px;
+  margin: 0 -20px;
   border-style: solid;
   border-color: #ddd;
   border-width: 1px 0;
   background: #2d2d2d;
-  padding: 15px 10px 15px 0;
+  padding: 15px 20px 15px 0;
 }
 .article-entry .gist .gist-file {
   border: none;
@@ -1228,7 +1228,7 @@ a.article-title:hover {
   text-shadow: 0 0;
   padding: 0;
   margin-top: 1em;
-  margin-left: 10px;
+  margin-left: 20px;
 }
 .article-entry .gist .gist-file .gist-meta a {
   color: #258fb8;
@@ -1320,8 +1320,8 @@ pre .javascript .function {
   #sidebar {
     display: inline;
     float: left;
-    width: 18.666666666666668%;
-    margin: 0 0.666666666666667%;
+    width: 15.238095238095239%;
+    margin: 0 2.380952380952381%;
   }
 }
 .widget-wrap {
