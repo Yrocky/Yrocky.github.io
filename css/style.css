@@ -1162,6 +1162,7 @@ a.article-title:hover {
 .article-entry .highlight table {
   margin: 0;
   width: auto;
+  border: none;
 }
 .article-entry .highlight td {
   border: none;
