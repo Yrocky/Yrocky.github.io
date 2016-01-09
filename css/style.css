@@ -128,9 +128,9 @@ body {
   -webkit-text-size-adjust: 100%;
 }
 .outer {
-  max-width: 4400px;
+  max-width: 1360px;
   margin: 0 auto;
-  padding: 0 200px;
+  padding: 0 10px;
 }
 .outer:before,
 .outer:after {
@@ -143,8 +143,8 @@ body {
 .inner {
   display: inline;
   float: left;
-  width: 95.23809523809523%;
-  margin: 0 2.380952380952381%;
+  width: 99.25925925925925%;
+  margin: 0 0.37037037037037%;
 }
 .left,
 .alignleft {
@@ -183,8 +183,8 @@ body {
   #main {
     display: inline;
     float: left;
-    width: 75.23809523809524%;
-    margin: 0 2.380952380952381%;
+    width: 79.25925925925927%;
+    margin: 0 0.37037037037037%;
   }
 }
 .article-date,
@@ -1320,8 +1320,8 @@ pre .javascript .function {
   #sidebar {
     display: inline;
     float: left;
-    width: 15.238095238095239%;
-    margin: 0 2.380952380952381%;
+    width: 19.25925925925926%;
+    margin: 0 0.37037037037037%;
   }
 }
 .widget-wrap {
