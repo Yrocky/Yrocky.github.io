@@ -149,13 +149,13 @@ h3 {
   display: block;
 }
 h1 {
-  font-size: 1.5em;
+  font-size: 1.6em;
 }
 h2 {
-  font-size: 1.3em;
+  font-size: 1.4em;
 }
 h3 {
-  font-size: 1.1em;
+  font-size: 1.2em;
 }
 h4,
 h5,
@@ -1025,13 +1025,13 @@ a {
 }
 .article-entry h1 {
   margin-top: 30px;
+  color: #00749e;
 }
 .article-entry h2 {
   margin-top: 20px;
   font-weight: 300;
-  color: #574c4c;
+  color: #00749e;
   padding-bottom: 5px;
-  border-bottom: 1px solid #ddd;
 }
 .article-entry h3,
 .article-entry h4,
@@ -1039,9 +1039,8 @@ a {
 .article-entry h6 {
   margin-top: 20px;
   font-weight: 300;
-  color: #574c4c;
+  color: #00749e;
   padding-bottom: 5px;
-  border-bottom: 1px solid #ddd;
 }
 .article-entry video {
   max-width: 100%;
