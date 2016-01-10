@@ -703,6 +703,7 @@ a.article-title:hover {
 .article-more-link a {
   display: inline-block;
   line-height: 1em;
+  float: right;
   padding: 6px 15px;
   -webkit-border-radius: 15px;
   border-radius: 15px;
@@ -743,6 +744,9 @@ a.article-title:hover {
   float: left;
   margin-right: 10px;
 }
+.article-tag-list-link {
+  float: left;
+}
 .article-tag-list-link:before {
   content: "#";
 }
@@ -779,21 +783,6 @@ a.article-title:hover {
   #article-nav {
     margin: 30px 0;
   }
-  #article-nav:before {
-    width: 8px;
-    height: 8px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -4px;
-    margin-left: -4px;
-    content: "";
-    -webkit-border-radius: 50%;
-    border-radius: 50%;
-    background: #ddd;
-    -webkit-box-shadow: 0 1px 2px #fff;
-    box-shadow: 0 1px 2px #fff;
-  }
 }
 .article-nav-link-wrap {
   text-decoration: none;
@@ -815,24 +804,20 @@ a.article-title:hover {
     margin-top: 0;
   }
 }
-@media screen and (min-width: 768px) {
-  #article-nav-newer {
-    float: left;
-    text-align: right;
-    padding-right: 20px;
-  }
+#article-nav-newer {
+  float: left;
+  max-width: 45%;
+  text-align: left;
+  padding-left: 20px;
 }
-@media screen and (min-width: 768px) {
-  #article-nav-older {
-    float: right;
-    text-align: left;
-    padding-left: 20px;
-  }
+#article-nav-older {
+  float: right;
+  max-width: 45%;
+  text-align: right;
+  padding-right: 20px;
 }
 .article-nav-caption {
-  text-transform: uppercase;
   letter-spacing: 2px;
-  color: #ddd;
   line-height: 1em;
   font-weight: bold;
 }
@@ -1138,7 +1123,7 @@ a.article-title:hover {
 .article-entry .highlight .gutter pre,
 .article-entry .gist .gist-file .gist-data .line-numbers {
   color: #666;
-  font-size: 0.85em;
+  font-size: 0.95em;
 }
 .article-entry pre,
 .article-entry code {
