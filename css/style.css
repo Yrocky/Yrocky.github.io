@@ -309,7 +309,7 @@ body {
   font-weight: bold;
 }
 #header {
-  height: 300px;
+  height: 450px;
   position: relative;
   border-bottom: 1px solid #ddd;
 }
@@ -327,6 +327,11 @@ body {
 #header:after {
   bottom: 0;
 }
+@media screen and (max-width: 479px) {
+  #header {
+    height: 300px;
+  }
+}
 #header-outer {
   height: 100%;
   position: relative;
@@ -337,7 +342,7 @@ body {
 }
 #banner,
 #footer {
-  background: url("https://unsplash.it/1500/300/?random") center #000;
+  background: url("https://unsplash.it/1500/450/?random") center #000;
 }
 #banner {
   position: absolute;
