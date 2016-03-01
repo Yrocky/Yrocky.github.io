@@ -3,17 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>更加便捷的表视图索引----UILocatioinedIndexCollection | Rocky&#39;s blog</title>
+  <title>更加便捷的表视图索引----UILocalizedIndexedCollation | Rocky&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="通常使用UITableView来展示一些具有相同的数据，但是当屏幕中的数据比较多的时候，一个实际场景是通讯录列表，成千上百的通讯录信息，如果要查找比较靠后的通讯信息，就需要疯狂的滑动屏幕直到到达自己需要的区域。这不是一个很好的用户体验，应该说是一个很糟糕的用户体验，当然在通讯录信息比较少的时候他还不会体现出来，但是身为开发人员应该提前意识到这个问题的存在，并在开发解决。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="更加便捷的表视图索引----UILocatioinedIndexCollection">
+<meta property="og:title" content="更加便捷的表视图索引----UILocalizedIndexedCollation">
 <meta property="og:url" content="http://yoursite.com/2016/02/29/UILocatioinedIndexCollection/index.html">
 <meta property="og:site_name" content="Rocky's blog">
 <meta property="og:description" content="通常使用UITableView来展示一些具有相同的数据，但是当屏幕中的数据比较多的时候，一个实际场景是通讯录列表，成千上百的通讯录信息，如果要查找比较靠后的通讯信息，就需要疯狂的滑动屏幕直到到达自己需要的区域。这不是一个很好的用户体验，应该说是一个很糟糕的用户体验，当然在通讯录信息比较少的时候他还不会体现出来，但是身为开发人员应该提前意识到这个问题的存在，并在开发解决。">
-<meta property="og:updated_time" content="2016-02-29T15:02:45.000Z">
+<meta property="og:image" content="http://yoursite.com/2016/02/29/UILocatioinedIndexCollection/locationIndexCollection.png">
+<meta property="og:updated_time" content="2016-03-01T15:56:53.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="更加便捷的表视图索引----UILocatioinedIndexCollection">
+<meta name="twitter:title" content="更加便捷的表视图索引----UILocalizedIndexedCollation">
 <meta name="twitter:description" content="通常使用UITableView来展示一些具有相同的数据，但是当屏幕中的数据比较多的时候，一个实际场景是通讯录列表，成千上百的通讯录信息，如果要查找比较靠后的通讯信息，就需要疯狂的滑动屏幕直到到达自己需要的区域。这不是一个很好的用户体验，应该说是一个很糟糕的用户体验，当然在通讯录信息比较少的时候他还不会体现出来，但是身为开发人员应该提前意识到这个问题的存在，并在开发解决。">
   
     <link rel="alternative" href="/atom.xml" title="Rocky&#39;s blog" type="application/atom+xml">
@@ -71,7 +72,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      更加便捷的表视图索引----UILocatioinedIndexCollection
+      更加便捷的表视图索引----UILocalizedIndexedCollation
     </h1>
   
 
@@ -87,12 +88,12 @@
 <li>第二个，为该UITableView提供一个UISearchBar在其头部，通过用户输入的关键字进行数据的筛选，具体可以看手机通讯录界面。</li>
 <li>第三个，提供侧边栏<code>区域索引标题</code>，也就是纵向排列的字母，具体可以看手机通讯录界面。</li>
 </ul>
-<p>其他的解决办法可以是以上几种结合着使用，这里只针对于第三种方法进行一个扩展，也是对UILocatioinedIndexCollection的一个学习。</p>
+<p>其他的解决办法可以是以上几种结合着使用，这里只针对于第三种方法进行一个扩展，也算是对UILocatioinedIndexCollection的一个学习。</p>
 <h2 id="为什么使用UILocalizedIndexedCollation">为什么使用UILocalizedIndexedCollation</h2><p>当使用第三种方法的时候需要实现一个数据源方法：<code>-sectionIndexTitlesForTableView:</code>，另外一个方法可选<code>-tableView:sectionForSectionIndexTitle:atIndex:</code>。</p>
 <p>可以自己动手去生成这个字母列表，这是一个比较正确且传统的办法，优点是可以按照实际的数据获得字母列表，缺点就是还要自己处理逻辑以及针对于不同的地区的字母列表可能还需要做本地化适配。</p>
 <p>那能否找到一个智能的类，能够提供字母排序，并且还可以很方便的完成本地化操作？这时候就提现出来一个新的功能类，用来进行提供快速索引—<a href="https://developer.apple.com/library/prerelease/ios/documentation/iPhone/Reference/UILocalizedIndexedCollation_Class/index.html#//apple_ref/doc/uid/TP40008302" target="_blank" rel="external">UILocalizedIndexedCollation</a>，他是一个单例，通过<code>+currentCollection</code>就可以获得对象，他的作用是<strong>根据地区来生成与之对应的区域索引标题</strong>.</p>
 <h2 id="初识UILocalizedIndexedCollation">初识UILocalizedIndexedCollation</h2><p>UILocationIndexCollection提供了两个数组属性用于获取<code>sectionIndexTitles</code>和<code>sectionTitles</code>，需要注意的是不同地区，sectioinIndexTitles是不同的，英文环境下就是比较常用的“A、B…Z 、#”，其他地区有所差别，具体可以看这个</p>
-
+<img src="/2016/02/29/UILocatioinedIndexCollection/locationIndexCollection.png" alt=" UILocalizedIndexedCollation" title=" UILocalizedIndexedCollation">
 <p>所以看到这里就应该发现一个问题，不论什么地区使用UILocationedIndexCollection返回的sectionTitles或者sectionIndexTitles都是全部的数据，也就是说是最大集合，但是实际情况中的数据信息有可能是该集合的子集，没有的数据一般是不会显示出来的，这也算是使用UILocatioinedIndexCollection的一个不智能的地方了吧。但是如果还是想使用UILocatioinedIndexCollection，但是数据又不全，那就需要做一些操作甚至在UILocatioinedIndexCollection的基础上封装出来一个更加智能的类，按下不表。</p>
 <p>从UILocalizedIndexedCollation提供的方法中可以看出来，他和UITableViewDataSource中的某一些方法是完美结合的：</p>
 <ul>
@@ -178,7 +179,7 @@
 
   <section id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="post-UILocatioinedIndexCollection" data-title="更加便捷的表视图索引----UILocatioinedIndexCollection" data-url="http://yoursite.com/2016/02/29/UILocatioinedIndexCollection/"></div>
+    <div class="ds-thread" data-thread-key="post-UILocatioinedIndexCollection" data-title="更加便捷的表视图索引----UILocalizedIndexedCollation" data-url="http://yoursite.com/2016/02/29/UILocatioinedIndexCollection/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -204,7 +205,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/HTML5/" style="font-size: 10px;">HTML5</a> <a href="/tags/MVVM/" style="font-size: 10px;">MVVM</a> <a href="/tags/Python/" style="font-size: 16.67px;">Python</a> <a href="/tags/UITableView/" style="font-size: 10px;">UITableView</a> <a href="/tags/UI学习/" style="font-size: 10px;">UI学习</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS9/" style="font-size: 10px;">iOS9</a> <a href="/tags/iOS开发/" style="font-size: 10px;">iOS开发</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/runtime/" style="font-size: 20px;">runtime</a> <a href="/tags/学习/" style="font-size: 13.33px;">学习</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/爬虫/" style="font-size: 10px;">爬虫</a>
+      <a href="/tags/HTML5/" style="font-size: 10px;">HTML5</a> <a href="/tags/MVVM/" style="font-size: 10px;">MVVM</a> <a href="/tags/Python/" style="font-size: 13.33px;">Python</a> <a href="/tags/UITableView/" style="font-size: 10px;">UITableView</a> <a href="/tags/UI学习/" style="font-size: 10px;">UI学习</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/iOS9/" style="font-size: 10px;">iOS9</a> <a href="/tags/iOS开发/" style="font-size: 10px;">iOS开发</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/runtime/" style="font-size: 16.67px;">runtime</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/博客/" style="font-size: 10px;">博客</a> <a href="/tags/学习/" style="font-size: 20px;">学习</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/文档/" style="font-size: 10px;">文档</a> <a href="/tags/爬虫/" style="font-size: 10px;">爬虫</a>
     </div>
   </div>
 

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>配置SSH-key | Rocky&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="搭建完成Hexo个人博客之后，关联Github会出现error或者false，从提示的字眼中看出来说是缺少SSH，由于我的Github已经有了SSH，没有出现错误，在Github的settings中可以找到SSH选项，点进去可以看到。具体设置可以看看Github官方教程，很简单。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="配置SSH-key">
+<meta property="og:url" content="http://yoursite.com/2014/11/07/settingSSH-key/index.html">
+<meta property="og:site_name" content="Rocky's blog">
+<meta property="og:description" content="搭建完成Hexo个人博客之后，关联Github会出现error或者false，从提示的字眼中看出来说是缺少SSH，由于我的Github已经有了SSH，没有出现错误，在Github的settings中可以找到SSH选项，点进去可以看到。具体设置可以看看Github官方教程，很简单。">
+<meta property="og:image" content="https://help.github.com/assets/images/help/settings/userbar-account-settings.png">
+<meta property="og:image" content="https://help.github.com/assets/images/help/settings/settings-sidebar-ssh-keys.png">
+<meta property="og:image" content="https://help.github.com/assets/images/help/settings/ssh-add-ssh-key.png">
+<meta property="og:image" content="https://help.github.com/assets/images/help/settings/ssh-key-paste.png">
+<meta property="og:image" content="https://help.github.com/assets/images/help/settings/ssh-add-key.png">
+<meta property="og:updated_time" content="2016-03-01T15:40:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="配置SSH-key">
+<meta name="twitter:description" content="搭建完成Hexo个人博客之后，关联Github会出现error或者false，从提示的字眼中看出来说是缺少SSH，由于我的Github已经有了SSH，没有出现错误，在Github的settings中可以找到SSH选项，点进去可以看到。具体设置可以看看Github官方教程，很简单。">
+  
+    <link rel="alternative" href="/atom.xml" title="Rocky&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="favicon.ico">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      
+        <h1 id="logo-image">
+          <a href="/" id="logo-image-a">
+            <img border="0" src="http://tp4.sinaimg.cn/2055300355/180/5701319722/2" />
+          </a>
+        </h1>
+      
+      <h1 id="logo-wrap">
+        <p id="logo">Rocky&#39;s blog</>
+      </h1>
+    </div>
+    <div id="header-inner" class="inner">
+      
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-settingSSH-key" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/11/07/settingSSH-key/" class="article-date">
+  <time datetime="2014-11-07T01:39:10.000Z" itemprop="datePublished">2014-11-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      配置SSH-key
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>搭建完成Hexo个人博客之后，关联Github会出现error或者false，从提示的字眼中看出来说是缺少<code>SSH</code>，由于我的Github已经有了SSH，没有出现错误，在Github的settings中可以找到SSH选项，点进去可以看到。具体设置可以看看<a href="https://help.github.com/articles/generating-ssh-keys/" target="_blank" rel="external">Github官方教程</a>，很简单。</p>
+<a id="more"></a>
+<p>终端输入</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>ssh-keygen -t rsa -<span class="constant">C </span><span class="string">"个人邮箱"</span></span><br></pre></td></tr></table></figure>
+<p>会出现入下提示</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Enter <span class="built_in">file</span> <span class="operator">in</span> which <span class="built_in">to</span> save <span class="operator">the</span> key (/Users/UserName/.ssh/id_rsa): 按回车</span><br><span class="line">Enter passphrase (<span class="constant">empty</span> <span class="keyword">for</span> no passphrase): 按回车</span><br><span class="line">Enter same passphrase again:按回车</span><br></pre></td></tr></table></figure>
+<p>然后出现</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Your identification has been saved in /Users/UserName/.ssh/id_rsa.</span><br><span class="line">Your public key has been saved in /Users/UserName/.ssh/id_rsa.pub.</span><br><span class="line">The key fingerprint is:</span><br><span class="line">出现一个以邮箱结尾的字符串</span><br><span class="line">The key's randomart image is:</span><br><span class="line">+--[ RSA 2048]----+</span><br><span class="line">|<span class="string">           o+OEo.</span>|</span><br><span class="line">|<span class="string">           o+=O. </span>|</span><br><span class="line">|<span class="string">          . +=   </span>|</span><br><span class="line">|<span class="string">         . o .   </span>|</span><br><span class="line">|<span class="string">        S o . .  </span>|</span><br><span class="line">|<span class="string">         O   .   </span>|</span><br><span class="line">|<span class="string">        . . .    </span>|</span><br><span class="line">|<span class="string">         . . o   </span>|</span><br><span class="line">|<span class="string">            . .  </span>|</span><br><span class="line">+-----------------+</span><br></pre></td></tr></table></figure>
+<p>依次输入下列命令</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>eval <span class="string">"$(ssh-agent -s)"</span> <span class="comment"># 将ssh-key添加到ssh-agent</span></span><br><span class="line"><span class="variable">$ </span>ssh-add ~<span class="regexp">/.ssh/id</span>_rsa  <span class="comment">#将</span></span><br><span class="line"><span class="variable">$ </span>pbcopy &lt; ~<span class="regexp">/.ssh/id</span>_rsa.pub  <span class="comment">#拷贝id_rsa.pub里面的内容</span></span><br></pre></td></tr></table></figure>
+<p>接下来要做的就是进行SSH-key和Github的关联</p>
+<ul>
+<li><p>在Github个人账户旁边找到settings按钮选项<br><img src="https://help.github.com/assets/images/help/settings/userbar-account-settings.png" alt="settings"></p>
+</li>
+<li><p>在设置界面找到SSH-keys的设置选项<br><img src="https://help.github.com/assets/images/help/settings/settings-sidebar-ssh-keys.png" alt="image"></p>
+</li>
+<li><p>如果没有SSH-key就添加一个<br><img src="https://help.github.com/assets/images/help/settings/ssh-add-ssh-key.png" alt="image"></p>
+</li>
+<li><p>将刚才复制得到的内容粘贴进来Key框中<br><img src="https://help.github.com/assets/images/help/settings/ssh-key-paste.png" alt="image"></p>
+</li>
+<li><p>点击Add key按钮进行添加SSH-key<br><img src="https://help.github.com/assets/images/help/settings/ssh-add-key.png" alt="image"></p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+          <p class="article-more-link">
+            <a href="/2014/11/07/settingSSH-key/#more">阅读全文 -&gt;</a>
+          </p>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/博客/">博客</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习/">学习</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2014/11/08/git/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          Git指令
+        
+      </div>
+    </a>
+  
+
+  
+    <a href="/2014/11/06/how-to-use-wget/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">Wget简单使用</div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="post-settingSSH-key" data-title="配置SSH-key" data-url="http://yoursite.com/2014/11/07/settingSSH-key/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'Rocky'};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+  </section>
+  </section>
+        
+          <aside id="sidebar">
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/HTML5/" style="font-size: 10px;">HTML5</a> <a href="/tags/MVVM/" style="font-size: 10px;">MVVM</a> <a href="/tags/Python/" style="font-size: 13.33px;">Python</a> <a href="/tags/UITableView/" style="font-size: 10px;">UITableView</a> <a href="/tags/UI学习/" style="font-size: 10px;">UI学习</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/iOS9/" style="font-size: 10px;">iOS9</a> <a href="/tags/iOS开发/" style="font-size: 10px;">iOS开发</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/runtime/" style="font-size: 16.67px;">runtime</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/博客/" style="font-size: 10px;">博客</a> <a href="/tags/学习/" style="font-size: 20px;">学习</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/文档/" style="font-size: 10px;">文档</a> <a href="/tags/爬虫/" style="font-size: 10px;">爬虫</a>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+
+  <div class="outer">
+    
+    <div id="footer-info" class="inner">
+      All content copyright &copy; 2016 <a href="/"> Rocky </a> • All rights reserved.<br>
+      使用 <a href="http://hexo.io/" target="_blank">Hexo</a>驱动 • 自定制主题
+    </div>
+
+  </div>
+
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>
