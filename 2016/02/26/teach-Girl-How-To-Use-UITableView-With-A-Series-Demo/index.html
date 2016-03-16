@@ -17,7 +17,7 @@
 <meta property="og:image" content="http://yoursite.com/2016/02/26/teach-Girl-How-To-Use-UITableView-With-A-Series-Demo/Basice.png">
 <meta property="og:image" content="http://yoursite.com/2016/02/26/teach-Girl-How-To-Use-UITableView-With-A-Series-Demo/Region.png">
 <meta property="og:image" content="http://yoursite.com/2016/02/26/teach-Girl-How-To-Use-UITableView-With-A-Series-Demo/A-Z_Section_Index.png">
-<meta property="og:updated_time" content="2016-03-10T13:11:55.000Z">
+<meta property="og:updated_time" content="2016-03-16T16:27:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="通过Sample Code逐步学习使用UITableView">
 <meta name="twitter:description" content="在已经接触UITableView并能够对其进行基础的使用之后是时候通过一些Demo来进行练手了。现在，通过一些小Demo来加深UITableView的使用以及运用合理的操作完成一个具有实际意义的APP，其中所涉及到的知识会从最基础的如何使用UITableView开始，随着需求的逐渐的增加而增加。本系列Demo不涉及UITableView的重用机制等深度知识。
@@ -108,8 +108,9 @@
 <p>排序方法：</p>
 <figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="collection">[timeZones sortUsingComparator:<span class="comment">^NSComparisonResult</span><span class="list">(<span class="keyword">NSString</span> * timeZone1,NSString * timeZone2)</span> <span class="collection">&#123;</span><br><span class="line">    return <span class="collection">[timeZone1 localizedStandardCompare:timeZone2]</span><span class="comment">;</span></span><br><span class="line">&#125;</span>]</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
 <p>当然还有好多种排序方法，自己试试看再找出来两三种排序方法进行A-Z升序排列。</p>
+<p><strong><a href="https://github.com/Yrocky/HLLTableView/tree/master/HLLDemo-00" target="_blank" rel="external">Demo-00</a></strong></p>
 <h2 id="2-第二阶段">2.第二阶段</h2><blockquote>
-<p>需要的知识<br>   1.对UITableView的深度使用<br>   2.使用对象模型来表征数据<br>   3.排序的进一步使用</p>
+<p>需要的知识<br>   1.对UITableView的进一步使用<br>   2.使用对象模型来表征数据<br>   3.排序的进一步使用<br>   4.单例模式</p>
 </blockquote>
 <h3 id="主要目的-1">主要目的</h3><p>进一步学习对UITableView的使用，能够使用模型数据进行具体数据的存储，并通过模型数据对UITableView进行数据源配置，能够使用排序API对特定的需求进行数据的排序，</p>
 <h3 id="Demo需求">Demo需求</h3><ul>
@@ -119,25 +120,28 @@
 </ul>
 <p>Demo效果如下，</p>
 <img src="/2016/02/26/teach-Girl-How-To-Use-UITableView-With-A-Series-Demo/Region.png" alt="Sort_By_Region" title="Sort_By_Region">
-<h3 id="具体分析-1">具体分析</h3><p>首先，打开第一个阶段中所写的Demo，接着进行编程。</p>
-<p>第一个阶段通过操作NSTimeZone类获得了目前已知的所有时区的信息，由数据可以看出来某一些时区的第一个<code>/</code>前的单词是一样的，这个单词是表示当前时区所在地区的名字，一共有11个，下面需要做的就是获取到这11个地区的信息数据，并且将所有属于同一个地区的时区归到该地区下面，最后使用UITableView以Demo要求示意图那样进行显示，同时，对所有的地区进行A-Z的升序排列。</p>
+<h3 id="具体分析-1">具体分析</h3><p>第一个阶段通过操作NSTimeZone类获得了目前已知的所有时区的信息，由数据可以看出来某一些时区的第一个<code>/</code>前的单词是一样的，这个单词是表示当前时区所在地区的名字，一共有11个，下面需要做的就是获取到这11个地区的信息数据，并且将所有属于同一个地区的时区归到该地区下面，最后使用UITableView以Demo要求示意图那样进行显示，同时，对所有的地区进行A-Z的升序排列。</p>
 <p>如何进行数据的分离的逻辑要自己进行处理，代码就不贴了。</p>
 <p>这之后将获得一个类似于这样的数据结构：</p>
-<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@&#123;</span><br><span class="line">	@<span class="string">"Africa"</span>:@[@<span class="string">"Abidjan"</span>,</span><br><span class="line">				@<span class="string">"Accra"</span>,</span><br><span class="line">				...</span><br><span class="line">				@<span class="string">"Windhoek"</span>],</span><br><span class="line">	@<span class="string">"America"</span>:@[...],</span><br><span class="line">	....</span><br><span class="line">	@<span class="string">"Pacific"</span>:@[...],</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>通过数据结构发现，每一个具体的时区都是一个单独的数据，但是他们都是时区，从面相对象的角度来说，他们是同一种类(Class)中的不同实例对象(Object)，所以我们可以使用NSObject来表示时区这种数据类型。</p>
-<p>同时，每一个时区又有其所属的区域，也就是从<code>+knownTimeZoneNames</code>方法获得的时区ID中<code>/</code>分隔的第一个字符串，不通的时区可以属于同一个区域。所以这里使用两个对象模型进行时区数据的表征，</p>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="constant">@[</span></span><br><span class="line">	@&#123;@<span class="string">"Africa"</span>:<span class="constant">@[</span>@<span class="string">"Abidjan"</span>,</span><br><span class="line">			@<span class="string">"Accra"</span>,</span><br><span class="line">			...</span><br><span class="line">			@<span class="string">"Windhoek"</span>]&#125;,</span><br><span class="line">	@&#123;@<span class="string">"America"</span>:<span class="constant">@[</span>...]&#125;,</span><br><span class="line">	....</span><br><span class="line">	@&#123;@<span class="string">"Pacific"</span>:<span class="constant">@[</span>...]&#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p><strong><a href="https://github.com/Yrocky/HLLTableView/tree/master/HLLDemo-10" target="_blank" rel="external">Demo-10</a></strong></p>
+<p>通过数据结构发现，每一个具体的时区都是一个单独的数据，但是他们都是时区，从面相对象的角度来说，他们是同一种类(Class)中的不同实例对象(Object)，所以可以使用NSObject来表示时区这种数据类型。</p>
+<p>同时，每一个时区又有其所属的区域，也就是从<code>+knownTimeZoneNames</code>方法获得的时区ID中<code>/</code>分隔的第一个字符串，不同的时区可以属于同一个区域。所以这里使用两个对象模型进行时区数据的表征，</p>
 <ul>
-<li>时区区域—-Region<ul>
-<li>拥有一系列的具体时区对象—-以NSArray类型进行存储，里面装的是TimeZoneWrapper对象</li>
+<li>时区区域—-HLLRegion<ul>
+<li>拥有一系列的具体时区对象—-以NSArray类型进行存储，里面装的是HLLTimeZone对象</li>
 <li>还拥有该区域的名称—-以NSString类型进行存储</li>
 </ul>
 </li>
-<li>具体时区—-TimeZoneWrapper<ul>
+<li>具体时区—-HLLTimeZone<ul>
 <li>拥有属于自己的时区名称—-以NSString存储</li>
 </ul>
 </li>
 </ul>
 <p>这时候使用建立模型并且替换掉在上面获得的数据，修改dataSource的一些方法，这样就完成了使用模型表征数据的操作，虽然使用字典-数组-字符串模型可以很简单的进行数据的存储，并且不需要创建新类，但是由于后续还有需要对时区进行一些操作，使用字典-数组-字符串模型不方便进行。</p>
+<p>在实际编码的过程中，使用单例模式将区域和时区进行进一步的封装，对外面调用获取时区信息更加简洁方便。<code>HLLTimeZoneManager</code>的API如下，</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">+ (instancetype) shareTimeZoneManager;</span><br><span class="line"></span><br><span class="line">/<span class="keyword">*</span><span class="keyword">*</span></span><br><span class="line"> <span class="keyword">*</span>  使用HLLRegion的类方法获取已知时区列表</span><br><span class="line"> <span class="keyword">*</span></span><br><span class="line"> <span class="keyword">*</span>  <span class="comment">@return 已知时区列表</span></span><br><span class="line"> <span class="keyword">*</span>/</span><br><span class="line">- (NSArray <span class="variable">&lt;HLLRegion *&gt;</span><span class="keyword">*</span>)knownRegions;</span><br><span class="line"></span><br><span class="line">/<span class="keyword">*</span><span class="keyword">*</span></span><br><span class="line"> <span class="keyword">*</span>  获取所有的时区</span><br><span class="line"> <span class="keyword">*</span></span><br><span class="line"> <span class="keyword">*</span>  <span class="comment">@return 时区列表</span></span><br><span class="line"> <span class="keyword">*</span>/</span><br><span class="line">- (NSArray <span class="variable">&lt;HLLTimeZone *&gt;</span><span class="keyword">*</span>)allTimeZones;</span><br></pre></td></tr></table></figure>
+<p><strong><a href="https://github.com/Yrocky/HLLTableView/tree/master/HLLDemo-11" target="_blank" rel="external">Demo-11</a></strong></p>
 <h3 id="一个新需求">一个新需求</h3><p>现在要求不是按照地区进行Section划分，对所有的时区进行重新的排序。要求<code>所有时区</code>按照A…Z升序进行排序，以每一个时区的首字母进行Section划分，同时要求有侧边栏索引。注，使用<code>UITableViewDataSource-sectionIndexTitlesForTableView</code>方法。</p>
 <p>效果如下，</p>
 <img src="/2016/02/26/teach-Girl-How-To-Use-UITableView-With-A-Series-Demo/A-Z_Section_Index.png" alt="A-Z_Section_Index.png" title="">
@@ -146,7 +150,7 @@
 <li>不能使用硬编码</li>
 </ul>
 <p>硬编码就比如直接写上A…Z这26个字母这之类的代码，这样照成的后果就是有可能有的字母是不会出现的，但是这个索引还是出现在表格视图中，所以要按照实际的数据进行效果实现。</p>
-<p>实现思路和上面的差不多，最后的数据结构也是一样的。</p>
+<p>实现思路和上面的差不多，最后的数据结构也是类似的。</p>
 <h4 id="新需求的另外一种实现思路">新需求的另外一种实现思路</h4><p><a href="http://yrocky.github.io/2016/02/29/UILocatioinedIndexCollection/" target="_blank" rel="external">这里提供一种UIKit中的比较智能的排序归类方法</a></p>
 <h2 id="3-第三阶段">3.第三阶段</h2><blockquote>
 <p>需要的知识<br>1.自定义UITableViewCell<br>2.协议-代理模式</p>
@@ -160,6 +164,7 @@
 <li>使用合理的方案完成抽屉效果</li>
 </ul>
 <h3 id="具体分析-2">具体分析</h3><p>要实现自定义的Cell就需要知道UITableViewCell在UITableView中的展示规则，在UITableView进行滑动的是时候，滑动前所有屏幕上可见的Cell在退出屏幕之后就进入重用池，即将展现的新Cell会使用放入重用池中的Cell，但是由于他们的展示数据是不一样的，所以这里就需要在创建Cell之后进行数据的配置。</p>
+<p><strong><a href="https://github.com/Yrocky/HLLTableView/tree/master/HLLDemo-20" target="_blank" rel="external">Demo-20</a></strong></p>
 <h2 id="4-第四阶段">4.第四阶段</h2><blockquote>
 <p>需要的知识<br>1.UITableView和UISearchViewController的结合使用<br>2.UISearchView的使用<br>3.谓词的使用</p>
 </blockquote>
