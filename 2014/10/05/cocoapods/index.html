@@ -12,7 +12,7 @@
 <meta property="og:site_name" content="Rocky's blog">
 <meta property="og:description" content="当你开发iOS应用时，会经常使用到很多第三方开源类库，比如JSONKit、FMDB、AFNetWorking等等。可能某个类库又用到其他类库，所以要使用它，必须得另外下载其他类库，而其他类库又用到其他类库，“子子孙孙无穷尽也”，这也许是比较特殊的情况。手动一个个去下载所需类库十分麻烦。另外一种常见情况是，你项目中用到的类库有更新，你必须得重新下载新版本，重新加入到项目中，十分麻烦。如果能有什么工具">
 <meta property="og:image" content="http://yoursite.com/2014/10/05/cocoapods/cocoapod.png">
-<meta property="og:updated_time" content="2016-03-01T15:55:11.000Z">
+<meta property="og:updated_time" content="2016-03-17T13:13:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CocoaPods">
 <meta name="twitter:description" content="当你开发iOS应用时，会经常使用到很多第三方开源类库，比如JSONKit、FMDB、AFNetWorking等等。可能某个类库又用到其他类库，所以要使用它，必须得另外下载其他类库，而其他类库又用到其他类库，“子子孙孙无穷尽也”，这也许是比较特殊的情况。手动一个个去下载所需类库十分麻烦。另外一种常见情况是，你项目中用到的类库有更新，你必须得重新下载新版本，重新加入到项目中，十分麻烦。如果能有什么工具">
@@ -98,26 +98,26 @@
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo gem <span class="keyword">install</span> cocoapods</span><br></pre></td></tr></table></figure>
 <p>等上十几秒钟，CocoaPods就可以在你本地下载并且安装好了，不再需要其他设置。</p>
 <h2 id="使用cocoaPods">使用cocoaPods</h2><p>使用CocoPods和安装它一样简单，也是通过一两行命令就可以搞定。</p>
-<h3 id="场景1：利用CocoaPods，在项目中导入AFNetworking类库">场景1：利用CocoaPods，在项目中导入AFNetworking类库</h3><p>AFNetworking类库在GitHub地址是：<a href="https://github.com/AFNetworking/AFNetworking" target="_blank" rel="external">https://github.com/AFNetworking/AFNetworking</a></p>
+<h4 id="场景1：利用CocoaPods，在项目中导入AFNetworking类库">场景1：利用CocoaPods，在项目中导入AFNetworking类库</h4><p>AFNetworking类库在GitHub地址是：<a href="https://github.com/AFNetworking/AFNetworking" target="_blank" rel="external">https://github.com/AFNetworking/AFNetworking</a></p>
 <p>为了确定AFNetworking是否支持CocoaPods，可以用CocoaPods的搜索功能验证一下。在终端中输入：</p>
 <figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>pod search <span class="constant">AFNetworking</span></span><br></pre></td></tr></table></figure>
 <p>过几秒钟之后，你会在终端中看到关于AFNetworking类库的一些信息。</p>
 <p>我们在工程下先创建这个神奇的PodFile。在终端中进入（cd命令）你项目所在目录，然后在当前目录下，利用vim创建Podfile，运行：</p>
-<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim Podfile  <span class="comment">//使用  pod init 会更方便</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim Podfile  <span class="comment">// 其实个人觉得使用 pod init 会更方便</span></span><br></pre></td></tr></table></figure>
 <p>然后在Podfile文件中输入以下文字：</p>
-<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">platform :ios, ‘7.0’   这句必须这么写标点符号必须是英文的，中文的不行</span><br><span class="line">pod <span class="string">"AFNetworking"</span>, "~&gt; 2.0”  这句话是作者建议的，在进行pod <span class="keyword">search</span> AFNetworking之后作者建议的，以后再添加库的时候就直接在后面写，但是不能在install，需要<span class="keyword">update</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">platform :ios, ‘<span class="number">7.0</span>’   <span class="preprocessor"># 这句必须这么写标点符号必须是英文的，中文的不行</span></span><br><span class="line">pod <span class="string">"AFNetworking"</span>, <span class="string">"~&gt; 2.0”  # 这句话是作者建议的，在进行pod search AFNetworking之后作者建议的，以后再添加库的时候就直接在后面写，但是不需要install，直接update就行</span></span><br></pre></td></tr></table></figure>
 <p>保存退出：</p>
 <figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">:wq</span></span><br></pre></td></tr></table></figure>
-<p>这时候，你会发现你的项目目录中，出现一个名字为Podfile的文件，而且文件内容就是你刚刚输入的内容。注意，Podfile文件应该和你的工程文件.xcodeproj在同一个目录下。</p>
+<p>这时候，你会发现你的项目目录中，出现一个名字为<strong>Podfile</strong>的文件，而且文件内容就是你刚刚输入的内容。注意，Podfile文件应该和你的工程文件.xcodeproj在同一个目录下。</p>
 <p>这时候，你就可以利用CocoPods下载AFNetworking类库了。还是在终端中的当前项目目录下，运行以下命令：</p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pod <span class="keyword">install</span></span><br></pre></td></tr></table></figure>
 <p>运行上述命令之后，终端出现以下信息：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">EricmatoMacBook-Pro:CocoaPodsDemo ericwang$ pod <span class="operator"><span class="keyword">install</span></span><br><span class="line">Analyzing dependencies</span><br><span class="line">Downloading dependencies</span><br><span class="line">Installing AFNetworking (<span class="number">2.0</span><span class="number">.2</span>)</span><br><span class="line">Generating Pods <span class="keyword">project</span></span><br><span class="line">Integrating <span class="keyword">client</span> <span class="keyword">project</span></span><br><span class="line">[!] <span class="keyword">From</span> <span class="keyword">now</span> <span class="keyword">on</span> <span class="keyword">use</span> <span class="string">`CocoaPodsDemo.xcworkspace`</span>.</span></span><br></pre></td></tr></table></figure>
 <p>注意最后一句话，意思是：以后打开项目就用 <code>CocoaPodsDemo.xcworkspace</code> 打开，而不是之前的.xcodeproj文件。</p>
-<p>出现的.xcodeproj文件正是刚刚运行$ pod install命令产生的新文件。除了这个文件，你会发现还多了另外一个文件“Podfile.lock”和一个文件夹“Pods”。 </p>
+<p>出现的.xcodeproj文件正是刚刚运行<code>$ pod install</code>命令产生的新文件。除了这个文件，你会发现还多了另外一个文件“Podfile.lock”和一个文件夹“Pods”。 </p>
 <p>现在，你就可以开始使用AFNetworking.h啦。</p>
-<h3 id="场景2：如何正确编译运行一个包含CocoPods类库的项目">场景2：如何正确编译运行一个包含CocoPods类库的项目</h3><p>你也许曾经遇到过（特别是新手iOS开发者）这种情况，好不容易在GitHub上找到一份代码符合自己想需求，兴冲冲下载下来，一编译，傻眼了，发现有各种各样错误。一看，原来是缺失了各种其他第三方类库。这时候莫慌，你再仔细一看，会发现你下载的代码包含了Podfile。没错，这意味着你可以用CocoaPods很方便下载所需要的类库。</p>
-<p>UAAppReviewManager是一个能够让你方便地将提醒用户评分的功能加入你的应用中。当你去UAAppReviewManager的GitHub地址下载这份代码之后，打开Example工程（UAAppReviewManagerExample），编译，你会发现Xcode报告一大堆错误，基本都是说你编译的这份代码找不到某某头文件，这就意味着你要成功编译UAAppReviewManager的Example代码，必须先导入一些第三方类库。同时你会发现在UAAppReviewManagerExample文件夹下面有三个跟CocosPods相关的文件（文件夹）：Podfile，Podfile.lock和Pods</p>
+<h4 id="场景2：如何正确编译运行一个包含CocoPods类库的项目">场景2：如何正确编译运行一个包含CocoPods类库的项目</h4><p>你也许曾经遇到过（特别是新手iOS开发者）这种情况，好不容易在GitHub上找到一份代码符合自己想需求，兴冲冲下载下来，一编译，傻眼了，发现有各种各样错误。一看，原来是缺失了各种其他第三方类库。这时候莫慌，你再仔细一看，会发现你下载的代码包含了Podfile。没错，这意味着你可以用CocoaPods很方便下载所需要的类库。</p>
+<p>UAAppReviewManager是一个能够让你方便地将提醒用户评分的功能加入你的应用中。当你去UAAppReviewManager的GitHub地址下载这份代码之后，打开Example工程（UAAppReviewManagerExample），编译，你会发现Xcode报告一大堆错误，基本都是说你编译的这份代码找不到某某头文件，这就意味着你要成功编译UAAppReviewManager的Example代码，必须先导入一些第三方类库。同时你会发现在UAAppReviewManagerExample文件夹下面有三个跟CocosPods相关的文件（文件夹）：<strong>Podfile</strong>，<strong>Podfile.lock</strong>和<strong>Pods</strong></p>
 <p>这时候，打开终端，进入UAAppReviewManagerExample所在的目录，也就是和Podfile在同一目录下，和场景1一样，输入以下命令（由于已经有Podfile，所以不需要再创建Podfile）：</p>
 <figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>pod update</span><br></pre></td></tr></table></figure>
 <p>过几秒（也许需要十几秒，取决于你的网络状况）之后，终端出现：</p>
@@ -134,7 +134,7 @@
 <li><p>但是 $ pod update会更新所有的类库，获取最新版本的类库。而且你会发现，如果用了 $ pod update，再用 $ pod install 就成功了。</p>
 </li>
 </ul>
-<h2 id="参考文章">参考文章</h2><p><a href="https://guides.cocoapods.org/" target="_blank" rel="external">官网</a></p>
+<h2 id="参考文章">参考文章</h2><p><a href="https://guides.cocoapods.org/" target="_blank" rel="external">官网</a><br><a href="http://code4app.com/article/cocoapods-install-usage" target="_blank" rel="external">Code4App</a></p>
 
       
     </div>
