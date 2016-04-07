@@ -19,7 +19,7 @@
 <meta property="og:image" content="http://yoursite.com/2016/04/03/tableView-select/simple.png">
 <meta property="og:image" content="http://yoursite.com/2016/04/03/tableView-select/select02.png">
 <meta property="og:image" content="http://yoursite.com/2016/04/03/tableView-select/shoppingList.png">
-<meta property="og:updated_time" content="2016-04-06T16:14:23.000Z">
+<meta property="og:updated_time" content="2016-04-07T13:52:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS开发中的单选与多选">
 <meta name="twitter:description" content="在前端开发中如果要拥有一个单选或者多选功能十分简单，因为HTML中有现成的标签可以很方便的实现单选或者多选效果，比如这样写上几句代码就能拥有最原始的选择效果。
@@ -142,6 +142,7 @@
 <p><a href="https://github.com/Yrocky/HLLTableView/tree/master/HLLShoppingDemo" target="_blank" rel="external">初始工程已经写好了</a>，这个初始工程使用了<code>plist文件</code>提供了假数据供表视图使用，同时使用了一些<code>Xib</code>进行构建局部视图的样式，这在开发中会成为便捷开发的部分，同时也会在进行小功能demo的时候节省大量的时间用来写无聊至极的布局代码。但是，这个初始工程还是有很多问题的，比如，没有很好地解决<code>Cell重用问题</code>，当点击一个靠上部分或者靠下部分的按钮，然后滑动表格，会发现，其他地方的按钮别选中了！！典型的cell重用问题，这个会在后面进行解决重用问题；还有里面在每一个xib对应的视图中都用到了那个具有特殊状态的按钮，并且在每个类中都写了重复的代码，写三遍的代码就要考虑重构。同时，这个工程仅仅提供一个展示，没有具体的单选以及多选或者全选功能，这些都会在接下来进行实现。</p>
 <p>先看看初始工程长什么样子吧，而且最终的工程也是长这个样子的，不过功能部分是看不出来的，体验才能察觉出来。</p>
 <img src="/2016/04/03/tableView-select/shoppingList.png" alt="shoppingList" title="shoppingList">
+<p>感觉给自己挖了个大坑！！！！！！</p>
 <p>在实际的开发中，一个购物车要考虑的情形比这复杂的多了，这里仅仅是简化到了最简单的购物车功能。</p>
 <h2 id="参考资料：">参考资料：</h2><ul>
 <li><a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/TableView_iPhone/AboutTableViewsiPhone/AboutTableViewsiPhone.html#//apple_ref/doc/uid/TP40007451-CH1-SW1" target="_blank" rel="external">关于UITableView的所有官方解释 — Apple Library</a></li>
