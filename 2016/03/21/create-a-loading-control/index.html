@@ -18,7 +18,7 @@
 <meta property="og:image" content="http://yoursite.com/2016/03/21/create-a-loading-control/errorUI.png">
 <meta property="og:image" content="http://yoursite.com/2016/03/21/create-a-loading-control/responseUI.png">
 <meta property="og:image" content="http://yoursite.com/2016/03/21/create-a-loading-control/NetworkingLoadingControllerUI.png">
-<meta property="og:updated_time" content="2016-04-20T10:29:44.000Z">
+<meta property="og:updated_time" content="2016-04-20T11:00:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="动手设计一个加载组件">
 <meta name="twitter:description" content="好的动画效果会让用户将时间的概念忽略掉，会让人愿意去看动画的执行。观赏动画一方面能够抵消掉由于网络延迟或者视图处理缓慢照成的用户焦虑感，另一方面可以通过精美的动画效果吸引用户的眼球，提高用户留存。那么着手实现一个动画控件可以说是对基础数学计算的一个检验，从开发角度来说就是对动效的理解以及掌握程度的考验。">
@@ -126,11 +126,11 @@
 <p>对于主动的进行UI切换，比如，在主视图控制器中的某一个操作要进行网络请求的时候，可以通过调用NetworkingLoadingController的方法，其中的<code>loadContainerView</code>就是UIContainerView。</p>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">self</span><span class="variable">.loadContainerView</span><span class="variable">.hidden</span> = <span class="literal">NO</span>;</span><br><span class="line">[<span class="keyword">self</span><span class="variable">.networkLoadingController</span> showLoadingView];</span><br></pre></td></tr></table></figure>
 <p>具体的<code>-showLoadingView</code>方法中的操作就是显示加载UI，隐藏错误处理以及其他无关UI。</p>
-<h6 id="加载UI部分">加载UI部分</h6><p>加载部分的UI由上面的加载控件以及一个标签视图，在NetworkingLoadingController要显示加载UI的时候开始加载控件的动画，隐藏的时候停止动画，标签仅仅是一个显示“Loading…”。UI如下，</p>
+<h6 id="加载UI部分">加载UI部分</h6><p>加载部分的UI由上面的加载控件以及一个标签视图组成，在NetworkingLoadingController要显示加载UI的时候开始加载控件的动画，隐藏的时候停止动画，标签仅仅是一个显示“Loading…”。UI如下，</p>
 <img src="/2016/03/21/create-a-loading-control/loadingUI.png" alt="loadingUI" title="loadingUI">
 <h6 id="错误处理UI部分">错误处理UI部分</h6><p>对于错误处理部分，第一是要能够显示错误信息，第二是能够让用户面对错误进行下一步操作，比如超时请求的重试，</p>
 <img src="/2016/03/21/create-a-loading-control/errorUI.png" alt="errorUI" title="errorUI">
-<h6 id="展示响应UI部分">展示响应UI部分</h6><p>有的时候不仅仅需要有加载的UI和处理错误的UI，还需要将响应的结果进行一个展示，这时候大可以再添加一个视图用与展示相应数据。</p>
+<h6 id="展示响应UI部分">展示响应UI部分</h6><p>有的时候不仅仅需要有加载的UI和处理错误的UI，还需要将响应的结果进行一个展示，这时候大可以再添加一个视图用于展示相应的数据。</p>
 <img src="/2016/03/21/create-a-loading-control/responseUI.png" alt="responseUI" title="responseUI">
 <h3 id="NetworkingLoadingController的详细UI结构">NetworkingLoadingController的详细UI结构</h3><p>结合以上的UI展示可以看出来，通过显示隐藏不同的UI来进行响应不同的网络情况，那么NetworkingLoadingController的具体的UI结构如下，</p>
 <img src="/2016/03/21/create-a-loading-control/NetworkingLoadingControllerUI.png" alt="NetworkingLoadingControllerUI" title="NetworkingLoadingControllerUI">
