@@ -24,7 +24,7 @@
 <meta property="og:image" content="http://yoursite.com/2016/02/26/teach-Girl-How-To-Use-UITableView-With-A-Series-Demo/selected.png">
 <meta property="og:image" content="http://yoursite.com/2016/02/26/teach-Girl-How-To-Use-UITableView-With-A-Series-Demo/UISearchDisplayController.png">
 <meta property="og:image" content="http://yoursite.com/2016/02/26/teach-Girl-How-To-Use-UITableView-With-A-Series-Demo/UISearchController.png">
-<meta property="og:updated_time" content="2016-04-11T20:11:16.000Z">
+<meta property="og:updated_time" content="2016-04-26T10:54:19.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="通过Sample Code逐步学习使用UITableView">
 <meta name="twitter:description" content="在已经接触UITableView并能够对其进行基础的使用之后是时候通过一些Demo来进行练手了。现在，通过一些小Demo来加深UITableView的使用以及运用合理的操作完成一些Demo，其中所涉及到的知识会从最基础的如何使用UITableView开始，随着需求的逐渐的增加而增加。本系列Demo不涉及UITableView的重用机制等深度知识。
@@ -99,7 +99,7 @@
 <a id="more"></a>
 <p>你不应该过分依赖于这个Library，它更多地用处是提供一些新知识的查阅文档，某些知识点的Q&amp;A，编码思维/规范之类的，自己还是要对里面的知识进行总结理解。通过查看苹果工程师的代码要反思为什么要这样写，要和自己写的代码作对比，不见得他们写的代码都是很合理的，但这里这绝对是新手学习的一手途径，这比在github上随便search一个demo的价值来的更高。在每一个工程的Readme中都有详细的介绍该Demo的作用以及更新版本之类的信息，并且每个类中都会有简单的英文注释，在需要注意的地方也会有单独的注释。</p>
 <h2 id="1-第一阶段">1.第一阶段</h2><blockquote>
-<p>需要的知识<br>    1.UITableView的基本使用<br>    2.NSTimeZone的基本使用(时区的获取)<br>    3.排序的简单使用</p>
+<h5 id="需要的知识">需要的知识</h5><p>1.UITableView的基本使用<br>2.NSTimeZone的基本使用(时区的获取)<br>3.排序的简单使用</p>
 </blockquote>
 <h3 id="主要目的">主要目的</h3><p>对UITableView能够进行简单、基础的使用。</p>
 <p>对使用何种UITableView类型(Plain、Group)、何种结构(UITableViewController、UIViewController+UITableView)、何种编程方式(纯代码、IB界面)不做要求，但是针对以上所提及的一些方式都要能够很熟练的运用。</p>
@@ -117,7 +117,7 @@
 <p>当然还有好多种排序方法，自己试试看再找出来两三种排序方法进行A-Z升序排列。</p>
 <p><strong><a href="https://github.com/Yrocky/HLLTableView/tree/master/HLLDemo-00" target="_blank" rel="external">Demo-00</a></strong></p>
 <h2 id="2-第二阶段">2.第二阶段</h2><blockquote>
-<p>需要的知识<br>   1.对UITableView的进一步使用<br>   2.使用对象模型来表征数据<br>   3.排序的进一步使用<br>   4.单例模式</p>
+<h5 id="需要的知识-1">需要的知识</h5><p>1.对UITableView的进一步使用<br>2.使用对象模型来表征数据<br>3.排序的进一步使用<br>4.单例模式</p>
 </blockquote>
 <h3 id="主要目的-1">主要目的</h3><p>进一步学习对UITableView的使用，能够使用模型数据进行具体数据的存储，并通过模型数据对UITableView进行数据源配置，能够使用排序API对特定的需求进行数据的排序，</p>
 <h3 id="Demo需求">Demo需求</h3><ul>
@@ -160,7 +160,7 @@
 <p>实现思路和上面的差不多，最后的数据结构也是类似的。</p>
 <h4 id="新需求的另外一种实现思路">新需求的另外一种实现思路</h4><p><a href="http://yrocky.github.io/2016/02/29/UILocatioinedIndexCollection/" target="_blank" rel="external">这里提供一种UIKit中的比较智能的排序归类方法</a></p>
 <h2 id="3-第三阶段">3.第三阶段</h2><blockquote>
-<p>需要的知识<br>1.自定义UITableViewCell<br>2.协议-代理模式<br>3.关于UITableViewHeaderFooterView子类的使用<br>4.计时器NSTimer的使用</p>
+<h5 id="需要的知识-2">需要的知识</h5><p>1.自定义UITableViewCell<br>2.协议-代理模式<br>3.关于UITableViewHeaderFooterView子类的使用<br>4.计时器NSTimer的使用</p>
 </blockquote>
 <h3 id="主要目的-2">主要目的</h3><p>学会使用代码和Xib进行自定义固定高度的UITableViewCell，学会使用可以进行重用的UITableViewHeaderFooterView进行section的header自定义显示，在自定义视图的基础上，运用协议-代理模式进行对象之间的事件传递。</p>
 <h3 id="Demo需求-1">Demo需求</h3><p>由于所有的时区信息排列出来太长，即使使用<code>sectionIndex</code>进行侧边栏索引也还是不方便，这时候的需求是将第二阶段中的按照地区(Region)进行Section排列的Demo改造，改造成类似于QQ好友列表的组折叠效果，点击SectionView可以控制该Section下的Cell的展示与隐藏。</p>
@@ -240,7 +240,7 @@
 <p><strong><a href="https://github.com/Yrocky/HLLTableView/tree/master/HLLDemo-20" target="_blank" rel="external">Demo-20</a></strong></p>
 <h3 id="具体分析_–_自定义Cell">具体分析 – 自定义Cell</h3><p><strong><a href="https://github.com/Yrocky/HLLTableView/tree/master/HLLDemo-21" target="_blank" rel="external">Demo-21</a></strong></p>
 <h2 id="4-第四阶段">4.第四阶段</h2><blockquote>
-<p>需要的知识<br>1.UITableView和UISearchController的结合使用<br>2.UISearchBar的使用<br>3.谓词的使用<br>4.正则表达式</p>
+<h5 id="需要的知识-3">需要的知识</h5><p>1.UITableView和UISearchController的结合使用<br>2.UISearchBar的使用<br>3.谓词的使用<br>4.正则表达式</p>
 </blockquote>
 <h3 id="主要目的-3">主要目的</h3><p>掌握UISearchBar以及与其相关类的使用，并能够合理的与UITableView进行结合使用，使用谓词进行数据的过滤，达到搜索的目的。</p>
 <h3 id="Demo要求-1">Demo要求</h3><ul>
@@ -278,7 +278,7 @@
 <p>在开发中常常结合谓词和正则表达式的地方是用于检索用户输入内容格式的正确与否，校验手机号、邮箱、银行卡号、身份证号等等；或者通过用户的输入内容进行过滤数据再提供给用户，通讯录搜索、QQ好友搜索等等。</p>
 <p><strong><a href="https://github.com/Yrocky/HLLTableView/tree/master/HLLDemo-30" target="_blank" rel="external">Demo-30</a></strong></p>
 <h2 id="5-第五阶段">5.第五阶段</h2><blockquote>
-<p>需要的知识<br>1.UITableView的主要数据源方法<br>2.自定义协议，以及协议-代理模式<br>3.UITabbarController的使用</p>
+<h5 id="需要的知识-4">需要的知识</h5><p>1.UITableView的主要数据源方法<br>2.自定义协议，以及协议-代理模式<br>3.UITabbarController的使用</p>
 </blockquote>
 <h3 id="主要目的-4">主要目的</h3><p>使用UITabbarContrller展示根据不同要求进行排列的时区信息，同一个UITableView在不同的数据源方法下进行不同的风格显示。</p>
 <h3 id="Demo要求-2">Demo要求</h3><ul>
