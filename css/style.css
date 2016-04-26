@@ -124,7 +124,7 @@ body,
 }
 body {
   background: #eee;
-  font: 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font: 15px "Helvetica Neue", Helvetica, Arial, sans-serif;
   -webkit-text-size-adjust: 100%;
 }
 .outer {
@@ -427,9 +427,9 @@ body {
 .nav-icon {
   font-family: FontAwesome;
   text-align: center;
-  font-size: 14px;
-  width: 14px;
-  height: 14px;
+  font-size: 15px;
+  width: 15px;
+  height: 15px;
   padding: 20px 15px;
   position: relative;
   cursor: pointer;
@@ -584,6 +584,7 @@ a.article-title:hover {
 .article-entry {
   color: #555;
   padding: 0 20px;
+/**/
 }
 .article-entry:before,
 .article-entry:after {
@@ -659,15 +660,21 @@ a.article-title:hover {
   padding: 0 10px;
 }
 .article-entry blockquote {
-  background: #ddd;
-  border-left: 5px solid #ccc;
-  padding: 15px 20px;
+  padding: 6px 15px;
   margin-top: 10px;
-  border-left: 5px solid #657b83;
-  background: #f6f6f6;
+  border-left: 3px solid #657b83;
+  background: url("https://developer.cdn.mozilla.net/static/img/blueprint-dark.fd85a7a074ae.png") top center #fafbfc;
+  color: #999;
 }
 .article-entry blockquote p {
-  margin-top: 0;
+  margin: 0;
+  line-height: 1.7em;
+}
+.article-entry blockquote h5 {
+  color: #000;
+  margin-top: 0.5em;
+  margin-bottom: 0.6em;
+  font-size: 15px;
 }
 .article-entry .pullquote {
   text-align: left;
@@ -711,18 +718,16 @@ a.article-title:hover {
   line-height: 1em;
   float: right;
   padding: 6px 15px;
-  -webkit-border-radius: 15px;
-  border-radius: 15px;
-  background: #eee;
+/*border-radius: 15px*/
+  background: rgba(238,238,238,0);
   color: #999;
-  text-shadow: 0 1px #fff;
+/*text-shadow: 0 1px #fff*/
   text-decoration: none;
 }
 .article-more-link a:hover {
-  background: #258fb8;
-  color: #fff;
+/*background: color-link*/
+  color: #000;
   text-decoration: none;
-  text-shadow: 0 1px #1e7293;
 }
 .article-footer {
   font-size: 0.85em;
@@ -1124,7 +1129,7 @@ a.article-title:hover {
   border-width: 1px 0;
   overflow: auto;
   color: #ccc;
-  line-height: 22.400000000000002px;
+  line-height: 24px;
 }
 .article-entry .highlight .gutter pre,
 .article-entry .gist .gist-file .gist-data .line-numbers {
@@ -1181,7 +1186,7 @@ a.article-title:hover {
   padding-right: 20px;
 }
 .article-entry .highlight .line {
-  height: 22.400000000000002px;
+  height: 24px;
 }
 .article-entry .gist {
   margin: 0 -20px;
@@ -1321,7 +1326,7 @@ pre .javascript .function {
 }
 .widget {
   color: #777;
-  text-shadow: 0 1px #fff;
+/*text-shadow: 0 1px #fff*/
   background: #fff;
   padding: 15px;
 }
