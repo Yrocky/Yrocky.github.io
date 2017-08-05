@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>换个思路，让编程更加有意思 | Rocky&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="记录一些自己平常使用的另类编程方法，给繁复枯燥的代码平添一些乐趣。主要是从一些实际使用场景出发，探讨如何『偷懒』，让时间不那么浪费在重复修改代码上，即使修改也要让修改代码没那么麻烦。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="换个思路，让编程更加有意思">
+<meta property="og:url" content="http://yoursite.com/2017/05/15/convert-Train-of-thought/index.html">
+<meta property="og:site_name" content="Rocky's blog">
+<meta property="og:description" content="记录一些自己平常使用的另类编程方法，给繁复枯燥的代码平添一些乐趣。主要是从一些实际使用场景出发，探讨如何『偷懒』，让时间不那么浪费在重复修改代码上，即使修改也要让修改代码没那么麻烦。">
+<meta property="og:updated_time" content="2017-06-10T08:10:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="换个思路，让编程更加有意思">
+<meta name="twitter:description" content="记录一些自己平常使用的另类编程方法，给繁复枯燥的代码平添一些乐趣。主要是从一些实际使用场景出发，探讨如何『偷懒』，让时间不那么浪费在重复修改代码上，即使修改也要让修改代码没那么麻烦。">
+  
+    <link rel="alternative" href="/atom.xml" title="Rocky&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="favicon.ico">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+       
+      <h1 id="logo-wrap">
+        <a href="/" id="logo-image-a">
+          <p id="logo-wrap-title">Rocky&#39;s blog</p>
+        </a>
+      </h1>
+      <h3 id="logo-sub">
+        <p id="logo-sub-title">Never underestimate the heart of a champion</p>
+      </h3>
+    </div>
+    <div id="header-inner" class="inner">
+      
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-convert-Train-of-thought" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/05/15/convert-Train-of-thought/" class="article-date">
+  <time datetime="2017-05-15T13:09:00.000Z" itemprop="datePublished">2017-05-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      换个思路，让编程更加有意思
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>记录一些自己平常使用的另类编程方法，给繁复枯燥的代码平添一些乐趣。主要是从一些实际使用场景出发，探讨如何『偷懒』，让时间不那么浪费在重复修改代码上，即使修改也要让修改代码没那么麻烦。</p>
+<a id="more"></a>
+<h2 id="1-关于ActionSheet点击响应不同事件的一个使用场景">1.关于ActionSheet点击响应不同事件的一个使用场景</h2><p>比较常用的一个场景是一个界面中，我们需要弹出来一个ActionSheet，里面有n多个选项可供用户来选择。从产品设计的角度来说，对应的n种操作就是一个可怕的定时炸弹，不确定产品是不是会对这n种选项进行一个任性的排列；而从写代码的角度来说，对于这n种操作，写一个if-else或者switch-case是一个正确的选择，但是写下来你就会发现：冗余。再加上有可能会有排序的改动，那更加是毁灭性的代码。</p>
+<p>对于这种类型的地方，没有必要花费太多精力来书写以及维护代码，需要的是简洁且易维护。</p>
+<p>可以考虑使用数组将分支的操作进行存储，然后在点击选择时就可以直观的进行其对应的操作。可惜在Objective-C中，选择子<code>@selector</code>既不是基础数据类型也不是对象，是不能够使用数组存储的，那么就只能使用C数组来存储了，写出来大概是这个样子：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex &#123;&#10;&#10;&#160;&#160;&#160; SEL selectors[] = &#123;&#10;&#160;&#160;&#160;&#160;&#160;&#160;&#160; @selector(insertRow),&#10;&#160;&#160;&#160;&#160;&#160;&#160;&#160; @selector(insertSection),&#10;&#160;&#160;&#160;&#160;&#160;&#160;&#160; @selector(deleteSection)&#10;&#160;&#160;&#160; &#125;;&#10;&#10;&#160;&#160;&#160; if (buttonIndex &#60; sizeof(selectors) / sizeof(SEL)) &#123;&#10;&#10;&#160;&#160;&#160;&#160;&#160;&#160;&#160; void(*imp)(id, SEL) = (typeof(imp))[self methodForSelector:selectors[buttonIndex]];&#10;&#10;&#160;&#160;&#160;&#160;&#160;&#160;&#160; imp(self, selectors[buttonIndex]);&#10;&#160;&#160;&#160; &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>这样还是会带来两个问题，第一个是UIActionSheet的实现和方法是分开写的，第二个是即使这样还是需要维护两个数组，没有达到易维护的目的，但是好赖也比以前简单了许多。</p>
+<p>第一个问题可以使用最新的<code>UIAlertController</code>的block来解决，但是这无疑又是一个问题，要写好多样板代码，这时候就需要对UIAlertController进行一下封装，使其使用起来更加简洁。</p>
+<h2 id="2-对系统的UIAlertController进行封装">2.对系统的UIAlertController进行封装</h2><p>在iOS8.0之后系统就不推荐使用UIAlertView以及UIActionSheet，而使用了一个UIAlertController来替换他们两个。这样的做法对于混乱的视图展示层级来说确实是一个福音，并且可以使用block的方式来在一处处理对应的事件。但是，对于新的UIAlertController来说，要写好多的样板代码，一般来说，排版也不是很好看。</p>
+<p>基于减少劳动力以及优化使用方式的目的，对系统的UIAlertController进行一层简单的封装。思路是使用协议的方式来约定是要显示的Alert以及ActionSheet类：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@protocol HLLAlertActionSheetProtocol &#60;NSObject&#62;&#10;@optional&#10;#pragma mark - config&#10;&#10;- (id&#60;HLLAlertActionSheetProtocol&#62;) title:(NSString *)titile;&#10;- (id&#60;HLLAlertActionSheetProtocol&#62;) message:(NSString *)message;&#10;...&#10;@end</span><br></pre></td></tr></table></figure>
+<p>使用一个<code>HLLAlertActionSheet</code>类来生成对应的alert或者actionSheet类：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface HLLAlertActionSheet : NSObject&#10;+ (id&#60;HLLAlertActionSheetProtocol&#62;) alert;&#10;+ (id&#60;HLLAlertActionSheetProtocol&#62;) actionSheet;&#10;@end&#10;&#10;@implementation HLLAlertActionSheet&#10;#pragma mark - config&#10;+ (id&#60;HLLAlertActionSheetProtocol&#62;) alert&#123;    &#10;    return [HLLAlert alert];&#10;&#125;&#10;@end</span><br></pre></td></tr></table></figure>
+<p>而对于alert以及actionSheet类来说，内部使用一个私有类来存储通过实现协议传入的设置，然后在<code>showIn:</code>方法中对UIalertContrller进行初始化、设置以及显示。一个alert类的部分内容如下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface HLLAlert : NSObject&#60;HLLAlertActionSheetProtocol&#62;&#10;&#10;@property (nonatomic ,strong) HLLAlertActionSheetModel * aModel;&#10;#pragma mark - config&#10;+ (HLLAlert *) alert;&#10;@end</span><br></pre></td></tr></table></figure>
+<p>其中实现协议方法时候把当前实例对象也返回出去：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (HLLAlert *) title:(NSString *)titile&#123;&#10;    &#10;    self.aModel.title = titile;&#10;    return self;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>这样在使用的时候可以这样：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[[[[[[HLLAlertActionSheet alert]&#10;          title:@&#34;&#20030;&#25253;&#36825;&#20010;&#20154;&#34;]&#10;         message:@&#34;&#30830;&#23450;&#20030;&#25253;&#24403;&#21069;&#20027;&#25773;&#30452;&#25773;&#30340;&#20869;&#23481;&#36829;&#35268;&#34;]&#10;        buttons:@[@&#34;&#21462;&#28040;&#34;,@&#34;&#20030;&#25253;&#34;]] style:UIAlertActionStyleCancel index:0]&#10;      showIn:self] fetchClick:^(NSInteger index) &#123;&#10;        &#10;        if (index = 1) &#123;// &#20030;&#25253;&#10;        &#125;&#10;    &#125;];</span><br></pre></td></tr></table></figure>
+<p>对于传入的用于可选操作的内容，可以使用数组也可以使用类似于UIAlertView初始化的时候不定个数的字符串类型：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/** Default handle button type is `UIAlertActionStyleDefault`. */&#10;- (id&#60;HLLAlertActionSheetProtocol&#62;) buttons:(NSArray *)buttons;&#10;/** Explain some as above .&#36825;&#20010;&#37319;&#29992;&#22810;&#23383;&#31526;&#20018;&#30340;&#26041;&#24335;&#20256;&#36882;buttons&#65292;&#20197;&#24212;&#23545;button-fetch&#19981;&#23545;&#24212;&#30340;&#38382;&#39064;*/&#10;- (id&#60;HLLAlertActionSheetProtocol&#62;) buttonTitles:(NSString *)buttonTitles, ... NS_REQUIRES_NIL_TERMINATION;</span><br></pre></td></tr></table></figure>
+<p>目前，没有做可以添加UITextField的封装，后续有时间再做。</p>
+<h2 id="3-关于一个变量的实例化方式">3.关于一个变量的实例化方式</h2><p>其实这是<strong>小括号内联符合表达式</strong>写法–<code>A compound statement enclosed in parentheses.</code></p>
+<p>想象一下，在对一个类的对象变量进行实例化的时候，往往需要写大量的关于这个对象变量的设置属性代码。</p>
+<p>这种做法的最大的意义是将代码整理分块，将同一个逻辑的代码抱在一起；同时对于一个不需要复用的小段逻辑，免去了重量级函数的调用：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.loginButton = (&#123;&#10;&#160;&#160;&#160;&#160;&#160;&#160;&#160; UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];&#10;&#160; &#160; &#160; &#160; ...&#10;&#160;&#160;&#160;&#160;&#160;&#160;&#160; button;&#10;&#160;&#160;&#160; &#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="4-使用位域进行代理方法实现与否的判断">4.使用位域进行代理方法实现与否的判断</h2><p>在使用代理的时候需要判断代理代理是否实现了协议方法，一般的方法就是使用if-else进行书写，但是这样的切砖代码比较枯燥，也没有一点儿技术性可言，所以按照EOC中的方法可以使用以下方法进行书写，</p>
+<p>使用结构体进行位的标记位：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@interface KKGestureLockView ()&#123;&#10;&#160;&#160;&#160; struct &#123;&#10;&#160;&#160;&#160;&#160;&#160;&#160;&#160; unsigned int didBeginWithPasscode :1;&#10;&#160;&#160;&#160;&#160;&#160;&#160;&#160; unsigned int didEndWithPasscode : 1;&#10;&#160;&#160;&#160;&#160;&#160;&#160;&#160; unsigned int didCanceled : 1;&#10;&#160;&#160;&#160; &#125; _delegateFlags;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>在设置代理的时候进行判断代理是否实现了相关协议方法，然后设置标记位：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)setDelegate:(id&#60;KKGestureLockViewDelegate&#62;)delegate&#123;&#10;&#10;&#160;&#160;&#160; _delegate = delegate;&#160;&#10;&#10;&#160;&#160;&#160; _delegateFlags.didBeginWithPasscode = [delegate respondsToSelector:@selector(gestureLockView:didBeginWithPasscode:)];&#10;&#160;&#160;&#160; _delegateFlags.didEndWithPasscode = &#12290;&#12290;&#12290;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>使用标记位判断是否实现协议方法：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if (_delegateFlags.didBeginWithPasscode) &#123;&#10;&#10;&#160;&#160;&#160;&#160;&#160;[self.delegate gestureLockView:self didBeginWithPasscode:[NSString stringWithFormat:@&#34;%zd&#34;,touchedButton.tag]];&#10;&#10;&#125;</span><br></pre></td></tr></table></figure>
+<p>Continue update …</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+          <p class="article-more-link">
+            <a href="/2017/05/15/convert-Train-of-thought/#more">阅读全文 -&gt;</a>
+          </p>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习/">学习</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+
+  
+    <a href="/2016/12/11/one-function/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">一个bug了解JS的核心知识点</div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/HTML5/" style="font-size: 10px;">HTML5</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/MVVM/" style="font-size: 10px;">MVVM</a> <a href="/tags/Python/" style="font-size: 13.33px;">Python</a> <a href="/tags/UITableView/" style="font-size: 13.33px;">UITableView</a> <a href="/tags/UI学习/" style="font-size: 13.33px;">UI学习</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/iOS9/" style="font-size: 10px;">iOS9</a> <a href="/tags/iOS开发/" style="font-size: 16.67px;">iOS开发</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/runtime/" style="font-size: 16.67px;">runtime</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/博客/" style="font-size: 10px;">博客</a> <a href="/tags/学习/" style="font-size: 20px;">学习</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/文档/" style="font-size: 10px;">文档</a> <a href="/tags/爬虫/" style="font-size: 10px;">爬虫</a> <a href="/tags/组件/" style="font-size: 10px;">组件</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">文章归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">十月 2014</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+
+  <div class="outer">
+    
+    <div id="footer-info" class="inner">
+      All content copyright &copy; 2017 <a href="/"> Rocky </a> • All rights reserved.<br>
+      使用 <a href="http://hexo.io/" target="_blank">Hexo</a>驱动 • 自定制主题
+    </div>
+
+  </div>
+
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>
