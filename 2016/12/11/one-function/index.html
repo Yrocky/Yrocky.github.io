@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>一个bug了解JS的核心知识点 | Rocky&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="由一段代码来开始对JS中一些知识点的学习
+12345678910111213function wrapElements(a)&amp;#123;    var result = [] , i , length;    for (i = 0 ,length = a.length; i &amp;lt; length; i ++)&amp;#123;        result[i] = function ()&amp;#123;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一个bug了解JS的核心知识点">
+<meta property="og:url" content="http://yoursite.com/2016/12/11/one-function/index.html">
+<meta property="og:site_name" content="Rocky's blog">
+<meta property="og:description" content="由一段代码来开始对JS中一些知识点的学习
+12345678910111213function wrapElements(a)&amp;#123;    var result = [] , i , length;    for (i = 0 ,length = a.length; i &amp;lt; length; i ++)&amp;#123;        result[i] = function ()&amp;#123;">
+<meta property="og:updated_time" content="2017-08-05T09:30:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一个bug了解JS的核心知识点">
+<meta name="twitter:description" content="由一段代码来开始对JS中一些知识点的学习
+12345678910111213function wrapElements(a)&amp;#123;    var result = [] , i , length;    for (i = 0 ,length = a.length; i &amp;lt; length; i ++)&amp;#123;        result[i] = function ()&amp;#123;">
+  
+    <link rel="alternative" href="/atom.xml" title="Rocky&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="favicon.ico">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+       
+      <h1 id="logo-wrap">
+        <a href="/" id="logo-image-a">
+          <p id="logo-wrap-title">Rocky&#39;s blog</p>
+        </a>
+      </h1>
+      <h3 id="logo-sub">
+        <p id="logo-sub-title">Never underestimate the heart of a champion</p>
+      </h3>
+    </div>
+    <div id="header-inner" class="inner">
+      
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-one-function" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/11/one-function/" class="article-date">
+  <time datetime="2016-12-11T13:02:00.000Z" itemprop="datePublished">2016-12-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      一个bug了解JS的核心知识点
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>由一段代码来开始对JS中一些知识点的学习</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function wrapElements(a)&#123;</span><br><span class="line">    <span class="keyword">var</span> <span class="literal">result</span> = [] , i , length;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span> ,length = a.length; i &lt; length; i ++)&#123;</span><br><span class="line">        <span class="literal">result</span>[i] = function ()&#123;</span><br><span class="line">            <span class="keyword">return</span> a[i];</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">result</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> wrapped = wrapElements([<span class="number">10</span>,<span class="number">20</span>,<span class="number">30</span>,<span class="number">40</span>,<span class="number">50</span>]);</span><br><span class="line"><span class="keyword">var</span> f = wrapped[<span class="number">0</span>];</span><br><span class="line">f(); // ?</span><br></pre></td></tr></table></figure>
+<p>预想的这里要输出10，但是实际上却是<code>udefined</code>。</p>
+<p>这个bug代码段的主要原因是<code>作用域</code>问题，但是还涉及到<code>闭包</code>、<code>变量提升</code>、<code>立即调用函数</code>等，因此做一个笔记。</p>
+<a id="more"></a>
+<h3 id="作用域">作用域</h3><p>在<code>ES5</code>只有<code>全局作用域</code>和<code>函数作用域</code>而没有<code>块级作用域</code>，这跟其他的很多编程语言都是不一样的，而且这样会照成很多的不合理的场景。</p>
+<p>至于<code>js没有块级作用域</code>的意思是，<code>变量定义的作用域不是离其最近的封闭语句或者代码块，而是包含他的函数。</code></p>
+<p>但是到了<code>ES6</code>，新增了<code>let</code>命令，他用来声明的变量只在代码块中有效，这样就形成了一个块级作用域，另外，<code>ES6</code>新增的<code>const</code>也是可以形成块级作用域的。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    let a = <span class="number">10</span>;</span><br><span class="line">    var b = <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">a <span class="comment">// ReferenceError</span></span><br><span class="line">b <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+<h3 id="闭包">闭包</h3><p>难以理解闭包的一点其实是：闭包存储的是其<code>外部变量的引用</code>，<code>而不是其值</code>。这一点和OC中的block是一致的。</p>
+<p>在js中关于闭包你需要知道的有三条：</p>
+<ol>
+<li>js允许引用当前函数以外定义的变量</li>
+<li>即使当前函数已经返回，闭包也可以引用到变量的值</li>
+<li>闭包可以更新外部变量的值</li>
+</ol>
+<p>另外一点是，闭包比创建他们的函数有更长的生命周期，这么看来真的和OC中的block是一样的。</p>
+<h3 id="绑定与赋值">绑定与赋值</h3><p>在运行时进入到一个作用域，js会为每一个绑定到该作用域的变量在内存中分配一个槽(<code>slot</code>)，这里的<code>wrapElements</code>函数绑定了三个局部变量：<code>result</code>、<code>i</code>、<code>length</code>。在循环体里面，为result存储的每一个变量分配了一个<code>闭包</code>。</p>
+<p>在这里由于赋值变量为一个闭包，我们希望的是该闭包函数存储的是其创建时的<code>i</code>值。但是实际上由于上述闭包的特性，这里存储的是<code>i的引用</code>，在循环结束之前，<code>i都是变化的</code>，最后固定为<code>5</code>，然后结束循环。</p>
+<p>因此这里所有的result数组中的变量存储的都是一个返回<code>a[5]</code>的匿名函数，到这里，就应该明白了，<code>a数组</code>一共才存储了5个数据，最大索引是<code>4</code>，对他进行索取<code>第5个元素</code>肯定是<code>undefined</code>的。</p>
+<p>换句话说，绑定和赋值就是对变量的声明行为：对变量的<code>声明</code>和<code>赋值</code>。js<code>隐式的</code>提升声明部分到封闭函数的顶部<code>(绑定行为，为变量分配槽</code>)，从而使得变量的作用域就是整个函数，而将赋值留在原地。</p>
+<h3 id="变量提升(Hoists)">变量提升(Hoists)</h3><p>既然js会为当前作用域下绑定的变量分配槽，那么，我这么写会不会就会在循环体中一直创建新的槽</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function wrapElements(a)&#123;</span><br><span class="line">    <span class="keyword">var</span> <span class="literal">result</span> = [];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span> ,length = a.length; i &lt; length; i ++)&#123;</span><br><span class="line">        <span class="literal">result</span>[i] = function ()&#123;</span><br><span class="line">            <span class="keyword">return</span> a[i];</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">result</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行之后发现，结果还是一样的，这是因为js还有一个特性叫<code>变量提升</code>。</p>
+<p><code>var i = 0 ,length = a.length</code>由于js的变量提升，实际执行效果相当于一开始的写法。</p>
+<p>变量提升的意思一句话来说就是：<code>脚本开始运行时，会把该变量提升到该作用域的头部进行声明</code>。</p>
+<p>一个简单的变量提升例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">oop</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(b);</span><br><span class="line">    <span class="built_in">console</span>.log(a);</span><br><span class="line">    <span class="keyword">let</span> b = <span class="number">4</span>;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">3</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">oop();</span><br><span class="line"><span class="comment">// ReferenceError</span></span><br><span class="line"><span class="comment">// undefined</span></span><br></pre></td></tr></table></figure>
+<p>实际上在js编译的时候是这个样子的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">oop</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> a;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">console</span>.log(b);<span class="comment">// ReferenceError</span></span><br><span class="line">    <span class="built_in">console</span>.log(a);<span class="comment">// undefined</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> b = <span class="number">4</span>;</span><br><span class="line">    a = <span class="number">3</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这是由于let不会发生变量提升，所以打印b的时候报错。var将a提升到当前作用域的头部，对a的打印为没有赋值。</p>
+<p>在<a href="https://github.com/sivan/javascript-style-guide/blob/master/es5/README.md#hoisting" target="_blank" rel="external">Airbnb</a>的js编码规范中提到，尽量在作用域的顶部声明该作用域下的全局变量，这更可以有效的避免变量声明提升的问题。</p>
+<p>另外Airbnb关于提升总结了以下有几点：</p>
+<ul>
+<li><p>变量声明会提升至作用域的顶部，但赋值不会</p>
+</li>
+<li><p>匿名函数表达式会提升他们的变量名，但不会提升函数的赋值。这一点其实是和普通的变量是一样的。</p>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exp</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">console</span>.log(foo);           <span class="comment">// undefined，这里还没有为其赋值，所以为undefined</span></span><br><span class="line">    </span><br><span class="line">    foo();                      <span class="comment">// TypeError,这里js是不知道foo这个变量是什么类型的，因此报类型错误</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> foo = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;       <span class="comment">// 直到这里，foo这个变量才被决定作为一个函数</span></span><br><span class="line">    </span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'this is foo .'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>命名函数表达式会提升变量名，但是不会提升函数名和函数体。这一点和上一条的匿名函数式一样的。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">example</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(named);           <span class="comment">// =&gt; undefined</span></span><br><span class="line"></span><br><span class="line">  named();                      <span class="comment">// =&gt; TypeError named is not a function</span></span><br><span class="line"></span><br><span class="line">  superPower();                 <span class="comment">// =&gt; ReferenceError superPower is not defined</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> named = <span class="function"><span class="keyword">function</span> <span class="title">superPower</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Flying'</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//  对于命名函数，即使变量名和函数名一样(`将superPower替换为named`)，结果还是一样的。</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>函数声明</code>提升他们的名字和函数体</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">example</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  superPower(); <span class="comment">// =&gt; Flying</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">superPower</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Flying'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="立即调用函数(IIFE)">立即调用函数(IIFE)</h3><p>在js中函数是<code>一等公民</code>，这一点是使用js的程序员都知道的。关于函数，他可以作为一个<code>变量</code>，也可以作为另一个函数的<code>参数</code>以及<code>返回值</code>。</p>
+<p>声明一个函数很简单:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'this is a function'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>将一个函数作为一个变量的值也可以有多种方法：</p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> f = <span class="function"><span class="keyword">function</span> <span class="title">foo</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'name'</span>;</span><br><span class="line">&#125;</span><br><span class="line">f();</span><br><span class="line"></span><br><span class="line"><span class="comment">// or 使用匿名函数</span></span><br><span class="line"><span class="keyword">var</span> f = <span class="function"><span class="keyword">function</span> <span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'name'</span>;</span><br><span class="line">&#125;</span><br><span class="line">f();</span><br></pre></td></tr></table></figure>
+<p>而立即调用函数则是函数的一个新写法，他会在书写的地方立即执行，不需要调用：</p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">function</span><span class="list">()</span><span class="collection">&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span>)</span><span class="list">()</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>如果这个函数有参数，也可以这样写，只不过上一种把参数省略掉了</p>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> outerI = <span class="string">'green'</span>;</span><br><span class="line"></span><br><span class="line">(<span class="function"><span class="keyword">function</span><span class="params">(i)</span><span class="comment">&#123;</span><br><span class="line"></span><br><span class="line">    console.log(i);</span><br><span class="line"></span><br><span class="line">&#125;</span>)<span class="params">(outerI)</span>;</span></span><br></pre></td></tr></table></figure>
+<p>其实这做是没有必要的，因为立即调用函数可以获得到当前作用域内所有的变量，大可这么写</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> outerI = <span class="string">'green'</span>;</span><br><span class="line"></span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> j = outerI;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">console</span>.log(j);</span><br><span class="line"></span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+<p>或者直接省略中间变量<code>j</code>，这都得益于上面闭包的特性:</p>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> outerI = <span class="string">'green'</span>;</span><br><span class="line"></span><br><span class="line">(<span class="function"><span class="keyword">function</span><span class="params">()</span><span class="comment">&#123;</span><br><span class="line">    </span><br><span class="line">    console.log(outerI);</span><br><span class="line"></span><br><span class="line">&#125;</span>)<span class="params">()</span>;</span></span><br></pre></td></tr></table></figure>
+<p>使用函数需要注意的点：</p>
+<ul>
+<li>永远不要在一个非函数代码块（if、while、for等）中<code>声明</code>一个函数，要把那个函数赋给一个变量，而且使用函数表达式来实现。</li>
+</ul>
+<p>先来看一个例子：</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">function f()&#123;<span class="keyword">return</span> 'global';&#125;;</span><br><span class="line"></span><br><span class="line">function test(x)&#123;</span><br><span class="line">    </span><br><span class="line">    function f() &#123;<span class="keyword">return</span> 'local';&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> <span class="literal">result</span>[];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(x)&#123;</span><br><span class="line">    </span><br><span class="line">        <span class="literal">result</span>.push(f());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="literal">result</span>.push(f());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">result</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">test(<span class="literal">true</span>);     // ['local','local']</span><br><span class="line">test(<span class="literal">false</span>);    // ['local']</span><br></pre></td></tr></table></figure>
+<p>上面的代码没有问题，如果稍微修改一下：</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">function f()&#123;<span class="keyword">return</span> 'global';&#125;;</span><br><span class="line"></span><br><span class="line">function test(x)&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> <span class="literal">result</span>[];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(x)&#123;</span><br><span class="line">        </span><br><span class="line">        function f() &#123;<span class="keyword">return</span> 'local';&#125;;</span><br><span class="line"></span><br><span class="line">        <span class="literal">result</span>.push(f());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="literal">result</span>.push(f());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">result</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">test(<span class="literal">true</span>);     // ['local','global'] ?</span><br><span class="line">test(<span class="literal">false</span>);    // ['global']         ?</span><br></pre></td></tr></table></figure>
+<p>输出结果真的是这样的么？真实的输出结果其实是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>(<span class="literal">true</span>);     // [<span class="string">'local'</span>,<span class="string">'local'</span>]</span><br><span class="line"><span class="built_in">test</span>(<span class="literal">false</span>);    // [<span class="string">'local'</span>]</span><br></pre></td></tr></table></figure>
+<p>我们想当然的以为if代码块中的f()是一个局部变量，只有在<code>x === true</code>的时候才会放入result中，但是实际上在if代码块中的<code>f()</code>函数是当前作用域下的全局变量，不是if代码块内部的局部变量，if代码块不会产生作用域，这一点和其他的编程语言可能会有些许不同。</p>
+<p>因此，一个好的编码规范是如下这样的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bad</span></span><br><span class="line"><span class="keyword">if</span> (currentUser) &#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Nope.'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// good</span></span><br><span class="line"><span class="keyword">var</span> test;</span><br><span class="line"><span class="keyword">if</span> (currentUser) &#123;</span><br><span class="line">  test = <span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Yup.'</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="最后，如何修改一开始的代码bug呢">最后，如何修改一开始的代码bug呢</h3><p>上面说了，照成这样的bug是由于<code>作用域问题</code>，那么合理使用作用域就可以解决这样的bug，或者说合理的使用作用域就可以有效的规避这样的bug出现。</p>
+<h4 id="1-使用let">1.使用let</h4><p>由于使用var存在变量提升，那么就使用let不让他变量提升</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function wrapElements(a)&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> <span class="literal">result</span> = [] , length;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span> ,length = a.length; i &lt; length; i ++)&#123;</span><br><span class="line"></span><br><span class="line">        <span class="literal">result</span>[i] = function ()&#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> a[i];</span><br><span class="line"></span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">result</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-使用立即调用函数">2.使用立即调用函数</h3><p>另外是使用立即调用函数，强制性的创建一个局部作用域。</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">function wrapElements(a)&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> <span class="literal">result</span> = [] , length;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span> ,length = a.length; i &lt; length; i ++)&#123;</span><br><span class="line">    </span><br><span class="line">        (function()&#123;</span><br><span class="line">    </span><br><span class="line">            <span class="keyword">var</span> j = i;</span><br><span class="line">    </span><br><span class="line">            <span class="literal">result</span>[i] = function ()&#123;</span><br><span class="line">    </span><br><span class="line">                <span class="keyword">return</span> a[j];</span><br><span class="line">            &#125;;</span><br><span class="line">    </span><br><span class="line">        &#125;)();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">result</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="学到了什么">学到了什么</h3><ul>
+<li>在for循环计数器中，最好使用<code>let</code>命令</li>
+<li>js作用域规则</li>
+<li>闭包的特点和OC中的block是一样的</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+          <p class="article-more-link">
+            <a href="/2016/12/11/one-function/#more">阅读全文 -&gt;</a>
+          </p>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习/">学习</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/05/15/convert-Train-of-thought/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          换个思路，让编程更加有意思
+        
+      </div>
+    </a>
+  
+
+  
+    <a href="/2016/04/03/tableView-select/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">iOS开发中的单选与多选</div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/HTML5/" style="font-size: 10px;">HTML5</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/MVVM/" style="font-size: 10px;">MVVM</a> <a href="/tags/Python/" style="font-size: 13.33px;">Python</a> <a href="/tags/Sketch/" style="font-size: 10px;">Sketch</a> <a href="/tags/UITableView/" style="font-size: 13.33px;">UITableView</a> <a href="/tags/UI学习/" style="font-size: 13.33px;">UI学习</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/iOS9/" style="font-size: 10px;">iOS9</a> <a href="/tags/iOS开发/" style="font-size: 16.67px;">iOS开发</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/runtime/" style="font-size: 16.67px;">runtime</a> <a href="/tags/sketch/" style="font-size: 10px;">sketch</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/博客/" style="font-size: 10px;">博客</a> <a href="/tags/学习/" style="font-size: 20px;">学习</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/文档/" style="font-size: 10px;">文档</a> <a href="/tags/爬虫/" style="font-size: 10px;">爬虫</a> <a href="/tags/组件/" style="font-size: 10px;">组件</a> <a href="/tags/设计/" style="font-size: 10px;">设计</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">文章归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">十月 2014</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+
+  <div class="outer">
+    
+    <div id="footer-info" class="inner">
+      All content copyright &copy; 2017 <a href="/"> Rocky </a> • All rights reserved.<br>
+      使用 <a href="http://hexo.io/" target="_blank">Hexo</a>驱动 • 自定制主题
+    </div>
+
+  </div>
+
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>
