@@ -99,51 +99,6 @@
 </article>
 
   
-    <article id="post-one-function" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/11/one-function/" class="article-date">
-  <time datetime="2016-12-11T13:09:00.000Z" itemprop="datePublished">2016-12-11</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/11/one-function/">一个bug了解JS的核心知识点</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>由一段代码来开始对JS中一些知识点的学习</p>
-<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function wrapElements(a)&#123;</span><br><span class="line">    <span class="keyword">var</span> <span class="literal">result</span> = [] , i , length;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span> ,length = a.length; i &lt; length; i ++)&#123;</span><br><span class="line">        <span class="literal">result</span>[i] = function ()&#123;</span><br><span class="line">            <span class="keyword">return</span> a[i];</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">result</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> wrapped = wrapElements([<span class="number">10</span>,<span class="number">20</span>,<span class="number">30</span>,<span class="number">40</span>,<span class="number">50</span>]);</span><br><span class="line"><span class="keyword">var</span> f = wrapped[<span class="number">0</span>];</span><br><span class="line">f(); // ?</span><br></pre></td></tr></table></figure>
-<p>预想的这里要输出10，但是实际上却是<code>udefined</code>。</p>
-<p>这个bug代码段的主要原因是<code>作用域</code>问题，但是还涉及到<code>闭包</code>、<code>变量提升</code>、<code>立即调用函数</code>等，因此做一个笔记。</p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-          <p class="article-more-link">
-            <a href="/2016/12/11/one-function/#more">阅读全文 -&gt;</a>
-          </p>
-      
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习/">学习</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-  
     <article id="post-tableView-select" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/04/03/tableView-select/" class="article-date">
@@ -488,6 +443,48 @@
 </article>
 
   
+    <article id="post-Runtime之界面跳转" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/11/20/Runtime之界面跳转/" class="article-date">
+  <time datetime="2015-11-20T11:33:37.000Z" itemprop="datePublished">2015-11-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/11/20/Runtime之界面跳转/">Runtime之界面跳转</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>有时候面对推送会有很多的的类型，要跳到不同界面，看了cocoaChina之后使用runtime进行这样的逻辑操作会好很多。</p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+          <p class="article-more-link">
+            <a href="/2015/11/20/Runtime之界面跳转/#more">阅读全文 -&gt;</a>
+          </p>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/runtime/">runtime</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -501,7 +498,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/HTML5/" style="font-size: 10px;">HTML5</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/MVVM/" style="font-size: 10px;">MVVM</a> <a href="/tags/Python/" style="font-size: 13.33px;">Python</a> <a href="/tags/UITableView/" style="font-size: 13.33px;">UITableView</a> <a href="/tags/UI学习/" style="font-size: 13.33px;">UI学习</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/iOS9/" style="font-size: 10px;">iOS9</a> <a href="/tags/iOS开发/" style="font-size: 16.67px;">iOS开发</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/runtime/" style="font-size: 16.67px;">runtime</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/博客/" style="font-size: 10px;">博客</a> <a href="/tags/学习/" style="font-size: 20px;">学习</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/文档/" style="font-size: 10px;">文档</a> <a href="/tags/爬虫/" style="font-size: 10px;">爬虫</a> <a href="/tags/组件/" style="font-size: 10px;">组件</a>
+      <a href="/tags/HTML5/" style="font-size: 10px;">HTML5</a> <a href="/tags/MVVM/" style="font-size: 10px;">MVVM</a> <a href="/tags/Python/" style="font-size: 13.33px;">Python</a> <a href="/tags/UITableView/" style="font-size: 13.33px;">UITableView</a> <a href="/tags/UI学习/" style="font-size: 13.33px;">UI学习</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/iOS9/" style="font-size: 10px;">iOS9</a> <a href="/tags/iOS开发/" style="font-size: 16.67px;">iOS开发</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/runtime/" style="font-size: 16.67px;">runtime</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/博客/" style="font-size: 10px;">博客</a> <a href="/tags/学习/" style="font-size: 20px;">学习</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/文档/" style="font-size: 10px;">文档</a> <a href="/tags/爬虫/" style="font-size: 10px;">爬虫</a> <a href="/tags/组件/" style="font-size: 10px;">组件</a>
     </div>
   </div>
 
@@ -510,7 +507,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">文章归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">十月 2014</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">九月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">十二月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">十一月 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">十月 2014</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
