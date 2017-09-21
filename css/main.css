@@ -483,7 +483,7 @@ h1.prince-log a {
   font-size: 18px;
   letter-spacing: 1.25px;
   font-weight: 400;
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
   margin-bottom: 10px;
 }
 
@@ -1108,7 +1108,7 @@ h3.aside-title {
   font-family: 'Oswald', sans-serif, 'Microsoft YaHei', STHeiti;
   font-size: 12px !important;
   letter-spacing: 1px;
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
   background: #f2f2f2;
   color: #666;
   padding: 6px 7px 6px;
