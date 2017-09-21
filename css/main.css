@@ -521,11 +521,13 @@ h1.prince-log a {
 
 .post-entry p {
   margin-bottom: 20px;
+  letter-spacing: 0.5px;
   animation: 3s infinite alternate slideIn;
 }
 
 .post-entry a {
   padding: 0 2px;
+  letter-spacing: 0.5px;
   border-bottom: 1px solid #333;
   -webkit-transition: all 0.2s linear;
   -moz-transition: all 0.2s linear;
