@@ -1015,6 +1015,7 @@ aside.sidebar {
   .post-item a .post-title {
     font-family: "Trebuchet MS", Helvetica Neue, Helvetica, 'Microsoft YaHei', STHeiti, Arial, sans-serif;
     height: 18px;
+    font-size: 18px;
     line-height: 18px;
     padding-left: 0px;
   }
