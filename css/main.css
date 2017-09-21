@@ -516,6 +516,7 @@ h1.prince-log a {
 .post-entry img {
   max-width: 100%;
   height: auto;
+  margin-bottom: 20px;
 }
 
 .post-entry p {
@@ -998,7 +999,7 @@ aside.sidebar {
   text-align: left;
   margin: 0px;
   font-weight: 400;
-  text-transform: uppercase;
+/*text-transform: uppercase;*/
 }
 
 @media only screen and (max-width: 767px) {
@@ -1048,7 +1049,7 @@ aside.sidebar {
   font-size: 12px;
   color: #797979;
   line-height: 32px;
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
 }
 
 .postList-tags-box li a:hover {
