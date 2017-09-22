@@ -623,12 +623,15 @@ blockquote {
 }
 
 .post-entry blockquote {
+  border-left: 3px solid #424243;
   background-color: #f4f4f4;
   margin-bottom: 20px;
+  padding-bottom:1px;
+  padding-top:10px;
 }
 
 .post-entry blockquote p {
-  border-left: 3px solid #424243;
+  /*border-left: 3px solid #424243;*/
   color: #999;
   padding: 0 18px;
   font-family: "Georgia";
@@ -1027,6 +1030,8 @@ aside.sidebar {
     line-height: 18px;
     font-size: 12px;
     color: #808080;
+    margin-bottom: 5px;
+    margin-top: 10px;
   }
 }
 
