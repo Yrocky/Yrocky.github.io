@@ -638,7 +638,7 @@ blockquote {
   font-size: 15px;
   line-height: 28px;
   margin: 0px;
-  font-style: italic;
+  /*font-style: italic;*/
 }
 
 .post-entry blockquote footer {
@@ -647,7 +647,7 @@ blockquote {
 }
 
 .post-entry blockquote footer cite {
-  font-style: italic;
+  /*font-style: italic;*/
 }
 
 .post-entry blockquote footer cite::before {

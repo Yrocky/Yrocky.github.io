@@ -120,13 +120,13 @@
 <p>里面通过服务中心中的<strong>DeviceRankSnsMgr</strong>调用了<code>-likeFriendRank:FriendUsernames:brandUserName:optype:</code>函数，hook一下该函数发现参数为：</p>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">DeviceRankSnsMgr</span> : <span class="title">MMService</span></span></span><br><span class="line">- (<span class="keyword">void</span>)likeFriendRank:(<span class="built_in">NSStirng</span> *)arg1 FriendUsernames:(<span class="built_in">NSArray</span> *)arg2 brandUserName:(<span class="built_in">NSString</span> *)arg3 optype:(<span class="keyword">unsigned</span> <span class="keyword">int</span>)arg4;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line">第一个参数为 BraceletRankViewController 的 _rankId 属性，</span><br><span class="line">第二个参数为要点赞的好友数组，内部装的是用户<span class="keyword">id</span></span><br><span class="line">第三个传空字符串</span><br><span class="line">第四个传<span class="number">1</span></span><br></pre></td></tr></table></figure>
 <p>因此，只需要获取到所有排行榜中好友的id放入数组，使用<strong>DeviceRankSnsMgr</strong>的这个方法就可以为所有的好友进行点赞。</p>
-<h3 id="16-为新添加好友发送自我介绍">16.为新添加好友发送自我介绍</h3><img src="/2017/09/11/hook-wechat/wechat_hello.png" alt="hello" title="hello">
-<p>一个很实用，同时也是很有趣的需求。一些特殊人群，比如中介、销售、推广之类的用户，加了别人第一件事就是介绍自己，加深第一印象，每次都是一样的文案，每次都要复制粘贴过来，会显得很繁琐。</p>
-<p>首先需要探究一下，当添加了一个用户之后的界面区别。陌生人通过扫描二维码之后点击添加到通讯录之后，本机账号这边会有一个异步消息，通过hook下<strong>CMessageMgr</strong>的<code>-AsyncOnAddMsg:MsgWrap:</code>可以发现</p>
+<h3 id="16-为新添加好友发送问候语">16.为新添加好友发送问候语</h3><img src="/2017/09/11/hook-wechat/wechat_hello.png" alt="hello" title="hello">
+<p>一个很实用，同时也是很有趣的需求。一些特殊人群，需要添加大量的好友，比如中介、销售、推广之类的用户，加了别人第一件事就是介绍自己，加深第一印象，每次都是一样的文案，每次都要复制粘贴过来，会显得很繁琐。</p>
+<p>首先需要探究一下，当添加了一个用户之后的界面显示特点。陌生人通过扫描二维码点击添加到通讯录之后，本机账号这边会有一个异步消息，通过hook下<strong>CMessageMgr</strong>的<code>-AsyncOnAddMsg:MsgWrap:</code>可以发现</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wrap.m_uiMessageType = <span class="number">10000</span>;</span><br></pre></td></tr></table></figure>
 <p>多次试验之后确定添加好友的类型就是10000，因此可以根据这个信息来判断是否是刚添加的好友。</p>
 <p>接着分析添加好友的场景：<strong>自己添加别人</strong>、<strong>别人添加自己</strong>。</p>
-<h4 id="1-别人添加自己为好友">1.别人添加自己为好友</h4><p>当别人通过二维码添加自己到通讯录的时候，本地会发送一个消息<code>『***刚刚把你添加到通讯录，现在可以开始聊天了』</code>，这个消息类型是10000，但是他的 <code>m_uiMesLocalID = 1</code>，</p>
+<h4 id="16-1_别人添加自己为好友">16.1 别人添加自己为好友</h4><p>当别人通过二维码添加自己到通讯录的时候，本地会发送一个消息<code>『***刚刚把你添加到通讯录，现在可以开始聊天了』</code>，这个消息类型是10000，但是他的 <code>m_uiMesLocalID = 1</code>，</p>
 <p>除了这个消息提示，界面上还会出现一个添加好友的按钮，当点击了添加之后，会再次发送一个消息，这个消息也是10000类型的，但是他的 <code>m_uiMesLocalID = 2</code>，然后本地发送一个<code>『你已经添加了***，现在可以开始聊天了』</code>。</p>
 <p>通过上面的流程是不是可以理解为：</p>
 <blockquote>
@@ -134,7 +134,7 @@
 <p>而且 <code>m_uiMesLocalID</code> 表示的是和该用户的本地消息记录id，从1开始，所以后面自己再点击添加按钮之后会变成2。</p>
 </blockquote>
 <p>结合<code>m_uiMesLocalID</code>和<code>m_uiMessageType</code>这两个属性，可以判断出来是不是新添加的好友。</p>
-<h4 id="2-自己添加别人为好友">2.自己添加别人为好友</h4><p>当扫描别人的二维码之后的消息类型和上面的类似只不过是发送和接收方的不同，<code>m_uiMesLocalID</code>和<code>m_uiMessageType</code>这两个属性和上面分析的一样。   </p>
+<h4 id="16-2_自己添加别人为好友">16.2 自己添加别人为好友</h4><p>当扫描别人的二维码之后的消息类型和上面的类似只不过是发送和接收方的不同，<code>m_uiMesLocalID</code>和<code>m_uiMessageType</code>这两个属性和上面分析的一样。   </p>
 <p>这里有一个问题，在我多次添加/删除好友之后，<code>添加那一方</code>不会再收到上面提到的消息，而<code>被添加发</code>还是可以收到上面的消息。不知道微信内部做了什么。所以，现在的做法会有一个不定时的bug：自己添加别人为好友的时候可能不会触发判断条件，不能发送问候语。后来看了一下，应该是短时间内添加/删除太频繁导致的。</p>
 <hr>
 <blockquote>
