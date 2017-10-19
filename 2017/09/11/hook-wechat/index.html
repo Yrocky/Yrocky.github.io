@@ -14,7 +14,8 @@
 <h3 id="2-防止消息撤回">2.防止消息撤回</h3><p>思路为：hook收到【撤回消息】的消息，不执行删除消息的操作，然后添加一个本地消息提示阻止了一条消息撤回。</p>
 <p><a href="http://www.jianshu.com/p/7f65287a2e7a" target="_blank" rel="external">简书：Mac版微信防消息撤回  文章中有github地址</a></p>
 <h3 id="3-群聊黑名单">3.群聊黑名单</h3><p>大致思路为：使用一个数组记录选择的黑名单到本地，hook获取消息的方法，如果是群聊消息且在数组中，就直接返回。</p>
-<p><a href="https://github.com/buginux/WeChatRedEnvelop" target="_blank" rel="external">Github：Tweak源码</a></p>
+<p>[Github：Tweak源码](<a href="https://github.com/buginux/WeChatRedEnvelop" target="_blank" rel="external">https://github.com/buginux/WeChatRedEnvelop</a></p>
+<p><a href="http://yulingtianxia.com/blog/2017/03/06/How-to-hook-the-correct-method-in-reverse-engineering/" target="_blank" rel="external">文章：如何在逆向工程中 Hook 得更准 - 微信屏蔽好友&amp;群消息实战</a></p>
 <h3 id="4-花样修改微信步数">4.花样修改微信步数</h3><p>所有的修改微信步数的操作都是在获取在微信步数的时候hook，然后展示想要的数字。</p>
 <p>对比这种太过痕迹化的改步数，在修改步数的时候增加一些可玩性的操作，让修改步数不那么明显。除了基础的固定步数，主要的玩法有两个：与『第一名』、『最后一名』、『任意一名』多/少n步；选择排行榜中的某一个人比他多/少n步。这些都是逻辑的处理，没什么可说的，看官也可以按照自己的想法编写一套逻辑来修改步数。</p>
 <p>主要的难点在于获取加入微信运动排行榜的所有用户供选择，这个既然微信运动排行榜中有，那么就可以获取到。</p>
