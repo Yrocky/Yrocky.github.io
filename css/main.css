@@ -157,7 +157,7 @@ a img {
 body {
   font-family: "Trebuchet MS", monospace, 'Microsoft YaHei', STHeiti;
   color: #333;
-  font-size: 14px;
+  font-size: 15px;
   background-color: #f2f2f2;
 }
 
@@ -198,12 +198,14 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Oswald', sans-serif, 'Microsoft YaHei', STHeiti;
+  font-family: font-family: -apple-system,SF UI Text,Arial,PingFang SC,Hiragino Sans GB,Microsoft YaHei,WenQuanYi Micro Hei,sans-serif;
 }
 
 p {
-  font-size: 14px;
-  line-height: 22px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.7;
+  color: #2f2f2f;
 }
 
 a {
@@ -225,6 +227,10 @@ img {
   border: 0;
   padding: 0;
   height: auto;
+  vertical-align: middle;
+  clear: both;
+  display: block;
+  margin: auto;
 }
 
 cite {
@@ -248,12 +254,14 @@ samp {
 }
 
 code {
-  padding: 2px 4px;
+
+  padding: 4px;
   word-wrap: break-word;
-  color: #4d4d4c;
-  background: #f7f7f7;
+  color: #f7f7f7;
+  background: #2f2f2f;
   border-radius: 3px;
-  font-size: 13px;
+  line-height: 1.7;
+  font-size: 14px;
 }
 
 pre code {
@@ -368,7 +376,7 @@ pre .javascript .function {
 h1.prince-log {
   height: 80px;
   line-height: 80px;
-  font-family: 'Oswald', sans-serif, 'Microsoft YaHei', STHeiti;
+  font-family: -apple-system,SF UI Text,Arial,PingFang SC,Hiragino Sans GB,Microsoft YaHei,WenQuanYi Micro Hei,sans-serif;
   text-transform: uppercase;
   letter-spacing: 3px;
   font-weight: 700;
@@ -388,7 +396,10 @@ h1.prince-log a {
   margin-top: 12px;
   display: none;
 }
-
+.post-item {
+ 
+  margin-bottom: 10px;
+}
 @media only screen and (min-width: 768px) {
   ul.main-nav-items {
     float: right;
@@ -401,7 +412,7 @@ h1.prince-log a {
     position: relative;
   }
   .main-nav-items li a {
-    font-family: 'Oswald', sans-serif, 'Microsoft YaHei', STHeiti;
+    font-family: -apple-system,SF UI Text,Arial,PingFang SC,Hiragino Sans GB,Microsoft YaHei,WenQuanYi Micro Hei,sans-serif;
     font-size: 12px;
     font-weight: 400;
     letter-spacing: 1px;
@@ -429,7 +440,7 @@ h1.prince-log a {
   .main-nav-items li a {
     display: block;
     text-align: right;
-    font-family: 'Oswald', sans-serif, 'Microsoft YaHei', STHeiti;
+    font-family: -apple-system,SF UI Text,Arial,PingFang SC,Hiragino Sans GB,Microsoft YaHei,WenQuanYi Micro Hei,sans-serif;
     font-size: 16px;
     font-weight: 400;
     letter-spacing: 1px;
@@ -476,7 +487,7 @@ h1.prince-log a {
 }
 
 .post-title {
-  font-family: "Trebuchet MS", Helvetica Neue, Helvetica, 'Microsoft YaHei', STHeiti, Arial, sans-serif;
+  font-family: -apple-system,SF UI Text,Arial,PingFang SC,Hiragino Sans GB,Microsoft YaHei,WenQuanYi Micro Hei,sans-serif;
   margin-bottom: 25px;
   margin-top: 20px;
   text-align: center;
@@ -488,7 +499,7 @@ h1.prince-log a {
 }
 
 .post-title a {
-  font-family: "Trebuchet MS", Helvetica Neue, Helvetica, 'Microsoft YaHei', STHeiti, Arial, sans-serif;
+  font-family: -apple-system,SF UI Text,Arial,PingFang SC,Hiragino Sans GB,Microsoft YaHei,WenQuanYi Micro Hei,sans-serif;
   color: #000;
 }
 
@@ -502,7 +513,7 @@ h1.prince-log a {
   text-transform: uppercase;
   text-align: center;
   letter-spacing: .6px;
-  font-family: 'Oswald', sans-serif, 'Microsoft YaHei', STHeiti;
+  font-family: -apple-system,SF UI Text,Arial,PingFang SC,Hiragino Sans GB,Microsoft YaHei,WenQuanYi Micro Hei,sans-serif;
   font-weight: 500;
   margin-bottom: 20px;
   margin-top: 20px;
@@ -520,8 +531,8 @@ h1.prince-log a {
 }
 
 .post-entry p {
-  margin-bottom: 20px;
-  letter-spacing: 0.5px;
+  margin: 0 0 25px;
+  letter-spacing: 0.3px;
   animation: 3s infinite alternate slideIn;
 }
 
@@ -573,7 +584,7 @@ h1.prince-log a {
 .post-entry h5,
 .post-entry h6,
 .post-entry hr {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   font-family: "Trebuchet MS", Helvetica Neue, Helvetica, 'Microsoft YaHei', STHeitiArial, sans-serif;
 }
 
@@ -588,18 +599,22 @@ h1.prince-log a {
 }
 
 .post-entry h1 {
+  padding-top: 20px;
   font-size: 28px;
 }
 
 .post-entry h2 {
+  padding-top: 20px;
   font-size: 26px;
 }
 
 .post-entry h3 {
+  padding-top: 15px;
   font-size: 24px;
 }
 
 .post-entry h4 {
+  padding-top: 10px;
   font-size: 20px;
 }
 
@@ -619,25 +634,28 @@ h1.prince-log a {
 }
 
 blockquote {
-  background-color: #F9F9F9;
+  background-color: #f4f4f4;
 }
 
 .post-entry blockquote {
-  border-left: 3px solid #424243;
-  background-color: #f4f4f4;
-  margin-bottom: 20px;
-  padding-bottom:1px;
-  padding-top:10px;
+
+  padding: 20px;
+  margin-bottom: 25px;
+  background-color: #f7f7f7;
+  border-left: 6px solid #b4b4b4;
+  word-break: break-word!important;
+  word-break: break-all;
+  
 }
 
 .post-entry blockquote p {
   /*border-left: 3px solid #424243;*/
   color: #999;
   padding: 0 18px;
-  font-family: "Georgia";
-  font-size: 15px;
-  line-height: 28px;
   margin: 0px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 30px;
   /*font-style: italic;*/
 }
 
@@ -687,6 +705,11 @@ blockquote {
 }
 
 .post-entry ul li {
+font-family: -apple-system,SF UI Text,Arial,PingFang SC,Hiragino Sans GB,Microsoft YaHei,WenQuanYi Micro Hei,sans-serif;
+  font-weight: 400;
+
+    letter-spacing: .8px;
+  line-height: 1.7;
   margin-bottom: 8px;
   list-style: square;
 }
@@ -694,6 +717,10 @@ blockquote {
 .post-entry ol li {
   margin-bottom: 8px;
   list-style: decimal;
+}
+
+.post-entry ol li p {
+  margin-bottom: 10px;
 }
 
 .post-entry dt {
@@ -755,7 +782,7 @@ blockquote {
 .post-entry .highlight {
   overflow: auto;
   padding: 0;
-  font-size: 13px;
+  font-size: 14px;
   background: #f7f7f7 !important;
   line-height: 1.6;
 }
@@ -882,8 +909,8 @@ blockquote {
 a.article-more {
   font-family: "Trebuchet MS", Monaco, monospace;
   font-size: 14px;
-  line-height: 35px;
-  padding-left: 10px;
+  line-height: 28px;
+  /*padding-left: 10px;*/
   text-transform: uppercase;
   letter-spacing: 1px;
   color: #797979;
@@ -919,7 +946,7 @@ a.article-more:hover {
 .post-tags-box a {
   color: #797979;
   line-height: 32px;
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
 }
 
 .post-tags-box a:hover {
@@ -1018,7 +1045,7 @@ aside.sidebar {
     margin: 8px 0;
   }
   .post-item a .post-title {
-    font-family: "Trebuchet MS", Helvetica Neue, Helvetica, 'Microsoft YaHei', STHeiti, Arial, sans-serif;
+    font-family: -apple-system,SF UI Text,Arial,PingFang SC,Hiragino Sans GB,Microsoft YaHei,WenQuanYi Micro Hei,sans-serif;
     height: 18px;
     font-size: 18px;
     line-height: 18px;
@@ -1204,6 +1231,8 @@ h3.aside-title {
 .next-wrap {
   display: flex;
   align-items: center;
+  background: #f7f7f7;
+  height: 50px;
 }
 
 .prev-wrap {
