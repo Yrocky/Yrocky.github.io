@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><title>Yrocky's blog</title><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link href="/css/bootstrap.min.css" rel="stylesheet"><link href="/css/font-awesome.min.css" rel="stylesheet"><link href="/css/main.css" rel="stylesheet"></head><body><div class="wrap"><nav class="page-navigation"><div class="nav-container"><div class="page-header-logo"><h1 class="prince-log"><a href="/" class="home-link">Yrocky</a></h1></div><button type="button" data-toggle="collapse" data-target=".main-nav-items" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><ul class="collapse navbar-collapse main-nav-items"><li class="menu-item"><a href="/" target="_self">HOME</a></li><li class="menu-item"><a href="/archives/" target="_self">ARCHIVE</a></li></ul></div></nav><main class="prince-container"><div class="post"><article class="post-block"><h1 class="post-title">关于自动布局下iPhone X以及iOS11的适配</h1><div class="post-info">11月 17日 2017</div><div class="post-entry"><p>自从提供了<strong>Auto Layout</strong>之后，官方文档中就建议开发者尽量的在布局中使用自动布局技术，虽然使用frame布局可以应付一些屏幕尺寸不是很多的设备，但是遇到iPad中可以进行多界面操作、iPhone X安全区内布局这样的迭代出来的适配问题，以前的frame布局会越来越不实用，对界面的掌控力度越来越弱，因此下面所有讨论都是基于使用Auto Layout布局而不是frame布局。</p>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><title>Yrocky's blog</title><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link href="/css/bootstrap.min.css" rel="stylesheet"><link href="/css/font-awesome.min.css" rel="stylesheet"><link href="/css/main.css" rel="stylesheet"></head><body><div class="wrap"><nav class="page-navigation"><div class="nav-container"><div class="page-header-logo"><h1 class="prince-log"><a href="/" class="home-link">Yrocky</a></h1></div><button type="button" data-toggle="collapse" data-target=".main-nav-items" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><ul class="collapse navbar-collapse main-nav-items"><li class="menu-item"><a href="/" target="_self">HOME</a></li><li class="menu-item"><a href="/archives/" target="_self">ARCHIVE</a></li></ul></div></nav><main class="prince-container"><div class="post"><article class="post-block"><h1 class="post-title">关于自动布局和iPhone X、iOS11的适配</h1><div class="post-info">11月 17日 2017</div><div class="post-entry"><p>自从提供了<strong>Auto Layout</strong>之后，官方文档中就建议开发者尽量的在布局中使用自动布局技术，虽然使用frame布局可以应付一些屏幕尺寸不是很多的设备，但是遇到iPad中可以进行多界面操作、iPhone X安全区内布局这样的迭代出来的适配问题，以前的frame布局会越来越不实用，对界面的掌控力度越来越弱，因此下面所有讨论都是基于使用Auto Layout布局而不是frame布局。</p>
 <img src="/2017/11/17/ios-11/ios_11_safe_area.png" alt="title" title="title">
 <a id="more"></a>
 <h3 id="1-安全区域">1.安全区域</h3><h4 id="危险区：传感器区域">危险区：传感器区域</h4><p>在新机型iPhone X中由于全面屏的特性，顶部和底部分别有两个特别的传感器，顶部是<strong>一个凹形</strong>，底部则是<strong>一个短矩形</strong>。Apple的指导规则是，所有的控件都要在<code>safeArea</code>内，如果有可能，尽量在safeAreaMargin内以增加横屏下的控件的误操作间距。比如下面这个在<strong>标签管理界面</strong>的底部操作按钮就应该这样进行适配：</p>
@@ -111,8 +111,61 @@
 <img src="/2017/11/17/ios-11/ios_11_layout_guide.png" alt="title" title="title">
 <h4 id="Visual_Format_Language"><a href="https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage.html#//apple_ref/doc/uid/TP40010853-CH27-SW1" target="_blank" rel="external">Visual Format Language</a></h4><p>Apple在布局方面为方便实现自动布局做的一个语法糖，作用类似于上面的<code>NSLayoutAnchor</code>，可以简洁直观的设置约束。</p>
 <h4 id="UIStackView"><a href="https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/LayoutUsingStackViews.html#//apple_ref/doc/uid/TP40010853-CH11-SW1" target="_blank" rel="external">UIStackView</a></h4><p>很不巧，这个也是在iOS 9以后提供的。这个类为布局提供了简单的方式:对齐方式、排列方式、填充方式等。从上面导航栏那一节可以知道，在iOS11中导航栏使用自动布局，就是使用的UIStackView的私有子类，而且在自动布局指南中，也有提到UIStackView内部是使用的自动布局技术。</p>
+<h3 id="5-布局相关的方法">5.布局相关的方法</h3><p>无论使用frame设置子视图的布局，还是使用自动布局设置，不同的人会有不同的方法在不同的地方设置。比如，在<code>init</code>或者<code>initWithFrame:</code>方法中、在<code>layoutSubviews</code>中、在<code>viewDidLoad</code>中、在<code>viewWillLayoutSubviews</code>中。需要注意的是，如果使用frame进行布局，有的地方是拿不到正确的视图尺寸的，那么这些方法又是在生命周期中什么时候调用，具体又是什么含义，下面，摘抄记录一下自动布局指南中关于设置、更新约束的时机和方法。</p>
+<h4 id="更改约束">更改约束</h4><p>以下所有操作都会改变一个或多个约束条件：</p>
+<ul>
+<li>激活或停用约束</li>
+<li>更改约束的常量值</li>
+<li>更改约束的优先级</li>
+<li>从视图层次结构中移除视图</li>
+</ul>
+<p>其他更改（如设置控件属性或修改视图层次结构）也可以更改约束。发生更改时，系统将进行延期布局。</p>
+<p>一般来说，可以随时进行这些更改。理想情况下，大多数约束条件应该在Interface Builder中设置，或者在控制器的初始设置（例如， <code>viewDidLoad</code>）期间由视图控制器以编程方式创建。如果需要在运行时动态更改约束，通常最好在应用程序状态更改时更改它们。例如，如果想要更改约束来响应按钮点击，请直接在按钮的操作方法中进行更改约束。</p>
+<h4 id="延期布局(The_Deferred_Layout_Pass)">延期布局(The Deferred Layout Pass)</h4><p>自动布局不是立即更新受影响的视图的框架，而是安排不久的将来布局。先延迟传递更新布局的约束，然后计算视图层次结构中所有视图的frame。</p>
+<p>可以通过调用<code>setNeedsLayout</code>方法或<code>setNeedsUpdateConstraints</code>方法来主动的进行自己的延期布局。</p>
+<p>延期布局过程实际上涉及两个修改视图层次的过程：</p>
+<ol>
+<li><strong>更新过程</strong>根据需要更新约束</li>
+<li><strong>布局过程</strong>根据需要重新定位视图的frame</li>
+</ol>
+<h5 id="更新过程(Update_Pass)">更新过程(Update Pass)</h5><p>系统遍历视图层次，并调用所有视图控制器上的<code>updateViewConstraints</code>，以及所有视图上的<code>updateConstraints</code>方法。可以重写这些方法来<strong>优化对约束的更改</strong>，比如下面的批量更改。</p>
+<h5 id="布局过程(Layout_Pass)">布局过程(Layout Pass)</h5><p>系统再次遍历视图层次，并调用所有视图控制器上的<code>viewWillLayoutSubviews</code>，并在所有视图上调用<code>layoutSubviews</code>。默认情况下，该<code>layoutSubviews</code>方法中可以使用Auto Layout引擎计算的出来的矩形来更新每个子视图的框架。可以覆盖这些方法来修改布局。</p>
+<p>可以看出来，视图的布局中主要的函数调用顺序为:</p>
+<blockquote>
+<p><code>updateConstraints</code> -&gt; <code>layoutSubViews</code> -&gt; <code>drawRect</code></p>
+</blockquote>
+<h4 id="批量更改(Batching_Changes)">批量更改(Batching Changes)</h4><p>在发生影响变化之后，立即更新约束几乎总是更清晰和更容易。将这些更改推迟到以后的方法会使代码更复杂，更难理解。</p>
+<p>但是，出于性能方面的原因，有时可能需要批量更改。这应该只在更改约束的地方太慢，或者当一个视图正在进行一些冗余的更改时才能完成。</p>
+<p>要批量更改，而不是直接进行更改，请调用 <code>setNeedsUpdateConstraints</code>包含约束的视图上的方法。然后，重写视图的<code>updateConstraints</code>方法来修改受影响的约束。</p>
+<blockquote>
+<p>注意<code>updateConstraints</code>方法必须尽可能高效。在这个方法中<strong>不要停用所有约束，然后重新激活所需的约束</strong>。相反，应用程序必须有一些方法来跟踪约束，并在每次更新过程中验证它们，只更改需要更改的项目。在每次更新过程中，都必须确保对应用程序的当前状态有适当的限制。</p>
+</blockquote>
+<p>始终将调用父类方法放置在最后一步。不要在<code>updateConstraints</code>方法中调用<code>setNeedsUpdateConstraints</code>。调用<code>setNeedsUpdateConstraints</code>会开启另一个更新通道，导致反馈循环。</p>
+<h4 id="Auto_Layout指南中的自定义布局">Auto Layout指南中的自定义布局</h4><p>应该重写<code>viewWillLayoutSubviews</code>或<code>layoutSubviews</code>方法来修改布局引擎返回的结果。</p>
+<blockquote>
+<p>如果可能的话，<strong>使用约束来定义所有的布局</strong>。生成的布局更健壮，更易于调试。当您需要创建无法单独使用约束表达的布局时，您应该只覆盖<code>viewWillLayoutSubviews</code>或<code>layoutSubviews</code>方法。</p>
+</blockquote>
+<p>覆盖这些方法时，布局处于不一致的状态。已经有一些意见。其他人没有。您需要非常小心如何修改视图层次结构，或者您可以创建反馈循环。以下规则可以避免反馈循环：</p>
+<ul>
+<li>调用超类的方法</li>
+<li>在调用超类方法之前可以设置子视图中的布局无效，<strong>且必须是在调用超类方法之前</strong></li>
+<li>不要使你的子树以外的任何视图的布局失效。这可能会创建一个反馈循环</li>
+<li>不要调用<code>setNeedsUpdateConstraints</code>函数，因为刚刚完成更新通行证，调用这个方法会导致反馈循环</li>
+<li>不要调用<code>setNeedsLayout</code>函数，调用这个方法会创建一个反馈循环</li>
+<li>要小心改变限制。你不想意外地使你的子树外的任何视图的布局失效</li>
+</ul>
+<h4 id="Masonry中建议设置布局的位置">Masonry中建议设置布局的位置</h4><p>在Masonry的README中可以看到，他们建议创建约束的位置为下图所示，</p>
+<img src="/2017/11/17/ios-11/ios_11_masonry_updateConstraints.png" alt="title" title="title">
+<p>和上面文档中所说的一致，只不过他们选择的是在<code>更新过程</code>中来进行设置约束，而且是建议<strong>remake</strong>、<strong>update</strong>。另外，为了告诉UIKit这个视图是使用的Auto Layout，重写了<code>+ (BOOL)requiresConstraintBasedLayout</code>函数，返回YES，这个和在外面设置<code>translatesAutoresizingMaskIntoConstraints</code>=NO来禁用Autoresizing Masks是一样的。</p>
+<h3 id="6-远古布局技术Autoresizing">6.远古布局技术Autoresizing</h3><p>在iOS2.0系统中引入的用于屏幕适配的技术。但是<code>仅仅适用于子视图和父视图之间的布局关系</code>，这项技术的作用是，当父视图的bounds发生变化的时候，如何自动调整子视图的布局。表现形式在xib中是使用6个线，在code中使用一个UIView的枚举属性<strong>autoresizingMask</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">NS_OPTIONS</span><span class="params">(NSUInteger, UIViewAutoresizing)</span> </span>&#123;</span><br><span class="line">    UIViewAutoresizingNone                 = <span class="number">0</span>,</span><br><span class="line">    UIViewAutoresizingFlexibleLeftMargin   = <span class="number">1</span> &lt;&lt; <span class="number">0</span>,</span><br><span class="line">    UIViewAutoresizingFlexibleWidth        = <span class="number">1</span> &lt;&lt; <span class="number">1</span>,</span><br><span class="line">    UIViewAutoresizingFlexibleRightMargin  = <span class="number">1</span> &lt;&lt; <span class="number">2</span>,</span><br><span class="line">    UIViewAutoresizingFlexibleTopMargin    = <span class="number">1</span> &lt;&lt; <span class="number">3</span>,</span><br><span class="line">    UIViewAutoresizingFlexibleHeight       = <span class="number">1</span> &lt;&lt; <span class="number">4</span>,</span><br><span class="line">    UIViewAutoresizingFlexibleBottomMargin = <span class="number">1</span> &lt;&lt; <span class="number">5</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>另外，对于一个视图来说，是否使用autoresizing技术可以通过<strong>autoresizingSubviews</strong>这个布尔属性来决定。一句话就是，<strong>autoresizingSubviews</strong>决定是否使用，<strong>autoresizingMask</strong>决定如何使用。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>) <span class="built_in">BOOL</span> autoresizesSubviews;<span class="comment">// default is YES</span></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>) <span class="built_in">UIViewAutoresizing</span> autoresizingMask;<span class="comment">// default is UIViewAutoresizingNone</span></span><br></pre></td></tr></table></figure>
+<p>具体前面提到的6根线是什么，可以参考下面的<a href="http://jianshu.com/p/12cfdcf05651" target="_blank" rel="external">文章链接</a>。</p>
+<p>在这个说AutoLayout的文章里面提及Autoresizing主要是因为他们两个不能共存，或者说AutoLayout是相对于Autoresizing更加完备的布局技术，Autoresizing只能指明父视图改变bounds的时候如何去适应子视图，却没有办法决定子视图之间如何适应改变，而AutoLayout却可以做到这些。Xcode5之后在xib、sb内加入了autolayout的选项开关，并且默认是开启的，这也是Apple推荐使用AutoLayout，如果不想使用AutoLayout仍然想使用Autoresizing，关闭<code>autolayout的选项开关</code>即可。</p>
+<p>另外说一下，如果项目中有以前使用xib布局的类在设备上显示的时候有frame相关的bug，排查过没有主动修改frame，那么百分之八九十都是由于Autoresizing引起的。</p>
 <hr>
-<p><a href="https://developer.apple.com/ios/human-interface-guidelines/overview/themes/" target="_blank" rel="external">人机界面指南 - 官方</a></p>
+<h3 id="参考文章">参考文章</h3><p><a href="https://developer.apple.com/ios/human-interface-guidelines/overview/themes/" target="_blank" rel="external">人机界面指南 - 官方</a></p>
 <p><a href="https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/index.html#//apple_ref/doc/uid/TP40010853-CH7-SW1" target="_blank" rel="external">自动布局指南 - 官方</a></p>
 <p><a href="http://www.jianshu.com/p/370d82ba3939" target="_blank" rel="external">你可能需要为你的APP适配iOS11 - 简书</a></p>
 <p><a href="https://developer.apple.com/ios/human-interface-guidelines/overview/themes/" target="_blank" rel="external">针对iPhone X的适配指南 - 官方</a></p>
@@ -121,4 +174,6 @@
 <p><a href="http://www.jianshu.com/p/352f101d6df1" target="_blank" rel="external">app界面适配iOS11 - 简书</a></p>
 <p><a href="https://cloud.tencent.com/community/article/322940" target="_blank" rel="external">iPhoneX适配实践 - 腾讯云社区</a></p>
 <p><a href="http://www.jianshu.com/p/204455df16d6" target="_blank" rel="external">iOS11 &amp; iPhoneX适配总结 - 简书</a></p>
+<p><a href="http://jianshu.com/p/12cfdcf05651" target="_blank" rel="external">iOS屏幕适配系列(一)：Autoresizing技术 - 简书</a></p>
+<p><a href="http://www.jianshu.com/p/b637d3d21606?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation" target="_blank" rel="external">一篇文章详解iOS之AutoResizing、AutoLayout、sizeClass来龙去脉 - 简书</a></p>
 </div><div class="post-tags-box"><a class="tag-link" href="/tags/学习/">学习</a>, <a class="tag-link" href="/tags/自动布局/">自动布局</a></div></article></div><div class="post-nav"><div class="next-wrap col-md-6 col-xs-6 col-md-offset-6 col-xs-offset-6"><a href="/2017/09/11/hook-wechat/" class="next-post">微信，让生活更美好 	 插件，让微信更方便</a><i class="fa fa-angle-double-right"></i></div></div></main></div><footer><div class="copyright"><p>Crafted with <i class="fa fa-heart"></i> by&nbsp;Yrocky&nbsp;|&nbsp;<a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yiliashaw/hexo-theme-prince" target="_blank">Prince</a> by SHAW</p></div></footer><script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.0.47/jquery.fancybox.min.js"></script><script src="/js/script.js"></script></body></html>

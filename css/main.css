@@ -99,7 +99,8 @@ q:after {
 }
 
 strong {
-  font-weight: bold
+  /*font-weight: bold*/
+  font-weight: 700;
 }
 
 em {
@@ -155,7 +156,7 @@ a img {
 /*-----------------------------------------------------------------------------------*/
 
 body {
-  font-family: "Trebuchet MS", monospace, 'Microsoft YaHei', STHeiti;
+  font-family: "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", sans-serif, "Merriweather", serif;
   color: #333;
   font-size: 15px;
   background-color: #f2f2f2;
@@ -198,14 +199,19 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: font-family: -apple-system,SF UI Text,Arial,PingFang SC,Hiragino Sans GB,Microsoft YaHei,WenQuanYi Micro Hei,sans-serif;
+  font-family: -apple-system,SF UI Text,Arial,PingFang SC,Hiragino Sans GB,Microsoft YaHei,WenQuanYi Micro Hei,sans-serif;
 }
 
 p {
-  font-size: 16px;
+
   font-weight: 400;
   line-height: 1.7;
   color: #2f2f2f;
+
+    letter-spacing: 0.01rem;
+    font-size: 1.7rem;
+    line-height: 1.85em;
+    color: #3A4145;
 }
 
 a {
@@ -257,9 +263,10 @@ code {
 
   padding: 4px;
   word-wrap: break-word;
-  color: #f7f7f7;
-  background: #2f2f2f;
+  color: #3A4145;
+  background: #F7FAFB;
   border-radius: 3px;
+  border: #E3EDF3 1px solid;
   line-height: 1.7;
   font-size: 14px;
 }
@@ -584,8 +591,10 @@ h1.prince-log a {
 .post-entry h5,
 .post-entry h6,
 .post-entry hr {
+
+    font-family: "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", sans-serif, "Merriweather", serif;
   margin-bottom: 25px;
-  font-family: "Trebuchet MS", Helvetica Neue, Helvetica, 'Microsoft YaHei', STHeitiArial, sans-serif;
+  /*font-family: "Trebuchet MS", Helvetica Neue, Helvetica, 'Microsoft YaHei', STHeitiArial, sans-serif;*/
 }
 
 .post-entry h1,
@@ -705,7 +714,8 @@ blockquote {
 }
 
 .post-entry ul li {
-font-family: -apple-system,SF UI Text,Arial,PingFang SC,Hiragino Sans GB,Microsoft YaHei,WenQuanYi Micro Hei,sans-serif;
+
+    font-family: "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", sans-serif, "Merriweather", serif;
   font-weight: 400;
 
     letter-spacing: .8px;
@@ -782,9 +792,12 @@ font-family: -apple-system,SF UI Text,Arial,PingFang SC,Hiragino Sans GB,Microso
 .post-entry .highlight {
   overflow: auto;
   padding: 0;
-  font-size: 14px;
+  /*font-size: 14px;*/
   background: #f7f7f7 !important;
-  line-height: 1.6;
+  /*line-height: 1.6;*/
+
+    line-height: 1.5;
+    font-size: 1.5rem;
 }
 
 .highlight pre {
