@@ -1,0 +1,63 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><title>Yrocky's blog</title><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link href="/css/bootstrap.min.css" rel="stylesheet"><link href="/css/font-awesome.min.css" rel="stylesheet"><link href="/css/main.css" rel="stylesheet"></head><body><div class="wrap"><nav class="page-navigation"><div class="nav-container"><div class="page-header-logo"><h1 class="prince-log"><a href="/" class="home-link">Yrocky</a></h1></div><button type="button" data-toggle="collapse" data-target=".main-nav-items" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><ul class="collapse navbar-collapse main-nav-items"><li class="menu-item"><a href="/" target="_self">HOME</a></li><li class="menu-item"><a href="/archives/" target="_self">ARCHIVE</a></li></ul></div></nav><main class="prince-container"><div class="post"><article class="post-block"><h1 class="post-title">从画一个迷宫说开去</h1><div class="post-info">4月 10日 2018</div><div class="post-entry"><img src="/2018/04/10/make-a-game-of-maze/maze-title-2.png" alt="title" title="title">
+<p>前段时间为了优化项目中的一个动画效果，在查看开发文档的过程中发现了GameplayKit这一个框架，这个框架为映射游戏中的一些角色、路径等提供了一组工具。使用游戏引擎内部的渲染可以很好的解决项目中原有的高内存动画效果，在深入的了解了这个框架之后发现里面涉及到了很多的经典算法，也有Apple自己在算法上做的优化，于是在优化项目之后整理出来相关内容，加深对算法的理解。</p>
+<a id="more"></a>
+<h2 id="1-_基于GameplayKit的实现">1. 基于GameplayKit的实现</h2><p>根据文档中的描述，在许多游戏导航是一个重要的概念，GameplayKit为抽象游戏提供了一组工具，除了游戏，还可以根据实际需求应用于非游戏场景中。在<a href="https://developer.apple.com/library/content/documentation/General/Conceptual/GameplayKit_Guide/Pathfinding.html#//apple_ref/doc/uid/TP40015172-CH3-SW1" target="_blank" rel="external">为游戏设计Pathfinding</a>章节可以知道，通过<code>GKGraph</code>类相关的api来实现一个图表以实现寻路操作，这里有三种方法可以实现不同需求中的场景：</p>
+<ul>
+<li>如果一个连续的空间被障碍物打断，一个组合是使用 <code>GKPolygomPbstacle</code> 来表示障碍物、使用 <code>GKGraphNode2D</code> 来表示连续控件上的点，然后使用 <code>GKObstacleGraph</code> 将两者包含起来。</li>
+<li>在一个二维坐标的分散网格中，自由一些点是有效的。使用 <code>GKGridGraph</code> 和 <code>GKGridGraphNode</code> 来创建网格图表。这就是本次迷宫游戏中需要用到的组合模式。</li>
+<li>在一些离散的点中找出来他们之间的连线，使用 <code>GKGraphNode</code> 来表示每一个节点， <code>GKGraph</code> 来表示图表。</li>
+</ul>
+<img src="/2018/04/10/make-a-game-of-maze/maze-pathfinding.png" alt="title" title="title">
+<p>当通过以上三种方式创建好了图表之后，就可以使用<code>GKGraph</code>对象根据其现有的节点之间的关系图添加新节点、从关系图中删除节点、查找特殊节点等操作。最重要的是，找到图中从一个节点到另一个地方的最佳路径，放到迷宫游戏中就是寻找正确的路径走出迷宫。</p>
+<p>GKGraph类中的<code>finsPathFromNode:toNode:</code>就是用来找到图中的路径的方法，这个方法返回的是一个数组，数组中装的是 <code>GKGraphNode</code> 的子类，然后可以通过该类的<code>position</code>来获取每一个node的坐标，开发者可以根据这个数组进行UI处理展示出来路径。</p>
+<h3 id="1-1_demo分析">1.1 demo分析</h3><p>demo是在深度优先算法的基础上生成迷宫地图，但是会有一些限制，比如只支持尺寸为奇数的迷宫地图。具体算法流程为：</p>
+<ul>
+<li>在给定尺寸（记为<code>dimensions</code>）的图上根据每一个节点<code>(x,y)</code>筛选出来x或y为奇数的点（具体效果如下图所示），将这些点作为墙节点-wallNode<img src="/2018/04/10/make-a-game-of-maze/maze_apple.png" alt="title" title="title">
+</li>
+</ul>
+<ul>
+<li>从给定的起始点作为topNode，随机挑选topNode的四个方向(上下左右)上相邻的非墙节点进行访问：<ul>
+<li>如果该相邻节点已经被访问，再随机挑选，直到找到<strong>未被访问的相邻节点</strong>，这个相邻节点记为neigNode，将topNode和neigNode之间的wallNode移除，并且将topNode、neigNode标记为已经访问，将改topNode加入到一个数组中，记为visitedNodes</li>
+<li>如果topNode的所有相邻节点都已经被访问过，则向上回溯，根据visitedNodes中的元素，从后向前遍历，直到遍历到的节点还有未访问的邻居节点，如果回溯的过程中所有的节点的邻居节点都被访问，则算法结束<img src="/2018/04/10/make-a-game-of-maze/maze_direction.png" alt="title" title="title">
+</li>
+</ul>
+</li>
+</ul>
+<p>根据上面的算法描述，使用一个5*5的迷宫来展示这一过程，如下图所示：<br><img src="/2018/04/10/make-a-game-of-maze/maze_step_flow.png" alt="title" title="title"></p>
+<p>这里提供的算法是在深度优先算法的基础上进行改进的，主要的一点是加入了墙节点的概念。这样的做法可以让需要遍历的节点减少一半之多，具体需要遍历的节点个数为：(dimensions - dimensions / 2)^2^，这大大的减少了需要遍历的时间。另一方面，算法最后生成迷宫的可能情况也会有所减少，比如，以一个3*3的迷宫为例，使用该算法只能生成两种样式，并且只能生成尺寸为奇数大小的迷宫，但是单纯的使用深度优先算法却可以有6种情况：<br><img src="/2018/04/10/make-a-game-of-maze/maze_vs.png" alt="title" title="title"></p>
+<p>对于迷宫这种游戏来说，基本上尺寸都不会很小，尺寸越大可能的结果就越多，相对于这个数字来说，损失的那些情况可以忽略不计，Apple的这个算法在牺牲了可能性数量的基础上提高了访问速度，整体上来说还是很合适的一个算法。但由于GameplayKit内部针对于GKGraph提供了pathfinding相关的api，所以不知道它内部是使用的何种算法来查找路径的，估计也是在A-star算法的基础上优化过的算法，这一点有待考证。</p>
+<h2 id="2-_生成迷宫的算法">2. 生成迷宫的算法</h2><p>如果一个迷宫中没有任何回路、没有多条解决路径，那么就可以称得上这个迷宫是一个<strong>完美迷宫</strong>。迷宫的生成以及寻找路径都是基于图论的，一般来说，生成迷宫最常用的有两种方法：递归回溯算法（深度优先算法)、Prim(普利姆)随机算法。而寻找最优路径的算法有广度优先算法、A*算法。</p>
+<h3 id="2-1_Tremaux搜索">2.1 Tremaux搜索</h3><p>在迷宫游戏中探索出一条通路，最早的方法是使用一种叫做Tremaux的算法，而他和深度优先算法很类似，在《算法》中是这么描述它的：</p>
+<ul>
+<li>选择一条没有标记过的通道，在你走过的路上铺一条绳子</li>
+<li>标记所有你第一次路过的路口和通道</li>
+<li>当来到一个标记过的路口时（用绳子）回退到上个路口</li>
+<li>当回退到的路口已没有可走的通道时继续回退</li>
+<li>最后整个绳子的路径就是最终的一种解法</li>
+</ul>
+<img src="/2018/04/10/make-a-game-of-maze/maze_tremaux.png" alt="title" title="title">
+<p>这个算法并没有完全探索了整个迷宫中的所有节点以及边，比如上面添加的橙色路径和节点，基于目前的选择，已经到达了终点，也就不用再去探索其余的情况了，所以他们（橙色路径和节点）在这个探索过程中是没有被探索到的未知地。要知道是否完全探索了整个迷宫需要的证明更复杂，只有用图搜索才能够更好地处理问题。Tremaux 搜索很直接，但它与完全搜索一张图仍然稍有不同，而搜索连通图的经典递归算法（遍历所有的节点和边）和 Tremaux 搜索类似，那就是深度优先算法。</p>
+<h3 id="2-2_递归回溯算法">2.2 递归回溯算法</h3><p>深度优先搜索（Depth First Search）是图论中<strong>对图的节点一种遍历方式</strong>，核心思想就是在图中尽量的深入。假如设定一个起始节点，访问这个节点，然后在该节点的邻接节点中选取没有访问过的节点进行访问，如果邻接节点都被访问过，就回溯到上一个有未被访问邻接节点的节点，依次下去，直到整个图中的节点都被访问完。</p>
+<p>在《算法导论》中对DFS的举例是使用的一个有向循环图，实际应用中，比较多的还是有向无循环图，下面分别是算法导论中的例子和一个简化版本的有向无循环图的深度优先搜索：</p>
+<img src="/2018/04/10/make-a-game-of-maze/maze_dfs.png" alt="title" title="title">
+<p>根据DFS的这一特性，可以很好的去遍历一个n*n的图来构建一个迷宫，根据维基百科中对使用DFS算法生成迷宫的核心解释为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>将起点作为当前迷宫单元并标记为已访问  </span><br><span class="line"><span class="number">2.</span>当还存在未标记的迷宫单元，进行循环  </span><br><span class="line">    <span class="number">1.</span>如果当前迷宫单元有未被访问过的的相邻的迷宫单元  </span><br><span class="line">    	<span class="number">1.</span>随机选择一个未访问的相邻迷宫单元  </span><br><span class="line">		<span class="number">2.</span>将当前迷宫单元入栈  </span><br><span class="line">		<span class="number">3.</span>移除当前迷宫单元与相邻迷宫单元的墙  </span><br><span class="line">		<span class="number">4.</span>标记相邻迷宫单元并用它作为当前迷宫单元  </span><br><span class="line">    <span class="number">2.</span>如果当前迷宫单元不存在未访问的相邻迷宫单元，并且栈不空  </span><br><span class="line">		<span class="number">1.</span>栈顶的迷宫单元出栈  </span><br><span class="line">    	<span class="number">2.</span>令其成为当前迷宫单元</span><br></pre></td></tr></table></figure>
+<img src="/2018/04/10/make-a-game-of-maze/maze-Recursive-backtracker.gif" alt="title" title="title">
+<p>由于深度优先搜索可以设定起点，但是不可以决定一个点为终点，在使用这个算法去生成迷宫的时候</p>
+<p>从算法描述中可以看出来，深度优先算法根据最新选择过的单元作为优先判断条件，寻找相邻的未被访问的单元格</p>
+<h3 id="2-3_普利姆随机算法">2.3 普利姆随机算法</h3><p>只是和最小生成树的Prim算法同名字而已，普里姆随机算法在维基百科中解释的描述为：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>让迷宫全是墙.  </span><br><span class="line"><span class="number">2.</span>选一个单元格作为迷宫的通路，然后把它的邻墙放入列表  </span><br><span class="line"><span class="number">3.</span>当列表里还有墙时  </span><br><span class="line">    <span class="number">1.</span>从列表里随机选一个墙，如果这面墙分隔的两个单元格只有一个单元格被访问过  </span><br><span class="line">        <span class="number">1.</span>那就从列表里移除这面墙，即把墙打通，让未访问的单元格成为迷宫的通路  </span><br><span class="line">        <span class="number">2.</span>把这个格子的墙加入列表  </span><br><span class="line">    <span class="number">2.</span>如果墙两面的单元格都已经被访问过，那就从列表里移除这面墙</span><br></pre></td></tr></table></figure>
+<img src="/2018/04/10/make-a-game-of-maze/maze-prim.gif" alt="title" title="title">
+<p>相对于深度优先的算法，Prim随机算法不是优先选择最近选中的单元格，而是随机的从<strong>所有的列表中的单元格</strong>进行选择，新加入的单元格和旧加入的单元格同样概率会被选择，新加入的单元格没有有优先权。因此其分支更多，生成的迷宫更复杂，难度更大，也更自然。</p>
+<p>另外还有<code>递归分割算法</code>，这个算法生成的迷宫有些不是很“迷”，基于他算法的特性，会有很多的直线，因此这里就不讨论这一种算法的实现了。</p>
+<img src="/2018/04/10/make-a-game-of-maze/maze-Recursive-division.gif" alt="title" title="title">
+<p>由于算法的特性，深度优先算法生成的迷宫在显示效果上会有一个明显的路线，而普利姆算法生成的迷宫会比较符合迷惑使用者的条件，</p>
+<h2 id="3-_寻找迷宫路径的算法">3. 寻找迷宫路径的算法</h2><p>使用广度优先搜索算法：Breadth First Search。</p>
+<h3 id="3-1_A-star算法">3.1 A-star算法</h3><p>启发式搜索其实有很多的算法，局部择优搜索法、最好优先搜索法等等，当然A*也是。</p>
+<p>这些算法都使用了启发函数，但在具体的选取最佳搜索节点时的策略不同。</p>
+<p>1.像局部择优搜索法，就是在搜索的过程中选取“最佳节点”后舍弃其他的兄弟节点、父亲节点，而一直得搜索下去。这种搜索的结果很明显，由于舍弃了其他的节点，可能也把最好的节点都舍弃了，因为求解的最佳节点只是在该阶段的最佳并不一定是全局的最佳。</p>
+<p>2.最好优先就聪明多了，它在搜索时，并没有舍弃节点（除非该节点是死节点），在每一步的估价中都把当前的节点和以前的节点的f(n)比较得到一个“最佳的节点”，这样可以有效的防止“最佳节点”的丢失。</p>
+<h2 id="参考文章">参考文章</h2><p><a href="https://blog.csdn.net/juzihongle1/article/details/73135920" target="_blank" rel="external">三大迷宫生成算法-CSDN</a></p>
+<p><a href="https://www.cnblogs.com/WayneShao/p/5882680.html" target="_blank" rel="external">迷宫中的算法实践-博客园</a></p>
+<p><a href="https://blog.csdn.net/zgwangbo/article/details/52078338" target="_blank" rel="external">A*，那个传说中的算法</a></p>
+</div><div class="post-tags-box"><a class="tag-link" href="/tags/GameplayKit/">GameplayKit</a>, <a class="tag-link" href="/tags/算法/">算法</a></div></article></div><div class="post-nav"><div class="prev-wrap col-md-6 col-xs-6"><i class="fa fa-angle-double-left"></i><a href="/2018/07/03/what-is-apple-in-ai/" class="prev-post">Apple在机器学习领域都做了什么</a></div><div class="next-wrap col-md-6 col-xs-6"><a href="/2018/03/15/flex-box-layout/" class="next-post">Flex-box layout on iOS</a><i class="fa fa-angle-double-right"></i></div></div></main></div><footer><div class="copyright"><p>Crafted with <i class="fa fa-heart"></i> by&nbsp;Yrocky&nbsp;|&nbsp;<a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yiliashaw/hexo-theme-prince" target="_blank">Prince</a> by SHAW</p></div></footer><script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.0.47/jquery.fancybox.min.js"></script><script src="/js/script.js"></script></body></html>
