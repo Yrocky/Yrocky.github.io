@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><title>Yrocky's blog</title><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link href="/css/bootstrap.min.css" rel="stylesheet"><link href="/css/font-awesome.min.css" rel="stylesheet"><link href="/css/main.css" rel="stylesheet"></head><body><div class="wrap"><nav class="page-navigation"><div class="nav-container"><div class="page-header-logo"><h1 class="prince-log"><a href="/" class="home-link">Yrocky</a></h1></div><button type="button" data-toggle="collapse" data-target=".main-nav-items" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><ul class="collapse navbar-collapse main-nav-items"><li class="menu-item"><a href="/" target="_self">HOME</a></li><li class="menu-item"><a href="/archives/" target="_self">ARCHIVE</a></li></ul></div></nav><main class="prince-container"><div class="post"><article class="post-block"><h1 class="post-title">Git指令</h1><div class="post-info">11月 8日 2014</div><div class="post-entry"><img src="/2014/11/08/git/git.png" alt="git" title="git">
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><title>Yrocky's blog</title><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link href="/css/bootstrap.min.css" rel="stylesheet"><link href="/css/font-awesome.min.css" rel="stylesheet"><link href="/css/main.css" rel="stylesheet"></head><body><div class="wrap"><nav class="page-navigation"><div class="nav-container"><div class="page-header-logo"><h1 class="prince-log"><a href="/" class="home-link">Yrocky</a></h1></div><button type="button" data-toggle="collapse" data-target=".main-nav-items" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><ul class="collapse navbar-collapse main-nav-items"><li class="menu-item"><a href="/" target="_self">HOME</a></li><li class="menu-item"><a href="/archives/" target="_self">ARCHIVE</a></li></ul></div></nav><main class="prince-container"><div class="post"><article class="post-block"><h1 class="post-title">Git指令</h1><div class="post-info">11月 8日 2014</div><div class="post-entry"><img src="/2014/11/08/git/git.png" title="git">
 <a id="more"></a>
 <p>git中的一些关键字：</p>
 <p><code>repository</code>-仓库、<code>snapshot</code>-快照、<code>工作区</code>、<code>暂存区</code>、<code>仓库区</code></p>
@@ -27,7 +27,7 @@
 <li>git diff 文件名 列出仓库文件与处于工作区文件的区别</li>
 <li>git diff －－stage 文件名1  文件名2 列出处于工作区与暂存区的文件区别</li>
 <li>git stash 放到回收站  git stash apply从回收站取回来</li>
-<li>git tag -a 名字 -m “具体描述“ <commit 哈希数列="">（不写的话默认最近一次仓库）写的话指定某一个commit</commit></li>
+<li>git tag -a 名字 -m “具体描述“ <commit 哈希数列>（不写的话默认最近一次仓库）写的话指定某一个commit</commit></li>
 <li>git show “表签名” 列出表签名信息</li>
 <li>git tag 查看tag</li>
 <li>git branch “分支名” 创建一个分支</li>
@@ -53,6 +53,6 @@
 <p>建立一个名字是.gitignore的文件 里面写入自己不需要管理的文件如：*~</p>
 <p><code>master</code>分支用于版本发布</p>
 <p><code>develop</code>分支用于开发</p>
-<h2 id="参考文章">参考文章</h2><p><a href="http://git-scm.com/book" target="_blank" rel="external">学习git参考资料Git Book</a></p>
-<p><a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="external">廖雪峰的git网站</a></p>
+<h2 id="参考文章">参考文章</h2><p><a href="http://git-scm.com/book" target="_blank" rel="noopener">学习git参考资料Git Book</a></p>
+<p><a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="noopener">廖雪峰的git网站</a></p>
 </div><div class="post-tags-box"><a class="tag-link" href="/tags/git/">git</a>, <a class="tag-link" href="/tags/学习/">学习</a></div></article></div><div class="post-nav"><div class="prev-wrap col-md-6 col-xs-6"><i class="fa fa-angle-double-left"></i><a href="/2014/12/26/vim/" class="prev-post">Vim的常用快捷键</a></div><div class="next-wrap col-md-6 col-xs-6"><a href="/2014/11/07/settingSSH-key/" class="next-post">配置SSH-key</a><i class="fa fa-angle-double-right"></i></div></div></main></div><footer><div class="copyright"><p>Crafted with <i class="fa fa-heart"></i> by&nbsp;Yrocky&nbsp;|&nbsp;<a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yiliashaw/hexo-theme-prince" target="_blank">Prince</a> by SHAW</p></div></footer><script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.0.47/jquery.fancybox.min.js"></script><script src="/js/script.js"></script></body></html>

@@ -8,7 +8,7 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
 
 	<style>
 	body{
@@ -191,16 +191,16 @@
 		</div>
 		<p class="preTitle">使用video标签就可以进行视频的播放</p>
 
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="tag">video</span> src=<span class="string">"视频源"</span> autoplay=<span class="string">"autoplay"</span> controls=<span class="string">"提供暂停、播放等控件"</span>&gt;</span><br><span class="line">	<span class="string">"用于视频播放不成功的时候显示的文字"</span></span><br><span class="line">	autoplay,顾名思义，自动播放</span><br><span class="line">&lt;/video&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="selector-tag">video</span> src=<span class="string">"视频源"</span> autoplay=<span class="string">"autoplay"</span> controls=<span class="string">"提供暂停、播放等控件"</span>&gt;</span><br><span class="line">	<span class="string">"用于视频播放不成功的时候显示的文字"</span></span><br><span class="line">	autoplay,顾名思义，自动播放</span><br><span class="line">&lt;/video&gt;</span><br></pre></td></tr></table></figure>
 
 		<p class="preTitle">同时video标签还支持多src</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;video controls=<span class="string">"提供暂停、播放等控件"</span>&gt;</span><br><span class="line">	&lt;<span class="built_in">source</span> src=<span class="string">"movie.ogg"</span> <span class="built_in">type</span>=<span class="string">"video/ogg"</span>&gt;</span><br><span class="line">	&lt;<span class="built_in">source</span> src=<span class="string">"movie.mp4"</span> <span class="built_in">type</span>=<span class="string">"video/mp4"</span>&gt;</span><br><span class="line">	<span class="string">"您的浏览器不支持播放该视频。"</span></span><br><span class="line">&lt;/video&gt;</span><br></pre></td></tr></table></figure>
 
 		<p class="preTitle">要添加媒体片段，只需向媒体网址添加 #t=[start_time][,end_time] 即可。例如，要播放第 5 秒和第 10 秒之间的视频，请指定以下代码：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="built_in">source</span> src=<span class="string">"movie.ogg#t=5,10"</span> <span class="built_in">type</span>=<span class="string">"video/ogg"</span>&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;source <span class="attribute">src</span>=<span class="string">"movie.ogg#t=5,10"</span> <span class="attribute">type</span>=<span class="string">"video/ogg"</span>&gt;</span><br></pre></td></tr></table></figure>
 
 		<p class="preTitle">为视频元素添加 poster 属性，以便用户可以在视频加载后立即了解其内容，而无需下载视频或开始播放。如果视频 src 损坏或提供的视频格式均不受支持，那么海报也可用作后备资源。海报图片唯一的缺陷是它需要一个额外的带宽。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">video</span> <span class="attribute">poster</span>=<span class="value">"poster.jpg"</span> <span class="attribute">...</span>&gt;</span></span><br><span class="line">  ...</span><br><span class="line"><span class="tag">&lt;/<span class="title">video</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;video poster=<span class="string">"poster.jpg"</span> <span class="string">...</span>&gt;</span><br><span class="line">  <span class="string">...</span></span><br><span class="line">&lt;<span class="string">/video</span>&gt;</span><br></pre></td></tr></table></figure>
 
 		<!-- 视频end -->
 
@@ -406,4 +406,4 @@ function playOrPause(){
 </script>
 
 </html>
-</div><div class="post-tags-box"><a class="tag-link" href="/tags/HTML5/">HTML5</a></div></article></div><div class="post-nav"><div class="prev-wrap col-md-6 col-xs-6"><i class="fa fa-angle-double-left"></i><a href="/2015/12/28/realm/" class="prev-post">Realm数据库</a></div><div class="next-wrap col-md-6 col-xs-6"><a href="/2015/11/20/设计模式之MVVM/" class="next-post">MVVM之设计模式迷思</a><i class="fa fa-angle-double-right"></i></div></div></main></div><footer><div class="copyright"><p>Crafted with <i class="fa fa-heart"></i> by&nbsp;Yrocky&nbsp;|&nbsp;<a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yiliashaw/hexo-theme-prince" target="_blank">Prince</a> by SHAW</p></div></footer><script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.0.47/jquery.fancybox.min.js"></script><script src="/js/script.js"></script></body></html>
+</div><div class="post-tags-box"><a class="tag-link" href="/tags/HTML5/">HTML5</a></div></article></div><div class="post-nav"><div class="prev-wrap col-md-6 col-xs-6"><i class="fa fa-angle-double-left"></i><a href="/2015/12/28/realm/" class="prev-post">Realm数据库</a></div><div class="next-wrap col-md-6 col-xs-6"><a href="/2015/10/19/iOS9新特性之通讯录/" class="next-post">iOS9新特性之Contacts Framework</a><i class="fa fa-angle-double-right"></i></div></div></main></div><footer><div class="copyright"><p>Crafted with <i class="fa fa-heart"></i> by&nbsp;Yrocky&nbsp;|&nbsp;<a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yiliashaw/hexo-theme-prince" target="_blank">Prince</a> by SHAW</p></div></footer><script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.0.47/jquery.fancybox.min.js"></script><script src="/js/script.js"></script></body></html>

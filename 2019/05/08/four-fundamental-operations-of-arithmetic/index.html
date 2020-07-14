@@ -1,0 +1,147 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><title>Yrocky's blog</title><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link href="/css/bootstrap.min.css" rel="stylesheet"><link href="/css/font-awesome.min.css" rel="stylesheet"><link href="/css/main.css" rel="stylesheet"></head><body><div class="wrap"><nav class="page-navigation"><div class="nav-container"><div class="page-header-logo"><h1 class="prince-log"><a href="/" class="home-link">Yrocky</a></h1></div><button type="button" data-toggle="collapse" data-target=".main-nav-items" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><ul class="collapse navbar-collapse main-nav-items"><li class="menu-item"><a href="/" target="_self">HOME</a></li><li class="menu-item"><a href="/archives/" target="_self">ARCHIVE</a></li></ul></div></nav><main class="prince-container"><div class="post"><article class="post-block"><h1 class="post-title">解析一个算术表达式</h1><div class="post-info">5月 8日 2019</div><div class="post-entry"><p>基于这么多年的学习，看到<code>1+2*3-4</code>这样的表达式，我们可以很快的想到这是一个算数表达式，使用<code>四则运算的法则</code>就可以得到最后的结果为<code>2</code>，这仅仅是由于我们固定思维（或者是学习沉淀）得出来的结果。如果将这一段字符串交给计算机，并且让它输出我们想要的结果，计算后的结果，就需要将四则运算法则告诉计算机，然后根据这个规则来解析这个表达式，最后它才能给出来我们想要的结果。</p>
+<p>从一个纯文本表达式到最后正确的结果这个过程，可以理解为是一个翻译，将文本翻译成算术表达式，在四则运算的规则下，对这个表达式进行它语法下的运算，最后得出正确的结果。</p>
+<p>这个简单的四则运算仅仅是一个缩影，往大了就会涉及到json的解析、解释器模式、编程语言的编译等等。这篇文章就将从解析一个算术表达式开始，来对涉及到的深层知识做一个整理。</p>
+<a id="more"></a>
+<h2 id="1-_解释器模式">1. 解释器模式</h2><p>解释器模式中有四个主要角色：client、expression、context、interpret。其中context会用来保存所有的数据，expression为抽象表达式，又分为终结、非终结表达式，解释器是用来完成具体文本转换的，而client是客户端角色，负责调用。</p>
+<h2 id="2-_解释器和编译器">2. 解释器和编译器</h2><p>解释器和编译器可以看作是同一个概念，但是他们还是有些差别的。</p>
+<p>同样是将源码进行翻译成高级语言进行运行，编译器中分为两步：<code>预处理</code>和<code>处理</code>，而解释器只需要一步<code>处理</code>。并且编译器在翻译的过程中会将源码转化成机器代码，而解释器不会将源码转化成机器代码。</p>
+<img src="/2019/05/08/four-fundamental-operations-of-arithmetic/compiler-and-interpreter.png" title="title">
+<p><img src="/Users/youngrocky/hexo/source/_posts/four-fundamental-operations-of-arithmetic/compiler-and-interpreter.png" alt="/compiler-and-interpreter.png"></p>
+<h3 id="token">token</h3><h3 id="AST">AST</h3><h2 id="3-_逆波兰表达式">3. 逆波兰表达式</h2><p>逆波兰表达式(Reverse Polish Notation)又叫做后缀表达式，一个正常的表达式使用逆波兰表达式进行转化的结果为： </p>
+<table>
+<thead>
+<tr>
+<th>正常表达式</th>
+<th>逆波兰表达式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a+b</td>
+<td>a,b,+</td>
+</tr>
+<tr>
+<td>a+b-c</td>
+<td>a,b,c,-,+</td>
+</tr>
+<tr>
+<td>a+(b-c)*d</td>
+<td>a,b,c,-,d,*,+</td>
+</tr>
+<tr>
+<td>a+d*(b-c)</td>
+<td>a,d,b,c,-,*,+</td>
+</tr>
+</tbody>
+</table>
+<p>使用逆波兰表达式进行计算的时候只会进行两种简单操作：入栈和出栈，即push、pop。比如，当前字符为变量的时候进行入栈，如果是运算符，将栈顶的两个元素弹出来做运算，然后将结果进行入栈，直到将表达式扫描完，栈里面的值就是表达式的结果。从这个操作过程可以看出来，逆波兰表达式用于计算的时候使用到了栈这一数据结构。 </p>
+<p>在四则运算解析中，会使用二叉树这种数据结构来抽象表达式，将表达式抽象成二叉树，然后进行中序遍历就可以得出来最后的结果。 </p>
+<h3 id="3-1_前、中、后序遍历">3.1 前、中、后序遍历</h3><p>对于树的这三种遍历方式的特点如下：</p>
+<ul>
+<li>前序遍历是<code>先根节点，然后左节点，最后右节点</code></li>
+<li>中序遍历是<code>先左节点，然后根节点，最后右节点</code></li>
+<li>后序遍历是<code>先左节点，然后右节点，最后根节点</code></li>
+</ul>
+<p>我们将所有的表达式使用抽象语法树的形式来表示，对应上面的几个表达式分别如下图，并且得出来它们的前、中、后序遍历结果。 </p>
+<p>todo：这里放三个图的遍历结果。</p>
+<p>从上面的图中可以看出来<code>中序遍历</code>的结果基本上就是我们可以直观理解一个表达式的意思，而前序和后序遍历的结果则不是，但是这两种遍历结果却是对计算机很友好的方式。其中前序遍历的结果得到的表达式是<code>波兰表达式</code>，后序遍历得到的表达式是<code>逆波兰表达式</code>。 </p>
+<p>基于中序遍历对计算机不友好的原因，很多面试题中会涉及到<code>将中序遍历的结果转换成后序遍历</code>这样的问题。由于这里的四则运算中有优先级这个限制条件，因此中序遍历得出后序遍历不具备唯一性可以打破，这个在后面会进行探究学习。 </p>
+<h3 id="3-2_逆波兰表达式求解算术表达式">3.2 逆波兰表达式求解算术表达式</h3><p>下面将表达式使用逆波兰表达式进行计算结果，这里面主要会用到的数据结构为栈。逆波兰表达式进行入栈的时候是从左往右依次进行遍历，遇到非运算符就入栈，遇到运算符，就将栈顶的两个元素（这两个元素肯定是非运算符类型的，如果不是，就是得出来的逆波兰表达式是错误的）依次弹出来，进行运算（后弹出来的在运算符的前面），计算结果再次入栈，然后继续遍历逆波兰表达式，直到将表达式遍历完，栈里面的值就是最后的结果。 </p>
+<p>以<code>a+(b-c)*d</code>为例，使用逆波兰表达式，得到的结果为：<code>abc-d*+</code>，每一步的过程描述如下： </p>
+<ul>
+<li>从左至右扫描，依次将abc入栈 </li>
+<li>遇到<code>-</code>号，将栈顶的两个元素出栈，执行<code>b-c</code>，得到的结果为B，将B入栈，此时栈内元素为aB </li>
+<li>接着入栈d，栈内元素为aBd </li>
+<li>遇到<code>*</code>号，将栈顶的两个元素弹出，执行<code>B*d</code>，得到结果为D，将D入栈，此时栈内元素为aD </li>
+<li>遇到<code>+</code>号，将栈顶的两个元素弹出，执行<code>a+D</code>，得到结果为A，将A入栈，此时栈内元素为A </li>
+<li>由于整个逆波兰表达式已经遍历完成，栈内的A就是最后的结果</li>
+</ul>
+<p>将abcd换成数字进行一遍校验，比如2+(5-3)*4，得到的逆波兰表达式为：253-4*+，每一步的描述为： </p>
+<ul>
+<li>253入栈 </li>
+<li>遇到<code>-</code>号，执行5-3，得到2，入栈，栈内为22 </li>
+<li>4入栈，栈内元素为224 </li>
+<li>遇到<code>*</code>号，执行<code>2*4</code>，得到8，入栈，栈内为28 </li>
+<li>遇到<code>+</code>号，执行<code>2+8</code>，得到10，入栈，栈内为10 </li>
+<li>最后的结果就是10 </li>
+</ul>
+<p>可以看出来，使用逆波兰表达式来进行计算会很简单（同样的，使用波兰表达式也很简单），关键是要找到抽象语法树的中序遍历结果，前面说到，中序遍历结果基本上就是四则运算表达式的本来样子，因此，一个方法是通过遍历这个四则运算表达式来得到逆波兰表达式，也就是说要进行中序遍历到后序遍历结果的转换。 </p>
+<h3 id="3-3_中序遍历转后序遍历">3.3 中序遍历转后序遍历</h3><p>当有一个tree的中序遍历结果时，要转换成对应的后序遍历需要两个栈，一个用来存储运算符，一个用来存储中间结果。 </p>
+<p>还是以上面的<code>a+(b-c)*d</code>例子来进行分步描述：</p>
+<table>
+<thead>
+<tr>
+<th>扫描到的字符</th>
+<th>stack-1(存储结果)</th>
+<th>stack-2(存储运算符)</th>
+<th>分步说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+<td>a</td>
+<td>空</td>
+<td>扫描到非运算符，直接入s1</td>
+</tr>
+<tr>
+<td>+</td>
+<td>a</td>
+<td>+</td>
+<td>扫描到<code>+</code>运算符，入s2，并且s2为空，不需要弹出来其他同级别运算符</td>
+</tr>
+<tr>
+<td>(</td>
+<td>a</td>
+<td>+(</td>
+<td><code>(</code>运算符，直接入s2</td>
+</tr>
+<tr>
+<td>b</td>
+<td>ab</td>
+<td>+(</td>
+<td>非运算符，直接入s1</td>
+</tr>
+<tr>
+<td>-</td>
+<td>ab</td>
+<td>+(-</td>
+<td>扫描到<code>-</code>运算符，由于s2顶部不为它的同级别运算符，直接入s2</td>
+</tr>
+<tr>
+<td>c</td>
+<td>abc</td>
+<td>+(-</td>
+<td>非运算符，直接入s1</td>
+</tr>
+<tr>
+<td>)</td>
+<td>abc-</td>
+<td>+</td>
+<td>扫描到<code>)</code>运算符，弹出s2内顶部元素，直到将第一个(运算符弹出为止，弹出的元素依次入s1</td>
+</tr>
+<tr>
+<td>*</td>
+<td>abc-</td>
+<td>+*</td>
+<td>扫描到<code>*</code>运算符，由于s2顶为+运算符，不是*的同优先级运算符，直接入s2</td>
+</tr>
+<tr>
+<td>d</td>
+<td>abc-d</td>
+<td>+*</td>
+<td>扫描到非运算符，直接入s1</td>
+</tr>
+<tr>
+<td>扫描完毕</td>
+<td>abc-d*+</td>
+<td>空</td>
+<td>由于已经遍历了字符串的所有内容，因此，将s2中的元素依次弹入到s1内部，得到最终的s1中的值就是逆波兰表达式</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-4_使用逆波兰表达式的求解代码">3.4 使用逆波兰表达式的求解代码</h3><h2 id="参考文章">参考文章</h2><ul>
+<li><a href="https://blog.csdn.net/linraise/article/details/20459751" target="_blank" rel="noopener">关于波兰表达式的文章</a></li>
+<li><a href="https://www.cnblogs.com/chensongxian/p/7059802.html" target="_blank" rel="noopener">前缀、中缀、后缀表达式</a></li>
+</ul>
+</div><div class="post-tags-box"><a class="tag-link" href="/tags/学习/">学习</a>, <a class="tag-link" href="/tags/数据结构/">数据结构</a>, <a class="tag-link" href="/tags/设计模式/">设计模式</a></div></article></div><div class="post-nav"><div class="prev-wrap col-md-6 col-xs-6"><i class="fa fa-angle-double-left"></i><a href="/2020/07/15/use-Self-Manager-make-Module/" class="prev-post">Self-Manager模式在业务开发中的组件化应用</a></div><div class="next-wrap col-md-6 col-xs-6"><a href="/2018/07/03/what-is-apple-in-ai/" class="next-post">Apple在机器学习领域都做了什么</a><i class="fa fa-angle-double-right"></i></div></div></main></div><footer><div class="copyright"><p>Crafted with <i class="fa fa-heart"></i> by&nbsp;Yrocky&nbsp;|&nbsp;<a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yiliashaw/hexo-theme-prince" target="_blank">Prince</a> by SHAW</p></div></footer><script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.0.47/jquery.fancybox.min.js"></script><script src="/js/script.js"></script></body></html>
