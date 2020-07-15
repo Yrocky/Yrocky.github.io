@@ -1,0 +1,36 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><title>Yrocky's blog</title><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link href="/css/bootstrap.min.css" rel="stylesheet"><link href="/css/font-awesome.min.css" rel="stylesheet"><link href="/css/main.css" rel="stylesheet"></head><body><div class="wrap"><nav class="page-navigation"><div class="nav-container"><div class="page-header-logo"><h1 class="prince-log"><a href="/" class="home-link">Yrocky</a></h1></div><button type="button" data-toggle="collapse" data-target=".main-nav-items" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><ul class="collapse navbar-collapse main-nav-items"><li class="menu-item"><a href="/" target="_self">HOME</a></li><li class="menu-item"><a href="/archives/" target="_self">ARCHIVE</a></li></ul></div></nav><main class="prince-container"><div class="post"><article class="post-block"><h1 class="post-title">开源学习之PKProtocolExtension</h1><div class="post-info">2019 9月 5日</div><div class="post-entry"><p>在swift中有为协议添加拓展的功能，这个功能可以使协议中的一些方法能够默认实现，这个功能是一个很实用的点，但是在oc中并不支持协议的拓展，<code>PKProtocolExtension</code>这个工具结合runtime为oc提供了’协议拓展’的功能。</p>
+<a id="more"></a>
+<h2 id="@defs">@defs</h2><p>框架通过使用<code>@def</code>来完成自动化，在一系列宏的作用下，最终得到如下代码：</p>
+<img src="/2019/09/05/open-source-PKProtocolExtension/PKProtocolExtension_@defs_1.png" title="PKProtocolExtension_@defs_1">
+<p>结合一个具体的例子就是这样：</p>
+<img src="/2019/09/05/open-source-PKProtocolExtension/PKProtocolExtension_@defs_2.png" title="PKProtocolExtension_@defs_2">
+<p>在宏的使用中用到了<code>__COUNTER__</code>，它本质上是一个计数器，每调用一次就增加1，初始为0，也就是私有类后面的那个数字。</p>
+<img src="/2019/09/05/open-source-PKProtocolExtension/protocol_extension__COUNTER__.png" title="protocol_extension__COUNTER__">
+<p>而我们知道+load函数是在main函数之前调用的，因此这个私有类（__PKContainer_MMMoveable_0）会在main函数之前执行<code>_pk_extension_load函数</code>，而这个函数也是该框架的关键。</p>
+<h2 id="_pk_extension_load">_pk_extension_load</h2><p>这个方法是整个框架的核心，函数将私有类以及对应的协议作为参数，内部通过runtime将私有类实现的协议中的方法使用一个<code>结构体</code>进行保存，抽象出来的结构体可以保存实例方法和类方法，这里保存的不单纯是方法名，而是Method，也就是具体的方法实现。最后通过一个全局数组进行保存，这个数组会在接下来注入中使用。</p>
+<p>具体的这个函数可以分为4部分。</p>
+<h3 id="第一部分">第一部分</h3><p>在这部分中，使用两个变量分别用来记录当前已经有的拓展数量（<code>extendedProtcolCount</code>），可能有的拓展数量（<code>extendedProtcolCapacity</code>），只有在发现新的协议拓展的时候前者才会增加，才有可能大于后者，然后就需要再次为数组申请空间。</p>
+<img src="/2019/09/05/open-source-PKProtocolExtension/part_one.png" title="part_one">
+<p>上面的realloc函数是通过一个已有对象申请对应大小的空间，然后将初始化结果交给外部。这样可以避免申请多余的空间，以及避免空间不够用。</p>
+<h3 id="第二部分">第二部分</h3><p>在这部分中，会通过遍历<code>allExtendedProtocols</code>数组来获取对应协议的索引。如果进入了if分支中说明该协议已经放入到allExtendedProtocols数组中了，因为可能存在多次使用@defs来修饰一个协议，不过由于使用了前面的<strong>COUNTER</strong>可以避免编译出错。</p>
+<p>如果没有进入if分支，说明该协议还没有放入到数组中，属于第一次进行@defs。</p>
+<img src="/2019/09/05/open-source-PKProtocolExtension/part_two.png" title="part_two">
+<h3 id="第三部分">第三部分</h3><p>这部分根据前一步获得的<code>resultIndex</code>来决定是否为<code>allExtendedProtocols</code>数组添加数据，当某一个协议第一次使用@defs的时候会进入当前if分支，进行数据的添加，然后更新resultIndex为当前数据的索引，会在下一步中使用。</p>
+<img src="/2019/09/05/open-source-PKProtocolExtension/part_three.png" title="part_three">
+<h3 id="第四部分">第四部分</h3><p>这部分主要是执行<code>_pk_extension_merge</code>函数，将allExtendedProtocols数组中的结构体实例和私有类进行一个方法merge。在这个函数内部会根据私有类的实例方法以及类方法来更新数组中结构体实例的数据，主要包括下面的4个属性。</p>
+<img src="/2019/09/05/open-source-PKProtocolExtension/part_four.png" title="part_four">
+<p>至此就完成了对目标协议自实现方法的一个记录，这个记录的载体就是allExtendedProtocols数组，会在下面进行注入的时候进行使用。</p>
+<h2 id="_pk_extension_inject_entry">_pk_extension_inject_entry</h2><p>在记录了使用协议拓展的数据之后，框架内部有一个在编译期就执行的函数来完成方法注入。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__attribute__((constructor)) static void _pk_extension_inject_entry(void);</span><br></pre></td></tr></table></figure>
+<p><code>__attribute__()</code>是一个 GNU 编译器语法，被 constructor 这个关键字修饰的方法会在<code>所有类的 +load 方法之后</code>， <code>main 函数之前</code>被调用。也就是说该方法会在上面<code>_pk_extension_load</code>函数之后执行，这时候已经拿到了所有使用def标记的协议，其实是上面提到的私有类，因此可以在这里获取到这些类进行方法替换。</p>
+<p>同样是先加锁以确保安全，然后通过两次遍历，找到项目中所有遵守了指定协议的类，在这个例子中就是所有遵守MMMoveable协议的类，然后通过上面保存结构体的数组进行方法注入。</p>
+<p>先说一下这里的两次遍历，先遍历存放结构体的数组，然后遍历项目中所有的类，是一种小套大的遍历，本质上这两个遍历的先后顺序没有什么区别。在第二层遍历内部通过判断项目中的类是否遵守结构体中的协议来获取目标类。</p>
+<p>这样的遍历会有一些问题，比如项目中有很多很多类，包括自己创建的以及第三方库中的类，这样的数量在一个功能完备的应用中是以万为单位的，因此在应用启动前还是会有些耗时的。其实目标是找到开发者设定的目标类，可以让开发者将这些类（只需要类名就可以）保存起来，其他同类型的项目是维护一个Plist来记录，还可以通过编译器语法，将对应的类名写到包内部。</p>
+<p>在通过遍历拿到目标类之后，通过runtime为目标类增加Method，不论类方法还是实例方法，结构体中都已经记录了，所以可以完成注入。</p>
+<p>这个黑魔法类似于实现了一个效果：把一个类X中对应方法的实现绑定到另外一个类Y上，即使Y没有实现，也不会运行报错。</p>
+<h2 id="一些弊端">一些弊端</h2><p>除了上面提到的需要遍历所有类之外，在协议的继承中，对于<code>@required</code>修饰的方法，子协议也必须进行实现，不然会有警告，虽然不会导致崩溃，但是这个警告也显得不是很优雅。</p>
+<img src="/2019/09/05/open-source-PKProtocolExtension/other.png" title="other">
+<h2 id="参考文章">参考文章</h2><ul>
+<li>参考文章列表</li>
+</ul>
+</div><div class="post-tags-box"><a class="tag-link" href="/tags/iOS开发/">iOS开发</a>, <a class="tag-link" href="/tags/开源学习/">开源学习</a></div></article></div><div class="post-nav"><div class="prev-wrap col-md-6 col-xs-6"><i class="fa fa-angle-double-left"></i><a href="/2020/07/15/use-Self-Manager-make-Module/" class="prev-post">Self-Manager模式在业务开发中的组件化应用</a></div><div class="next-wrap col-md-6 col-xs-6"><a href="/2019/07/15/open-source-StyledTextKit/" class="next-post">开源学习之StyledTextKit</a><i class="fa fa-angle-double-right"></i></div></div></main></div><footer><div class="copyright"><p>Crafted with <i class="fa fa-heart"></i> by&nbsp;Yrocky&nbsp;|&nbsp;<a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yiliashaw/hexo-theme-prince" target="_blank">Prince</a> by SHAW</p></div></footer><script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.0.47/jquery.fancybox.min.js"></script><script src="/js/script.js"></script></body></html>

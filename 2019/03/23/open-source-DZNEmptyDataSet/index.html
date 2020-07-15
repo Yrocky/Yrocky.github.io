@@ -1,0 +1,58 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><title>Yrocky's blog</title><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link href="/css/bootstrap.min.css" rel="stylesheet"><link href="/css/font-awesome.min.css" rel="stylesheet"><link href="/css/main.css" rel="stylesheet"></head><body><div class="wrap"><nav class="page-navigation"><div class="nav-container"><div class="page-header-logo"><h1 class="prince-log"><a href="/" class="home-link">Yrocky</a></h1></div><button type="button" data-toggle="collapse" data-target=".main-nav-items" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><ul class="collapse navbar-collapse main-nav-items"><li class="menu-item"><a href="/" target="_self">HOME</a></li><li class="menu-item"><a href="/archives/" target="_self">ARCHIVE</a></li></ul></div></nav><main class="prince-container"><div class="post"><article class="post-block"><h1 class="post-title">开源学习之DZNEmptyDataSet</h1><div class="post-info">2019 3月 23日</div><div class="post-entry"><p>这是一个为UITableView、UICollectionView在无数据状态下提供空态展示视图的组件，由于他们的父类都是UIScrollView，所以作者通过为UIScrollView提供分类接口来达到兼容两者的效果，接口头文件很简洁，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@interface UIScrollView (EmptyDataSet)</span><br><span class="line"></span><br><span class="line">@property (nonatomic, weak, nullable) IBOutlet id &lt;DZNEmptyDataSetSource&gt; emptyDataSetSource;</span><br><span class="line">@property (nonatomic, weak, nullable) IBOutlet id &lt;DZNEmptyDataSetDelegate&gt; emptyDataSetDelegate;</span><br><span class="line">@property (nonatomic, readonly, getter = isEmptyDataSetVisible) BOOL emptyDataSetVisible;</span><br><span class="line"></span><br><span class="line">- (void)reloadEmptyDataSet;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>分类本身很简单，需要关注的就是其中的<code>两个协议</code>和<code>一个方法</code>。两个协议中一个是代理属性，用来传递空态下视图的交互状态，还有一个是数据源属性，用来定制空态的显示效果，另外的方法就是刷新是否要展示空态视图。</p>
+<h2 id="DZNWeakObjectContainer">DZNWeakObjectContainer</h2><p>一般来说，对于代理、数据源这些属性，会通过使用week修饰来达到破除循环引用，在头文件中，作者也是这么修饰代理和数据源的，但是，同以往为已有类添加分类属性不同的是，作者这里使用一个弱引用对象来防止循环引用。</p>
+<p>举设置数据源为例，在分类的setter方法中，使用<code>OBJC_ASSOCIATION_RETAIN_NONATOMIC</code>来修饰要添加的分类属性，这个属性是<code>DZNWeakObjectContainer</code>类的示例，它本身会弱引用传入的datasource对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (void)setEmptyDataSetSource:(id&lt;DZNEmptyDataSetSource&gt;)datasource</span><br><span class="line">&#123;</span><br><span class="line">    if (!datasource || ![self dzn_canDisplay]) &#123;</span><br><span class="line">        [self dzn_invalidate];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    objc_setAssociatedObject(self, kEmptyDataSetSource, [[DZNWeakObjectContainer alloc] initWithWeakObject:datasource], OBJC_ASSOCIATION_RETAIN_NONATOMIC);</span><br><span class="line">    </span><br><span class="line">    // 省略其他逻辑</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因此，看起来是为UIScrollView添加一个遵守<code>DZNEmptyDataSetSource</code>协议的属性，但是内部却是一个<code>DZNWeakObjectContainer</code>类的实例属性，而这个Container类的属性会弱引用遵守协议的实例对象。</p>
+<p>通过其头文件也可以验证这点：</p>
+<img src="/2019/03/23/open-source-DZNEmptyDataSet/DZNWeakObjectContainer.png" title="DZNWeakObjectContainer">
+<p>那么在UIScrollView分类对数据源属性的getter方法中，其实就是通过将Container解包，传递出去其弱引用的对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- (id&lt;DZNEmptyDataSetSource&gt;)emptyDataSetSource</span><br><span class="line">&#123;</span><br><span class="line">    DZNWeakObjectContainer *container = objc_getAssociatedObject(self, kEmptyDataSetSource);</span><br><span class="line">    return container.weakObject;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>除此之外，该类在组件中就没有其他用途了。</p>
+<h2 id="swizzle">swizzle</h2><p>上面在设置数据源和代理的时候，刻意没有提及其他的内容，其实在数据源的setter方法中除了设置关联对象，还有进行swizzle，完整的setter方法如下：</p>
+<img src="/2019/03/23/open-source-DZNEmptyDataSet/swizzle.png" title="swizzle">
+<p>这里对reloadData方法和UITableView的endUpdates方法下钩子，和以往简单的swizzle不同的是，作者在这里使用了一个记录表（_impLookupTable）来确保每个类只被hook了一次，目前只有UITableView和UICollectionView两个类。</p>
+<p><code>_impLookupTable</code>本身是一个全局的可变字典，这个字典以当前被hook的类名加SEL为key，以一个字典为value，具体的数据格式如下：</p>
+<img src="/2019/03/23/open-source-DZNEmptyDataSet/B6345EE9-7ADE-41A4-B9FF-8513517A6A72.png" title="logo">
+<p>其中DZNSwizzleInfoPointerKey存储的是<code>dzn_newImplementation</code>他其实是方法的实现指针：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// Swizzle by injecting additional implementation</span><br><span class="line">Method method = class_getInstanceMethod(baseClass, selector);</span><br><span class="line">IMP dzn_newImplementation = method_setImplementation(method, (IMP)dzn_original_implementation);</span><br></pre></td></tr></table></figure>
+<p>具体的为<code>_impLookupTable</code>添加元素的方法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// in -swizzleIfPossible:</span><br><span class="line">// Store the new implementation in the lookup table</span><br><span class="line">NSDictionary *swizzledInfo = @&#123;DZNSwizzleInfoOwnerKey: baseClass,</span><br><span class="line">                                   DZNSwizzleInfoSelectorKey: NSStringFromSelector(selector),</span><br><span class="line">                                   DZNSwizzleInfoPointerKey: [NSValue valueWithPointer:dzn_newImplementation]&#125;;</span><br><span class="line">    </span><br><span class="line">[_impLookupTable setObject:swizzledInfo forKey:key];</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>作者提到了一些关于swizzle的相关文章：right-way-to-swizzle 和 JUSEmptyViewController。</p>
+</blockquote>
+<p>当<code>_impLookupTable</code>有了数据之后，每次调用数据源的setter方法都会先根据类名和SEL进行判断，如果已经存在就不进行处理。</p>
+<p>这里作者做了2个判断。</p>
+<p>第一个是如果对应class和SEL已经存在了就不处理：</p>
+<img src="/2019/03/23/open-source-DZNEmptyDataSet/condition_one.png" title="condition_one">
+<p>第二个是如果该class和SEL对应下的实例存在，也不处理：</p>
+<img src="/2019/03/23/open-source-DZNEmptyDataSet/condition_two.png" title="condition_two">
+<h2 id="dzn_reloadEmptyDataSet">dzn_reloadEmptyDataSet</h2><p>上面在UIScrollView分类中的<code>reloadEmptyDataSet</code>方法内部其实现逻辑是<code>dzn_reloadEmptyDataSet</code>方法，而这个方法也是将<code>reloadData方法hook</code>之后的替换方法，所以组件会在这个方法里面处理空态数据。</p>
+<p>根据一系列的代理方法以及计算UITableView或者UICollectionView是否有数据之后，进入展示空态界面的逻辑中，这一系列方法列举如下：</p>
+<img src="/2019/03/23/open-source-DZNEmptyDataSet/38D1B510-A7E2-41C1-BC46-FD213178D235.png" title="logo">
+<p>在进入到展示空态界面的逻辑中，作者提供了一个私有默认的空态视图类：<code>DZNEmptyDataSetView</code>，该类也是UIScrollView的一个私有分类属性：<code>emptyDataSetView</code>，提供了市面上常见软件空态视图中的控件组合。</p>
+<p>首先会去查看这个<code>emptyDataSetView</code>是否有父类，判断是否要添加到当前ScrollView上，作者在每一次<code>reloadEmptyDataSet</code>的时候都会将emptyDataSetView中已有的数据和布局进行重置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// in DZNEmptyDataSetView.m</span><br><span class="line">- (void)prepareForReuse</span><br><span class="line">&#123;</span><br><span class="line">    [self.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];</span><br><span class="line">    </span><br><span class="line">    _titleLabel = nil;</span><br><span class="line">    _detailLabel = nil;</span><br><span class="line">    _imageView = nil;</span><br><span class="line">    _button = nil;</span><br><span class="line">    _customView = nil;</span><br><span class="line">    </span><br><span class="line">    [self removeAllConstraints];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>除了默认的空态视图，还提供了可以自定义的视图，假如没有使用自定义视图，组件内部会根据设置的空态数据源对emptyDataSetView进行UI上的处理，主要就是文本、图片、位置、颜色等。</p>
+<p>上面是根据数据添加空态视图，移除空态视图的逻辑其实有三个地方：</p>
+<ul>
+<li>UIScrollView空态数据源的setter方法中</li>
+<li>UIScrollView空态代理的setter方法中</li>
+<li>还有一个是在上面的dzn_reloadEmptyDataSet方法中如果不需要添加空态视图</li>
+</ul>
+<p>由于dzn_reloadEmptyDataSet方法是对reloadData方法的hook，所以emptyDataSetView的添加和移除可以实时根据数据来完成。</p>
+<p>在添加emptyDataSetView的时候，作者还为其添加了一个Tap手势，看效果也仅仅是为代理提供是否可以执行点击逻辑使用。</p>
+<h2 id="life_cycle">life cycle</h2><p>在组件内部，作者提供了一套空态视图的生命周期，会传递给空态代理，他们分别是：</p>
+<ul>
+<li>emptyDataSetWillAppear</li>
+<li>emptyDataSetDidAppear</li>
+<li>emptyDataSetWillDisappear</li>
+<li>emptyDataSetDidDisappear</li>
+</ul>
+<p>这些方法会在相应的位置来传递状态，就不详细的展开了。</p>
+<h2 id="参考文章">参考文章</h2><ul>
+<li>参考文章列表</li>
+</ul>
+</div><div class="post-tags-box"><a class="tag-link" href="/tags/iOS开发/">iOS开发</a>, <a class="tag-link" href="/tags/开源学习/">开源学习</a></div></article></div><div class="post-nav"><div class="prev-wrap col-md-6 col-xs-6"><i class="fa fa-angle-double-left"></i><a href="/2019/04/13/open-source-YYAsyncLayer/" class="prev-post">开源学习之YYAsyncLayer</a></div><div class="next-wrap col-md-6 col-xs-6"><a href="/2019/03/05/open-source-FDFullscreenPopGesture/" class="next-post">开源学习之FDFullscreenPopGesture</a><i class="fa fa-angle-double-right"></i></div></div></main></div><footer><div class="copyright"><p>Crafted with <i class="fa fa-heart"></i> by&nbsp;Yrocky&nbsp;|&nbsp;<a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yiliashaw/hexo-theme-prince" target="_blank">Prince</a> by SHAW</p></div></footer><script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.0.47/jquery.fancybox.min.js"></script><script src="/js/script.js"></script></body></html>

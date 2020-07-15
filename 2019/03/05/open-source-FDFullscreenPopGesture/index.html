@@ -1,0 +1,40 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><title>Yrocky's blog</title><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link href="/css/bootstrap.min.css" rel="stylesheet"><link href="/css/font-awesome.min.css" rel="stylesheet"><link href="/css/main.css" rel="stylesheet"></head><body><div class="wrap"><nav class="page-navigation"><div class="nav-container"><div class="page-header-logo"><h1 class="prince-log"><a href="/" class="home-link">Yrocky</a></h1></div><button type="button" data-toggle="collapse" data-target=".main-nav-items" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><ul class="collapse navbar-collapse main-nav-items"><li class="menu-item"><a href="/" target="_self">HOME</a></li><li class="menu-item"><a href="/archives/" target="_self">ARCHIVE</a></li></ul></div></nav><main class="prince-container"><div class="post"><article class="post-block"><h1 class="post-title">开源学习之FDFullscreenPopGesture</h1><div class="post-info">2019 3月 5日</div><div class="post-entry"><p>这是为解决视图导航中显示导航栏与否，以及支持全屏pop手势的一个很小巧的组件，是foxingdog团队出品的一款基于<code>runtime</code>+<code>KVC</code>原理实现的优雅解决方案。</p>
+<a id="more"></a>
+<h2 id="category">category</h2><p>头文件依旧简洁，提供了两个类的分类，分别是<code>导航控制器</code>和<code>视图控制器</code>。</p>
+<p>对导航控制器添加的两个属性一个是全屏pop手势，可以用来处理手势发生时候的回调，另一个是用来控制导航堆栈中的视图控制器是否可以自行决定隐藏显示导航栏。</p>
+<img src="/2019/03/05/open-source-FDFullscreenPopGesture/Navi_category.png" title="Navi_category">
+<p>对视图控制器添加的一个属性为是否允许在导航堆栈中使用交互pop手势，另一个为是否在导航堆栈中显示导航栏。</p>
+<img src="/2019/03/05/open-source-FDFullscreenPopGesture/VC_category.png" title="VC_category">
+<p>除了公开的分类方法，组件内部还有一个私有的分类方法，是对UIViewController的私有分类方法，这个分类提供了一个block回调:<code>_FDViewControllerWillAppearInjectBlock</code>，以及hook了viewWillAppear:方法，在这个方法内部会调用block，传递将当前控制器和动画参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@property (nonatomic, copy) _FDViewControllerWillAppearInjectBlock fd_willAppearInjectBlock;</span><br></pre></td></tr></table></figure>
+<h2 id="swizzle">swizzle</h2><p>在组件的实现内部，一共进行了两次hook，分别是对UIViewController的<code>-viewWillAppear:</code>和UINavigationController的<code>-pushViewController:animated:</code>方法，前者在上一小节已经说过了，只是一个在视图将要出现时候的数据传递的作用。</p>
+<p>组件内主要的逻辑还是针对导航控制器的<code>push操作的hook</code>。</p>
+<p>导航控制器有一个<a href="https://developer.apple.com/documentation/uikit/uinavigationcontroller/1621847-interactivepopgesturerecognizer" target="_blank" rel="noopener">interactivePopGestureRecognizer</a>手势，其作用是用来将栈顶的视图控制器pop出去，作者在这里将这个手势设置为了disenable，然后在这个系统手势的view上添加一个<code>自定义的UIPanGestureRecognizer手势</code>，这个手势对象是导航控制器分类的一个属性，也就是上面头文件中出现的属性：<code>fd_fullscreenPopGestureRecognizer</code>。</p>
+<p>由于是用来替换系统手势的，所以新手势的view、target都和系统手势是一样的，但是新手势的delegate却是另外一个对象，这个对象是导航控制器的私有分类属性：fd_popGestureRecognizerDelegate，他是私有类<code>_FDFullscreenPopGestureRecognizerDelegate</code>的实例对象，主要用来处理手势的代理逻辑。</p>
+<p>至于为什么要添加一个私有手势类，以及将系统的手势的view、target等设置给新的手势，可以参考<a href="https://www.jianshu.com/p/d39f7d22db6c" target="_blank" rel="noopener">这位作者的探索</a>。</p>
+<p>接下来就是要设置导航栏的显示与否了。前面对视图控制器添加了分类属性<code>fd_prefersNavigationBarHidden</code>，以及视图将要出现的<code>fd_willAppearInjectBlock</code>回调，设置导航栏的显示与否是将这两者结合起来。</p>
+<h2 id="setNavigationBarHidden">setNavigationBarHidden</h2><p>在讨论这个之前，先来看下界面跳转之间的方法调用顺序，这里主要讨论三种情况：<code>导航控制器设置rootViewController</code>、<code>执行push操作</code>、<code>执行pop操作</code>。</p>
+<p>当为导航控制器设置rootViewController的时候，其实是<code>执行了一次push操作</code>，push操作是父类在init方法中调用的，其流程如下:</p>
+<img src="/2019/03/05/open-source-FDFullscreenPopGesture/rootViewController.png" title="rootViewController">
+<p>每执行一次push操作，各个控制器的依次调用顺序如下：</p>
+<img src="/2019/03/05/open-source-FDFullscreenPopGesture/push.png" title="push">
+<p>如果导航要执行一次pop操作，除了点按返回按钮执行pop，导航控制器还支持屏幕边界交互手势执行pop操作，这两种本质上是一样的操作，具体流程如下：</p>
+<img src="/2019/03/05/open-source-FDFullscreenPopGesture/pop.png" title="pop">
+<p>结合以上的流程，可以在相应的方法内部执行导航控制器的<code>setNavigationBarHidden:</code>方法，来完成导航栏的显示与否，最好的时机是选择视图控制器的<code>viewWillAppear</code>方法中。</p>
+<p>假如上面的例子中A视图需要显示导航栏，B视图不需要显示导航栏，可以做如下设置：</p>
+<img src="/2019/03/05/open-source-FDFullscreenPopGesture/a_push_b.png" title="a_push_b">
+<p>但是如果每次都这样重写viewWillAppear方法，会显得过于机械化。与viewWillAppear不同，viewDidLoad方法基本上是每个视图控制器都会重写的，并且viewDidLoad方法是优先于viewWillAppear方法执行的，所以可以在前者方法中设置当前视图控制器是否隐藏，然后<code>找时机</code>在viewWillAppear中调用。</p>
+<p>这就是该组件的隐藏导航栏的核心方法，为UIViewController提供分类属性来决定导航栏是否隐藏，然后分类属性在viewDidLoad中进行设置，同时hookUIViewController的viewWillAppear方法，在hook的方法内执行导航控制器<code>setNavigationBarHidden:</code>的方法，来达到隐藏导航栏的目的。</p>
+<p>在hook的导航控制器的push方法内部会执行下面的代码，完成每一个视图控制器隐藏导航栏与否：</p>
+<img src="/2019/03/05/open-source-FDFullscreenPopGesture/core.png" title="core">
+<h2 id="_FDFullscreenPopGestureRecognizerDelegate">_FDFullscreenPopGestureRecognizerDelegate</h2><p>如果要实现单独视图控制器中导航栏的显示与隐藏，使用上一小节的方法就已经可以实现了。但是如果某一个界面中的导航栏不显示了，相应的导航中的边界返回手势也就失效了，除了主动使用其他方式进行pop，比如点击按钮。</p>
+<p>这个组件的名字叫做<code>FullScreenPopGesture</code>，顾名思义就是说主要功能是支持全屏手势执行pop操作，因此会涉及到swizzle小节中提到的私有手势类，这个手势也是解决导航栏隐藏之后不能执行手势返回的问题。</p>
+<p>私有手势类的delegate是另一个私有类的对象：<code>_FDFullscreenPopGestureRecognizerDelegate</code>，这个私有类在上面说过，主要是用来处理手势代理方法逻辑用的。这个私有类会弱引用导航控制器，由于他本身也是导航控制器的一个私有分类属性，所以这里为了循环引用，使用的是<code>弱引用</code>。</p>
+<p>其主要用来处理是否可以响应全屏pop手势，涉及到的代理方法为：<code>- (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer</code>。</p>
+<p>其中的逻辑整理如下，当以下这些条件只要有其中一个能够满足的时候，就不允许执行全屏pop手势：</p>
+<img src="/2019/03/05/open-source-FDFullscreenPopGesture/FDFullscreenPopGestureRecognizerDelegate.png" title="_FDFullscreenPopGestureRecognizerDelegate">
+<h2 id="参考文章">参考文章</h2><ul>
+<li><a href="https://www.jianshu.com/p/d39f7d22db6c" target="_blank" rel="noopener">https://www.jianshu.com/p/d39f7d22db6c</a></li>
+<li><a href="https://developer.apple.com/documentation/uikit/uinavigationcontroller/1621847-interactivepopgesturerecognizer" target="_blank" rel="noopener">https://developer.apple.com/documentation/uikit/uinavigationcontroller/1621847-interactivepopgesturerecognizer</a></li>
+</ul>
+</div><div class="post-tags-box"><a class="tag-link" href="/tags/iOS开发/">iOS开发</a>, <a class="tag-link" href="/tags/开源学习/">开源学习</a></div></article></div><div class="post-nav"><div class="prev-wrap col-md-6 col-xs-6"><i class="fa fa-angle-double-left"></i><a href="/2019/03/23/open-source-DZNEmptyDataSet/" class="prev-post">开源学习之DZNEmptyDataSet</a></div><div class="next-wrap col-md-6 col-xs-6"><a href="/2018/07/03/what-is-apple-in-ai/" class="next-post">Apple在机器学习领域都做了什么</a><i class="fa fa-angle-double-right"></i></div></div></main></div><footer><div class="copyright"><p>Crafted with <i class="fa fa-heart"></i> by&nbsp;Yrocky&nbsp;|&nbsp;<a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yiliashaw/hexo-theme-prince" target="_blank">Prince</a> by SHAW</p></div></footer><script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.0.47/jquery.fancybox.min.js"></script><script src="/js/script.js"></script></body></html>

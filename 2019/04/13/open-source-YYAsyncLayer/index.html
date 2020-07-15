@@ -1,0 +1,66 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="utf-8"><title>Yrocky's blog</title><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link href="/css/bootstrap.min.css" rel="stylesheet"><link href="/css/font-awesome.min.css" rel="stylesheet"><link href="/css/main.css" rel="stylesheet"></head><body><div class="wrap"><nav class="page-navigation"><div class="nav-container"><div class="page-header-logo"><h1 class="prince-log"><a href="/" class="home-link">Yrocky</a></h1></div><button type="button" data-toggle="collapse" data-target=".main-nav-items" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><ul class="collapse navbar-collapse main-nav-items"><li class="menu-item"><a href="/" target="_self">HOME</a></li><li class="menu-item"><a href="/archives/" target="_self">ARCHIVE</a></li></ul></div></nav><main class="prince-container"><div class="post"><article class="post-block"><h1 class="post-title">开源学习之YYAsyncLayer</h1><div class="post-info">2019 4月 13日</div><div class="post-entry"><p>YYAsyncLayer是YYKit中提供的一个可以在异步绘制内容的CALayer子类，通过将layer绘制部分放入异步线程中进行达到提升性能的目的。</p>
+<a id="more"></a>
+<h2 id="display">display</h2><p>由于本身是一个异步绘制的Layer，有可能在异步绘制的过程中，Layer<code>执行了dealloc(UITableView中使用)</code>、<code>外部强制调用setNeedsDisplay方法</code>等操作，导致上下文有所改变，可以认为是之前的绘制已经无效，需要取消掉，作者这里使用一个计数器来完成线程之间的差异性判断。</p>
+<p>系统建议子类需要重写CALayer的display方法来进行绘制内容。</p>
+<p>绘制操作中通过使用<code>YYAsyncLayerDisplayTask</code>来将不同的时机传递出去，在这里作者使用一个强制delegate的转换，而不是通过让<code>YYAsyncLayerDelegate</code>继承至CALayerDelegate，不明白这样做法的原因。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (void)display &#123;</span><br><span class="line">    super.contents = super.contents;</span><br><span class="line">    [self _displayAsync:_displaysAsynchronously];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)_displayAsync:(BOOL)async &#123;</span><br><span class="line">    __strong id&lt;YYTextAsyncLayerDelegate&gt; delegate = (id)self.delegate;</span><br><span class="line">    YYTextAsyncLayerDisplayTask *task = [delegate newAsyncDisplayTask];</span><br><span class="line">    // 其他逻辑省略</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在display方法中通过代理可以获得一个task对象:<code>YYTextAsyncLayerDisplayTask</code>，接下来就是根据逻辑调用task对应的回调block将状态传递出去。</p>
+<p>如果在不考虑多线程可能发生的问题的话，常规的做法中会这样写这段逻辑（如果去掉加粗的部分就是一个同步加载的过程）：</p>
+<ol>
+<li>对task调用willDisplay事件回调</li>
+<li><strong>进入异步线程</strong></li>
+<li>调用UIGraphicsBeginImageContext..函数进入CoreGraphics，以及使用UIGraphicsGetCurrentContext生成CGContextRef类型的当前context</li>
+<li>save当前context，对context进行一些设置：颜色、rect等，然后restore当前的context</li>
+<li>将处理好的context通过task的display回调传递给外部</li>
+<li>使用UIGraphicsGetImageFromCurrentImageContext函数获取当前context下的UIImage对象</li>
+<li>调用UIGraphicsEndImageContext结束对context的使用</li>
+<li><strong>回到异步主线程</strong>，将获取的UIImage对象设置为layer的contents</li>
+<li>调用task的didDisplay回调</li>
+</ol>
+<p>上面说了作者使用一个计数器类YYSentinel来确保线程安全，为YYAsyncLayer添加一个计数器属性，判断是否是当前线程的做法如下，由于局部变量sentinel会被block捕获，所以其value的值在当前线程是不会改变的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">_YYTextSentinel *sentinel = _sentinel;</span><br><span class="line">int32_t value = sentinel.value;</span><br><span class="line">BOOL (^isCancelled)() = ^BOOL() &#123;</span><br><span class="line">      return value != sentinel.value;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>作者在上面的流程中的以下位置处添加了判断：</p>
+<ul>
+<li>在第2步进入异步线程之后，也就是将要开始使用CoreGraphics之前，进行判断isCancelled</li>
+<li>在第6步之前，也就是生成UIImage对象之前</li>
+<li>在第7步之后，也就是即将要异步回到主线程之前</li>
+<li>在第8步之中，即将要为YYAsyncLayer设置contents之前</li>
+</ul>
+<p>这样提供了cancel功能，就可以<code>避免一些不必要的绘制操作</code>，<code>减少性能上的损耗</code>，同时还可以避免多线程之间切换照成的消耗甚至阻塞。</p>
+<h2 id="YYDispatchQueuePool">YYDispatchQueuePool</h2><p>在常规的多线程使用中，都是使用就创建一个新的异步线程，为其提供label、type等，大部分场景都是创建<code>concurrent queue</code>，也就是并发队列。</p>
+<p>由于YYAsyncLayer也是使用<code>异步并发</code>来达到效果的，可能在同一时刻，特别是在tableView的滑动过程中，可能造成队列的创建、运行、销毁等操作，会挤占主线程CPU资源，直观的影响就是界面卡顿。</p>
+<p>基于这样的情况，作者在这里自己实现了一个线程池，为不同优先级创建一些串行队列，从头文件可以看出来有三种方法来获取串行队列：</p>
+<ul>
+<li>使用<code>alloc-init初始化</code>YYDispatchQueuePool，然后从pool中获取对应的queue</li>
+<li>使用系统提供的<code>defaultPool</code>，然后从pool中获取queue</li>
+<li>直接使用<code>YYDispatchQueueGetForQOS</code>方法从全局pool中获取queue</li>
+</ul>
+<h2 id="NSQualityOfService">NSQualityOfService</h2><p>在上一小节中初始化queuePool的时候有使用到<code>QoS</code>，全称为Queue quality of service，线程服务质量。</p>
+<p>在我们利用GCD使用多线程的时候，定义好要执行的任务，然后将任务放到对应的queue中就行了，GCD会根据你的设置（串行、并行、同步、异步等）来创建线程执行任务。系统内部会根据这些配置合理的运用资源高效的执行代码，其中主要涉及到<code>CPU调度的优先级</code>、<code>IO优先级</code>、<code>任务运行在哪个线程</code>以及<code>运行的顺序</code>等等，这些东西可以使用QoS来抽象表示。</p>
+<p>使用QoS可以为系统提供我们任务的执行场景，目前有：</p>
+<ul>
+<li>user interactive，用户交互的任务，通常和UI有关</li>
+<li>user initiated，由用户发起的并且需要立即得到结果的任务，比如滑动scroll view时去加载数据用于后续cell的显示，这些任务通常跟后续的用户交互相关，在几秒或者更短的时间内完成</li>
+<li>utility，一些可能需要花点时间的任务，这些任务不需要马上返回结果，比如下载</li>
+<li>background，这些任务对用户不可见，比如后台进行备份的操作</li>
+<li>default，默认的值，优先级介于user-initiated 和 utility之间</li>
+</ul>
+<h2 id="YYLabel">YYLabel</h2><p>在YYLabel内通过重写layerClass，将YYAsyncLayer设置为其内部layer，由于在UIView中CALayer的delegate就为UIView本身，所以这里YYLable也实现了上面提到的<code>YYAsyncLayerDelegate</code>代理方法。</p>
+<p>方法内部根据task提供的三个事件回调，结合作者自己实现的YYText相关的逻辑进行界面的渲染，主要使用到的有_innerText、_innerContainer、_innerLayout、_attachment等内部变量。</p>
+<p>在task的willDisplay中移除所有已添加过的attachmentView、attachmentLayer以及自己本身的动画。</p>
+<p>在display回调中首先根据属性字符串text和container创建YYTextLayout，使用YYTextLayout结合传入的context在对应的point以及size下进行设置，文字、阴影以及边框等等这些都会在这个时候设置到当前context中，这些信息都会在下一步生成UIImage进而设置为contents中起到作用。</p>
+<p>上一小节中已经知道，在task的didDisplay回调之前，已经为layer设置过了contents，这里在didDisplay回调中会将对应的attachment进行添加到当前控件中，最后使用CATransition动画将内容展示到屏幕上。</p>
+<h2 id="YYTransaction">YYTransaction</h2><p>在YYAsyncLayer的readme中，作者使用一个简单的例子演示了异步渲染，其中使用到了<code>YYTransaction</code>这个类，他提供一个对当前runloop的观察者，在当前runloop休眠前、结束的时候会执行observer的方法.</p>
+<p>YYTransaction通过接受外部的target、selector来初始化：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+ (YYTransaction *)transactionWithTarget:(id)target selector:(SEL)selector&#123;</span><br><span class="line">    if (!target || !selector) return nil;</span><br><span class="line">    YYTransaction *t = [YYTransaction new];</span><br><span class="line">    t.target = target;</span><br><span class="line">    t.selector = selector;</span><br><span class="line">    return t;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后transaction通过调用<code>commit</code>将一个transaction实例添加到全局的集合中，同时确保为main runloop添加对应的observer：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- (void)commit &#123;</span><br><span class="line">    if (!_target || !_selector) return;</span><br><span class="line">    YYTransactionSetup();</span><br><span class="line">    [transactionSet addObject:self];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>另外，重写hash、isEqual方法来确保添加到set中的对象不会重复。</p>
+<p>在执行runloop注册观察者的回调方法中，会对已经添加到全局<code>transactionSet</code>集合中的YYTransaction执行target-action，然后将他们全部移除，核心代码如下：</p>
+<img src="/2019/04/13/open-source-YYAsyncLayer/YYTransaction.png" title="YYTransaction">
+<p>在整个YYKit中，作者只在YYTextView中使用了YYTransaction，使用方式和YYAsyncLayer的readme中类似，都是在重写一些属性的setter方法中提供update方法，更新textLayout、contentSize、_selectionView等。</p>
+<h2 id="参考文章">参考文章</h2><ul>
+<li><a href="https://blog.csdn.net/u011219941/article/details/50250727" target="_blank" rel="noopener">https://blog.csdn.net/u011219941/article/details/50250727</a></li>
+<li><a href="https://blog.csdn.net/lcpjoel/article/details/82687698" target="_blank" rel="noopener">https://blog.csdn.net/lcpjoel/article/details/82687698</a></li>
+</ul>
+</div><div class="post-tags-box"><a class="tag-link" href="/tags/iOS开发/">iOS开发</a>, <a class="tag-link" href="/tags/开源学习/">开源学习</a></div></article></div><div class="post-nav"><div class="prev-wrap col-md-6 col-xs-6"><i class="fa fa-angle-double-left"></i><a href="/2019/05/08/four-fundamental-operations-of-arithmetic/" class="prev-post">解析一个算术表达式</a></div><div class="next-wrap col-md-6 col-xs-6"><a href="/2019/03/23/open-source-DZNEmptyDataSet/" class="next-post">开源学习之DZNEmptyDataSet</a><i class="fa fa-angle-double-right"></i></div></div></main></div><footer><div class="copyright"><p>Crafted with <i class="fa fa-heart"></i> by&nbsp;Yrocky&nbsp;|&nbsp;<a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yiliashaw/hexo-theme-prince" target="_blank">Prince</a> by SHAW</p></div></footer><script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><script src="/js/bootstrap.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/3.0.47/jquery.fancybox.min.js"></script><script src="/js/script.js"></script></body></html>
