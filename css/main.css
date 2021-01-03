@@ -230,6 +230,7 @@ a:focus {
 
 img {
   max-width: 100%;
+  border-radius: 10px;
   border: 0;
   padding: 0;
   height: auto;
@@ -265,10 +266,13 @@ code {
   word-wrap: break-word;
   color: #3A4145;
   background: #F7FAFB;
-  border-radius: 3px;
+  /*background: #e1eef6;*/
+  border-radius: 4px;
   border: #E3EDF3 1px solid;
+  /*border: #a3daff 1px solid;*/
   line-height: 1.7;
-  font-size: 14px;
+  /*font-size: 14px;*/
+  font-size: 1.5rem;
 }
 
 pre code {
@@ -592,7 +596,8 @@ h1.prince-log a {
 .post-entry h6,
 .post-entry hr {
 
-    font-family: "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", sans-serif, "Merriweather", serif;
+  font-family: -apple-system,system-ui,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,BlinkMacSystemFont,"Helvetica Neue","PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial;
+  /*font-family: "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", sans-serif, "Merriweather", serif;*/
   margin-bottom: 25px;
   /*font-family: "Trebuchet MS", Helvetica Neue, Helvetica, 'Microsoft YaHei', STHeitiArial, sans-serif;*/
 }
@@ -648,23 +653,27 @@ blockquote {
 
 .post-entry blockquote {
 
-  padding: 20px;
-  margin-bottom: 25px;
+  padding: 10px;
+  margin-bottom: 15px;
   background-color: #f7f7f7;
   border-left: 6px solid #b4b4b4;
   word-break: break-word!important;
   word-break: break-all;
-  
+
+  border-radius: 4px;
+
+  /*border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;*/
 }
 
 .post-entry blockquote p {
   /*border-left: 3px solid #424243;*/
   color: #999;
-  padding: 0 18px;
+  padding: 0 10px;
   margin: 0px;
   font-size: 16px;
   font-weight: 400;
-  line-height: 30px;
+  line-height: 28px;
   /*font-style: italic;*/
 }
 
@@ -715,10 +724,11 @@ blockquote {
 
 .post-entry ul li {
 
-    font-family: "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", sans-serif, "Merriweather", serif;
+  font-family: -apple-system,system-ui,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,BlinkMacSystemFont,"Helvetica Neue","PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial;
+  /*font-family: "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", sans-serif, "Merriweather", serif;*/
   font-weight: 400;
 
-    letter-spacing: .8px;
+  letter-spacing: .8px;
   line-height: 1.7;
   margin-bottom: 8px;
   list-style: square;
@@ -795,7 +805,7 @@ blockquote {
   /*font-size: 14px;*/
   background: #f7f7f7 !important;
   /*line-height: 1.6;*/
-
+  border-radius: 4px;
     line-height: 1.5;
     font-size: 1.5rem;
 }
@@ -1040,7 +1050,8 @@ aside.sidebar {
 }
 
 .post-item a .post-title {
-  font-family: "Trebuchet MS", Helvetica Neue, Helvetica, 'Microsoft YaHei', STHeiti, Arial, sans-serif;
+  font-family: -apple-system,system-ui,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,BlinkMacSystemFont,"Helvetica Neue","PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial;
+  /*font-family: "Trebuchet MS", Helvetica Neue, Helvetica, 'Microsoft YaHei', STHeiti, Arial, sans-serif;*/
   text-align: left;
   margin: 0px;
   font-size: 18px;
@@ -1058,7 +1069,8 @@ aside.sidebar {
     margin: 8px 0;
   }
   .post-item a .post-title {
-    font-family: -apple-system,SF UI Text,Arial,PingFang SC,Hiragino Sans GB,Microsoft YaHei,WenQuanYi Micro Hei,sans-serif;
+    font-family: -apple-system,system-ui,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,BlinkMacSystemFont,"Helvetica Neue","PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial;
+    /*font-family: -apple-system,SF UI Text,Arial,PingFang SC,Hiragino Sans GB,Microsoft YaHei,WenQuanYi Micro Hei,sans-serif;*/
     height: 18px;
     font-size: 18px;
     line-height: 18px;
@@ -1154,8 +1166,9 @@ h3.aside-title {
 }
 
 .all-tags-box a {
-  font-family: 'Oswald', sans-serif, 'Microsoft YaHei', STHeiti;
-  font-size: 12px !important;
+  font-family: -apple-system,system-ui,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,BlinkMacSystemFont,"Helvetica Neue","PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial;
+  /*font-family: 'Oswald', sans-serif, 'Microsoft YaHei', STHeiti;*/
+  font-size: 14px !important;
   letter-spacing: 1px;
   /*text-transform: uppercase;*/
   background: #f2f2f2;
@@ -1164,7 +1177,7 @@ h3.aside-title {
   margin-right: 5px;
   margin-bottom: 8px;
   display: inline-block;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 .all-tags-box a:hover {
