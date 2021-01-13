@@ -239,7 +239,7 @@ a:focus {
 
 img {
   max-width: 100%;
-  border-radius: 10px;
+  border-radius: 0px;
   border: 0;
   padding: 0;
   height: auto;
@@ -776,7 +776,7 @@ blockquote {
 .post-entry td {
   padding: 12px 7px;
   line-height: 24px;
-  min-width: 180px;
+  /*min-width: 180px;*/
   /*border-bottom: 1px solid #ddd;*/
 }
 
